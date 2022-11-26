@@ -1,0 +1,26 @@
+# coding: UTF-8
+
+from subprocess import run
+
+
+def mozjpeg_opt(data_org: bytes, executable: str = "mozjpegtran") -> bytes:
+  """JPEG optimizing by mozjpeg
+
+  Args:
+    executable (str): mozjpeg's executable path or command
+    jpeg_in (bytes): Target JPEG binary
+
+  Returns:
+    bytes: Optimized JPEG binary
+
+  Note:
+    It requires mozjpeg's jpegtran executable.
+    Put executable into $PATH directory as ``mozjpegtran``
+      or specify executable path to argument.
+
+  """
+  res = run(f"{executable} -optimize", shell=True,
+                                       capture_output=True,
+                                       input=data_org,
+                                       text=False)
+  return res.stdout
