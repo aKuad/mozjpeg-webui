@@ -69,15 +69,15 @@ class ZipfileMake:
       bytes: Created zip archive binary
 
     """
-    #
+    # Close ZipFile handle, for read binary
     self.__zip_handle.close()
     del self.__zip_handle
-    #
+    # Read binary
     self.__fil_handle.seek(0)
     ret = self.__fil_handle.read()
-    #
+    # Re-open ZipFile handle
     self.__zip_handle = ZipFile(self.__fil_handle, "a", self.__zip_compmode)
-    # Quit
+    # Return
     return ret
 
 
