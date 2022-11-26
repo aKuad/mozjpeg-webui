@@ -15,7 +15,7 @@ Test cases:
 
 Test steps:
   * Set current to this ``tests`` directory
-  * Execute this ``tests.Tests_ZipfileMake.py`` with python3 interpreter
+  * Execute ``Tests_ZipfileMake.py`` with python3 interpreter
   * Check generated zip files can open by other software
 
 """
@@ -91,7 +91,7 @@ def Test_ErrCheck_InvalidCompmode():
   print("-- Test_ErrCheck_InvalidCompmode")
   try:
     zipfilemake = ZipfileMake("hoge")
-    print("--- NG - Exception hasn't catched")
+    print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print(e)
     print("--- OK")
@@ -104,7 +104,7 @@ def Test_ErrCheck_InvalidComplevelDeflated():
   print("-- Test_ErrCheck_InvalidComplevelDeflated")
   try:
     zipfilemake = ZipfileMake("deflated", 10)
-    print("--- NG - Exception hasn't catched")
+    print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print(e)
     print("--- OK")
@@ -117,7 +117,7 @@ def Test_ErrCheck_InvalidComplevelBzip2():
   print("-- Test_ErrCheck_InvalidComplevelBzip2")
   try:
     zipfilemake = ZipfileMake("bzip2", 10)
-    print("--- NG - Exception hasn't catched")
+    print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print(e)
     print("--- OK")
