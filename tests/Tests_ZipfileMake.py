@@ -10,6 +10,8 @@ Test cases:
     * Bzip2 (compression level 9)
     * LZMA
   * Can open the created zip files by other software
+  * Raise exception when invalid compression mode has specified
+  * Raise exception when invalid compression level has specified
 
 Test steps:
   * Set current to this ``tests`` directory
