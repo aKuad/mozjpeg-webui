@@ -81,6 +81,11 @@ class ZipfileMake:
     return ret
 
 
+  # Destructor disabled because of:
+  #   Tried TemporaryFile and ZipFile handles closing in manually.
+  #   But need considering when handles was not created.
+  #   So I trusted handle's auto destruction, to keep this code simple.
+  #
   # def __del__(self):
   #   '''Destructor'''
   #   self.__zip_handle.close()
