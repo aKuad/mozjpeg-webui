@@ -29,6 +29,9 @@ class ZipfileMake:
       zip_compmode (str): It can select from stored (no-compression), deflated, bzip2 or lzma
       zip_complevel (int): Complession level (on deflated: between 0 and 9, on bzip2: between 1 and 9)
 
+    Raises:
+      ValueError: Invalid compression mode or level has specified
+
     """
     # Check is compression mode valid
     if self.__ZIP_COMP_DICT.get(zip_compmode) == None:
