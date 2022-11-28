@@ -9,6 +9,7 @@
 function export_as_download(blob, name = "file") {
   // Check input is Blob or File object
   if(typeof(blob) !== "object" ||
+     blob === null ||
      typeof(blob.toString) !== "function" ||
      (blob.toString() !== "[object Blob]" && blob.toString() !== "[object File]"))
   {
