@@ -25,13 +25,13 @@
       function Test_ExportTextFile() {
         console.log("-- Test_ExportTextFile");
         export_as_download(new Blob(["hello"], {"type": "text/plain"}));
-        console.log("--- OK");
+        console.log("--- CHECK - Is downloading diagram has open? The text file wrote 'hello'?");
       }
 
       function Test_ExportTextFileWithName() {
         console.log("-- Test_ExportTextFileWithName");
         export_as_download(new Blob(["hello"], {"type": "text/plain"}), "name.txt");
-        console.log("--- OK");
+        console.log("--- CHECK - Is downloading diagram has open with default 'name.txt'? The text file wrote 'hello'?");
       }
 
       function Test_ExportCustomFile(e) {
@@ -39,7 +39,7 @@
         if(e.target.files[0]) {
           export_as_download(e.target.files[0]);
         }
-        console.log("--- OK");
+        console.log("--- CHECK - Is downloading dialog has open? Input file returned as downloading?");
       }
 
       function Test_ErrCheck_NonBlobInputs() {
