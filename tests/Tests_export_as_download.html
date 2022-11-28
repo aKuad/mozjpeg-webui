@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="../static/export_as_download.js"></script>
+    <script>
+      /**
+       * Tests for mozjpeg_opt module
+       *
+       * Test cases:
+       *   * Can export a text file
+       *   * Can export a text file with name
+       *   * Can export a custom file
+       *   * Throw error when non Blob or File object specified
+       *     * Expected error message: "Other than Blob or File object can't export."
+       *
+       * Test steps:
+       *   1. Set current to this ``tests`` directory
+       *   2. Create any JPEG file as ``img.jpg``
+       *   3. Execute this ``Tests_mozjpeg_opt.py`` with python3 interpreter
+       *   4. Check generated JPEG file ``out.jpg`` size has been smaller
+       *   5. Check generated JPEG file ``out.jpg`` can open by other software
+       */
+
+      function Test_ExportTextFile() {
+        console.log("-- Test_ExportTextFile");
+        export_as_download(new Blob(["hello"], {"type": "text/plain"}));
+        console.log("--- CHECK - Is downloading diagram has open? The text file wrote 'hello'?");
+      }
+
+      function Test_ExportTextFileWithName() {
+        console.log("-- Test_ExportTextFileWithName");
+        export_as_download(new Blob(["hello"], {"type": "text/plain"}), "name.txt");
+        console.log("--- CHECK - Is downloading diagram has open with default 'name.txt'? The text file wrote 'hello'?");
+      }
+
+      function Test_ExportCustomFile(e) {
+        console.log("-- Test_ExportCustomFile");
+        if(e.target.files[0]) {
+          export_as_download(e.target.files[0]);
+        }
+        console.log("--- CHECK - Is downloading dialog has open? Input file returned as downloading?");
+      }
+
+      function Test_ErrCheck_NonBlobInputs() {
+        let test_cases = [{"type": "undefined", "obj": undefined},
+                          {"type": "null", "obj": null},
+                          {"type": "number", "obj": 1},
+                          {"type": "string", "obj": "hello"},
+                          {"type": "custom_object", "obj": {}}];
+        test_cases.forEach(test_case => {
+          console.log("-- Test_ErrCheck_NonBlobInput - " + test_case.type)
+          try {
+            export_as_download(test_case.obj);
+            console.log("--- NG - Error hasn't throwed");
+          } catch(e) {
+            console.log(e);
+            console.log("--- CHECK - Is the message 'Other than Blob or File object can't export.'?");
+          }
+        });
+      }
+
+      window.addEventListener("load", () => {
+        document.querySelector("#Test_ExportCustomFile").addEventListener("change", Test_ExportCustomFile);
+      });
+    </script>
+  </head>
+
+  <body>
+    <input type="button" value="Test_ExportTextFile" onclick="Test_ExportTextFile()">
+    <hr>
+    <input type="button" value="Test_ExportNamedTextFile" onclick="Test_ExportTextFileWithName()">
+    <hr>
+    Test_ExportCustomFile:
+    <input type="file" id="Test_ExportCustomFile">
+    <hr>
+    <input type="button" value="Test_ErrCheck_NonBlobInput" onclick="Test_ErrCheck_NonBlobInputs()">
+  </body>
+</html>
