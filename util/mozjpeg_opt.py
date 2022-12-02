@@ -22,6 +22,9 @@ def mozjpeg_opt(data_org: bytes, executable: str = "mozjpegtran") -> bytes:
     Put executable into $PATH directory as ``mozjpegtran``
       or specify executable path to argument.
 
+  Author:
+    aKuad
+
   """
   res = run(f"{executable} -optimize", shell=True,
                                        capture_output=True,

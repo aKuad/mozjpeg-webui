@@ -13,6 +13,9 @@ class ZipfileMake:
     __fil_hanfle (IO[bytes]): Temporary file (for zip file) handle
     __zip_handle (ZipFile): Zip file handle
 
+  Author:
+    aKuad
+
   """
 
   __ZIP_COMP_DICT = {"stored": ZIP_STORED,
