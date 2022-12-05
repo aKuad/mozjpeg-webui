@@ -1,9 +1,9 @@
 /**
- * Get file objects from a FileSystemEntry object.
+ * Get all file objects from a FileSystemEntry object.
  *
  * @async
- * @param {FileSystemFileEntry | FileSystemDirectoryEntry}entry
- * @returns {Promise<Array<FileWithFullpath>>}
+ * @param {FileSystemFileEntry | FileSystemDirectoryEntry}entry File system entry to get all file objects
+ * @returns {Promise<Array<FileWithFullpath>>} File objects (with full path) array
  *
  * @author aKuad
  */
