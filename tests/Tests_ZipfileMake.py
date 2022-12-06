@@ -3,6 +3,7 @@
 
 Test cases:
   * Can create zip files by supported compression mode
+    * Default (No specified argument)
     * Stored
     * Deflated (compression level 0)
     * Deflated (compression level 9)
@@ -26,6 +27,15 @@ sys.path.append("../")
 
 from util.ZipfileMake import ZipfileMake
 
+
+def Test_CreateZip_Default():
+  print("-- Test_CreateZip_Default")
+  zipfilemake = ZipfileMake()
+  zipfilemake.add_file("hello.txt", "world")
+  zipfilemake.add_file("log/hoge.log", "hoge")
+  with open("default.zip", "wb") as f:
+    f.write(zipfilemake.export_zip())
+  print("--- OK")
 
 def Test_CreateZip_Stored():
   print("-- Test_CreateZip_Stored")
@@ -127,6 +137,7 @@ def Test_ErrCheck_InvalidComplevelBzip2():
 
 
 if __name__ == "__main__":
+  Test_CreateZip_Default()
   Test_CreateZip_Stored()
   Test_CreateZip_Deflated_Level0()
   Test_CreateZip_Deflated_Level9()
