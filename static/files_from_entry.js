@@ -8,6 +8,11 @@
  * @author aKuad
  */
 async function files_from_entry(entry) {
+  // Check is argument specified
+  if(entry === undefined) {
+    throw new Error("At least 1 argument must be specified, but only 0 passed.");
+  }
+
   // Check input is FileEntry or DirectoryEntry object
   if(!is_file_or_directory_entry(entry))
   {
