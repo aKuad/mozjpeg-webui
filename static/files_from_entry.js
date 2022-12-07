@@ -11,7 +11,7 @@ async function files_from_entry(entry) {
   // Check input is FileEntry or DirectoryEntry object
   if(!is_file_or_directory_entry(entry))
   {
-    throw new Error("Other than Blob or File object can't export.");
+    throw new Error("Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object.");
   }
 
   if(entry.isDirectory) {
