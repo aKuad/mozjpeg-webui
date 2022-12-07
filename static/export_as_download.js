@@ -7,6 +7,11 @@
  * @author aKuad
  */
 function export_as_download(blob, name = "file") {
+  // Check is argument specified
+  if(entry === undefined) {
+    throw new Error("At least 1 argument must be specified, but only 0 passed.");
+  }
+
   // Check input is Blob or File object
   if(!is_file_or_directory_entry(blob))
   {
