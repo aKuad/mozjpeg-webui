@@ -2,7 +2,7 @@
  * Get all file objects from a FileSystemEntry object.
  *
  * @async
- * @param {FileSystemFileEntry | FileSystemDirectoryEntry}entry File system entry to get all file objects
+ * @param {FileSystemFileEntry | FileSystemDirectoryEntry} entry File system entry to get all file objects
  * @returns {Promise<Array<FileWithFullpath>>} File objects (with full path) array
  *
  * @author aKuad
@@ -46,8 +46,8 @@ class FileWithFullpath {
   /**
    * File containing object to keep full path
    *
-   * @param {File} file 
-   * @param {string} fullpath 
+   * @param {File} file File object to contain
+   * @param {string} fullpath Contained file object's name with full path
    */
   constructor(file, fullpath) {
     this.file = file;
