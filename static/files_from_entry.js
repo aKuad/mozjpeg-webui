@@ -9,13 +9,7 @@
  */
 async function files_from_entry(entry) {
   // Check input is FileEntry or DirectoryEntry object
-  if(typeof(blob) !== "object" ||
-     blob === null ||
-     typeof(blob.toString) !== "function" ||
-     (blob.toString() !== "[object DirectoryEntry]" &&
-      blob.toString() !== "[object FileEntry]" &&
-      blob.toString() !== "[object FileSystemDirectoryEntry]" &&
-      blob.toString() !== "[object FileSystemFileEntry]"))
+  if(!is_file_or_directory_entry(entry))
   {
     throw new Error("Other than Blob or File object can't export.");
   }
@@ -56,5 +50,32 @@ class FileWithFullpath {
 
   toString() {
     return this.fullpath;
+  }
+}
+
+
+/**
+ * Return is input object FileSystem file/directory Entry
+ *
+ * @param {*} obj Object to check
+ * @returns {boolean} When file/directory entry: true, other cases: false
+ */
+ function is_file_or_directory_entry(obj) {
+  // Check is object (without null)
+  if((typeof(obj) !== "object") && (obj === null)) {
+    return false;
+  }
+  // Check is toString method available
+  if(typeof(obj.toString) !== "function") {
+    return false;
+  }
+  // Check is in true cases
+  let true_cases = ["[object DirectoryEntry]", "[object FileEntry]",
+                    "[object FileSystemDirectoryEntry]", "[object FileSystemFileEntry]"];
+  let obj_string = obj.toString();
+  if(true_cases.includes(obj_string)) {
+    return true;
+  } else {
+    return false;
   }
 }
