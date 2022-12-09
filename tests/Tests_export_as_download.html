@@ -13,13 +13,13 @@
        *   * Can export a custom file
        *   * Throw error when non Blob or File object specified
        *     * Expected error message: "Other than Blob or File object can't export."
+       *   * Throw error when no specified argument
        *
        * Test steps:
-       *   1. Set current to this ``tests`` directory
-       *   2. Create any JPEG file as ``img.jpg``
-       *   3. Execute this ``Tests_mozjpeg_opt.py`` with python3 interpreter
-       *   4. Check generated JPEG file ``out.jpg`` size has been smaller
-       *   5. Check generated JPEG file ``out.jpg`` can open by other software
+       *   1. Open this HTML in browser
+       *   2. Open JavaScript console
+       *   3. Click page's test buttons and check console output
+       *   4. Input an any file for `Test_ExportCustomFile`
        */
 
       function Test_ExportTextFile() {
@@ -43,13 +43,12 @@
       }
 
       function Test_ErrCheck_NonBlobInputs() {
-        let test_cases = [{"type": "undefined", "obj": undefined},
-                          {"type": "null", "obj": null},
+        let test_cases = [{"type": "null", "obj": null},
                           {"type": "number", "obj": 1},
                           {"type": "string", "obj": "hello"},
                           {"type": "custom_object", "obj": {}}];
         test_cases.forEach(test_case => {
-          console.log("-- Test_ErrCheck_NonBlobInput - " + test_case.type)
+          console.log("-- Test_ErrCheck_NonBlobInput - " + test_case.type);
           try {
             export_as_download(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
@@ -58,6 +57,17 @@
             console.log("--- CHECK - Is the message 'Other than Blob or File object can't export.'?");
           }
         });
+      }
+
+      function Test_ErrCheck_NoArgument() {
+        console.log("-- Test_ErrCheck_NoArgument");
+        try {
+          export_as_download();
+          console.log("--- NG - Error hasn't throwed");
+        } catch(e) {
+          console.log(e);
+          console.log("--- CHECK - Is the message 'At least 1 argument must be specified, but only 0 passed.'?");
+        }
       }
 
       window.addEventListener("load", () => {
@@ -75,5 +85,7 @@
     <input type="file" id="Test_ExportCustomFile">
     <hr>
     <input type="button" value="Test_ErrCheck_NonBlobInput" onclick="Test_ErrCheck_NonBlobInputs()">
+    <hr>
+    <input type="button" value="Test_ErrCheck_NoArgument" onclick="Test_ErrCheck_NoArgument()">
   </body>
 </html>
