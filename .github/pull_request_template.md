@@ -1,9 +1,6 @@
-**Description**
-
-<!-- Modification description here. -->
-
 **Details**
 
+<!-- NOTE: No description field here, PR title must be short description -->
 <!-- More info about PR here if you have. -->
 
 **Checks**
