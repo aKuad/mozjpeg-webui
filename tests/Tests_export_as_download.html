@@ -46,6 +46,7 @@
         let test_cases = [{"type": "null", "obj": null},
                           {"type": "number", "obj": 1},
                           {"type": "string", "obj": "hello"},
+                          {"type": "function", "obj": () => {}},
                           {"type": "custom_object", "obj": {}}];
         test_cases.forEach(test_case => {
           console.log("-- Test_ErrCheck_NonBlobInput - " + test_case.type);
