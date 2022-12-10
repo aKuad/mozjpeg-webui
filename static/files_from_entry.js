@@ -66,8 +66,8 @@ class FileWithFullpath {
  * @returns {boolean} When file/directory entry: true, other cases: false
  */
  function is_file_or_directory_entry(obj) {
-  // Check is object (without null)
-  if((typeof(obj) !== "object") && (obj === null)) {
+  // Check is object and not null
+  if((typeof(obj) !== "object") || (obj === null)) {
     return false;
   }
   // Check is toString method available
