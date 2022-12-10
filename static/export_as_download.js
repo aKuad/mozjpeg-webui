@@ -40,8 +40,8 @@ function export_as_download(blob, name = "file") {
  * @returns When Blob/File object: true, other cases: false
  */
 function is_blob_or_file(obj) {
-  // Check is object (without null)
-  if((typeof(obj) !== "object") && (obj === null)) {
+  // Check is object and not null
+  if((typeof(obj) !== "object") || (obj === null)) {
     return false;
   }
   // Check is toString method available
