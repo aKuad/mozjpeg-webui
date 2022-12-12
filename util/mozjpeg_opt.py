@@ -15,12 +15,15 @@ def mozjpeg_opt(data_org: bytes, executable: str = "mozjpegtran") -> bytes:
 
   Raises:
     OSError: Specified executable or command not found
-    ValueError: Input was not a valid JPEG binary
+    ValueError: Input was invalid JPEG binary
 
   Note:
     It requires mozjpeg's jpegtran executable.
     Put executable into $PATH directory as ``mozjpegtran``
       or specify executable path to argument.
+
+  Author:
+    aKuad
 
   """
   res = run(f"{executable} -optimize", shell=True,
@@ -31,6 +34,6 @@ def mozjpeg_opt(data_org: bytes, executable: str = "mozjpegtran") -> bytes:
   if res.returncode == 127:
     raise OSError("Specified executable or command not found")
   elif res.returncode == 1:
-    raise ValueError("Input was not a valid JPEG binary")
+    raise ValueError("Input was invalid JPEG binary")
 
   return res.stdout

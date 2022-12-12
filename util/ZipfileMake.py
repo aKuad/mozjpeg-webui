@@ -13,6 +13,9 @@ class ZipfileMake:
     __fil_hanfle (IO[bytes]): Temporary file (for zip file) handle
     __zip_handle (ZipFile): Zip file handle
 
+  Author:
+    aKuad
+
   """
 
   __ZIP_COMP_DICT = {"stored": ZIP_STORED,
@@ -22,7 +25,7 @@ class ZipfileMake:
   '''dict: For convert specified compmode str to int'''
 
 
-  def __init__(self, zip_compmode: str, zip_complevel: int = None):
+  def __init__(self, zip_compmode: str = "stored", zip_complevel: int = None):
     """Constructor
 
     Args:

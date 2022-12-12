@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="/static/files_from_entry.js"></script>
+    <script>
+      /**
+       * Tests for files_from_entry module
+       *
+       * Test cases:
+       *   * Can get a file object when input 1 file
+       *   * Can get file objects when input over 2 files
+       *   * Can get file object(s) when input 1 directories
+       *   * Can get file object(s) when input over 2 directories
+       *   * Throw error when non entry object specified
+       *     * Expected error message: "Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object."
+       *   * Throw error when no arguments specified
+       *     * Expected error message: "At least 1 argument must be specified, but only 0 passed."
+       *
+       * Test steps:
+       *   1. Set current to this ``Tests_files_from_entry`` directory
+       *   2. Execute ``main.py`` with python3 interpriter
+       *   3. Access to ``http://localhost:8000`` in browser
+       *   4. Open JavaScript console
+       *   5. Click page's test buttons and check console output
+       *   6. Input any file(s) for `Test_ReadingFiles` and check console output
+       * 
+       * Test requirements:
+       *   * This module using File and Directories Entry APIs.
+       *   * To use the APIs, on HTTP connection running required.
+       *   * ``main.py`` is temporary HTTP server program for this test.
+       *   * To run it, some additional modules are required.
+       *     * Install all of them: ``pip install fastapi uvicorn jinja2 aiofiles``
+       */
+
+      async function Test_ReadingFiles(e) {
+        console.log("-- Test_ReadingFiles");
+        for(entry of e.target.webkitEntries) {
+          let files = await files_from_entry(entry);
+          console.log(files);
+        }
+        console.log("--- CHECK - Are all files detected?");
+      }
+
+      async function Test_ErrCheck_NonEntryInputs() {
+        let test_cases = [{"type": "null", "obj": null},
+                          {"type": "number", "obj": 1},
+                          {"type": "string", "obj": "hello"},
+                          {"type": "function", "obj": () => {}},
+                          {"type": "custom_object", "obj": {}}];
+        for(const test_case of test_cases) {
+          console.log("-- Test_ErrCheck_NonBlobInput - " + test_case.type)
+          try {
+            await files_from_entry(test_case.obj);
+            console.log("--- NG - Error hasn't throwed");
+          } catch(e) {
+            console.log(e);
+            console.log("--- CHECK - Is the message 'Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object.'?");
+          }
+        }
+      }
+
+      async function Test_ErrCheck_NoArgument() {
+        console.log("-- Test_ErrCheck_NoArgument");
+        try {
+          await files_from_entry();
+          console.log("--- NG - Error hasn't throwed");
+        } catch(e) {
+          console.log(e);
+          console.log("--- CHECK - Is the message 'At least 1 argument must be specified, but only 0 passed.'?");
+        }
+      }
+
+      window.addEventListener("load", () => {
+        document.querySelector("#Test_ReadingFiles").addEventListener("change", Test_ReadingFiles);
+      });
+    </script>
+  </head>
+
+  <body>
+    Test_ReadingFiles: <input type="file" multiple id="Test_ReadingFiles">
+    <hr>
+    <input type="button" value="Test_ErrCheck_NonEntryInputs" onclick="Test_ErrCheck_NonEntryInputs()">
+    <hr>
+    <input type="button" value="Test_ErrCheck_NoArgument" onclick="Test_ErrCheck_NoArgument()">
+  </body>
+</html>
