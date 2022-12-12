@@ -5,7 +5,7 @@
     <script src="/static/files_from_entry.js"></script>
     <script>
       /**
-       * Tests for files_from_entry module
+       * Tests for `files_from_entry.js` module
        *
        * Test cases:
        *   * Can get a file object when input 1 file
@@ -18,9 +18,9 @@
        *     * Expected error message: "At least 1 argument must be specified, but only 0 passed."
        *
        * Test steps:
-       *   1. Set current to this ``Tests_files_from_entry`` directory
-       *   2. Execute ``main.py`` with python3 interpriter
-       *   3. Access to ``http://localhost:8000`` in browser
+       *   1. Set current to this `Tests_files_from_entry` directory
+       *   2. Execute `main.py` with python3 interpriter
+       *   3. Access to `http://localhost:8000` in browser
        *   4. Open JavaScript console
        *   5. Click page's test buttons and check console output
        *   6. Input any file(s) for `Test_ReadingFiles` and check console output
@@ -28,9 +28,9 @@
        * Test requirements:
        *   * This module using File and Directories Entry APIs.
        *   * To use the APIs, on HTTP connection running required.
-       *   * ``main.py`` is temporary HTTP server program for this test.
+       *   * `main.py` is temporary HTTP server program for this test.
        *   * To run it, some additional modules are required.
-       *     * Install all of them: ``pip install fastapi uvicorn jinja2 aiofiles``
+       *     * Install all of them: `pip install fastapi uvicorn jinja2 aiofiles`
        */
 
       async function Test_ReadingFiles(e) {

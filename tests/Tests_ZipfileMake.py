@@ -1,5 +1,5 @@
 # coding: UTF-8
-"""Tests for ZipfileMake module
+"""Tests for ``ZipfileMake.py`` module
 
 Test cases:
   * Can create zip files by supported compression mode

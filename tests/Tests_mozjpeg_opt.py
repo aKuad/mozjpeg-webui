@@ -1,5 +1,5 @@
 # coding: UTF-8
-"""Tests for mozjpeg_opt module
+"""Tests for ``mozjpeg_opt.py`` module
 
 Test cases:
   * Can optimize a JPEG file
