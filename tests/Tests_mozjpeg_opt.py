@@ -13,6 +13,9 @@ Test steps:
   4. Check generated JPEG file ``out.jpg`` size has been smaller
   5. Check generated JPEG file ``out.jpg`` can open by other software
 
+Author:
+  aKuad
+
 """
 
 # For import top layer module

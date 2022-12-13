@@ -4,6 +4,9 @@
 Details:
   See ``page.html``.
 
+Author:
+  aKuad
+
 """
 
 from fastapi import FastAPI, Request

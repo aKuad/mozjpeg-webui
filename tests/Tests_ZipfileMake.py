@@ -19,6 +19,9 @@ Test steps:
   2. Execute ``Tests_ZipfileMake.py`` with python3 interpreter
   3. Check generated zip files can open by other software
 
+Author:
+  aKuad
+
 """
 
 # For import top layer module
