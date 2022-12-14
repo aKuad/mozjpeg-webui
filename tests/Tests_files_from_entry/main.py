@@ -1,8 +1,11 @@
 # coding: UTF-8
-"""Tests for files_from_entry module
+"""Tests for ``files_from_entry.js`` module
 
 Details:
   See ``page.html``.
+
+Author:
+  aKuad
 
 """
 

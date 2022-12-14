@@ -1,5 +1,5 @@
 # coding: UTF-8
-"""Tests for mozjpeg_opt module
+"""Tests for ``mozjpeg_opt.py`` module
 
 Test cases:
   * Can optimize a JPEG file
@@ -12,6 +12,9 @@ Test steps:
   3. Execute this ``Tests_mozjpeg_opt.py`` with python3 interpreter
   4. Check generated JPEG file ``out.jpg`` size has been smaller
   5. Check generated JPEG file ``out.jpg`` can open by other software
+
+Author:
+  aKuad
 
 """
 
