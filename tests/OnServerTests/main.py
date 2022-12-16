@@ -1,7 +1,12 @@
 # coding: UTF-8
 """Tests for on HTTP server connection required modules
 
-About test details, see each testing HTML codes.
+Note:
+  About test details, see each testing HTML codes.
+
+Requirements:
+  Some additional modules are required.
+  To install them: `pip install fastapi uvicorn jinja2 aiofiles`
 
 Author:
   aKuad
@@ -21,6 +26,9 @@ templates = Jinja2Templates(directory="./")
 
 @app.get("/files_from_entry")
 def index(request: Request):
+  """
+  URL: http://localhost:8000/files_from_entry
+  """
   return templates.TemplateResponse("Tests_files_from_entry.html", {"request": request})
 
 
