@@ -1,8 +1,7 @@
 # coding: UTF-8
-"""Tests for ``files_from_entry.js`` module
+"""Tests for on HTTP server connection required modules
 
-Details:
-  See ``page.html``.
+About test details, see each testing HTML codes.
 
 Author:
   aKuad
@@ -20,9 +19,9 @@ app.mount("/static", StaticFiles(directory="../../static"), name="static")
 templates = Jinja2Templates(directory="./")
 
 
-@app.get("/")
+@app.get("/files_from_entry")
 def index(request: Request):
-  return templates.TemplateResponse("page.html", {"request": request})
+  return templates.TemplateResponse("Tests_files_from_entry.html", {"request": request})
 
 
 if __name__ == '__main__':
