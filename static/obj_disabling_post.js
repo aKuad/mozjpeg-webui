@@ -15,7 +15,7 @@ async function obj_disabling_post(url, body, objs) {
   }
 
   // Dispatch fetch and wait until done
-  response = await fetch(url, { "body": body });
+  response = await fetch(url, { method: "POST", body: body });
 
   // Enable all objects
   for(const obj of objs) {
