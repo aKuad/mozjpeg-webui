@@ -4,7 +4,7 @@
  * @param {string} url Post URL
  * @param {*} body Post body object
  * @param {Array<HTMLInputElement>} objs Objects to be disabled during fetch
- * @returns {Response} Fetch API's result object
+ * @returns {Promise<Response>} Fetch API's result object
  *
  * @author aKuad
  */
