@@ -13,6 +13,8 @@ Author:
 
 """
 
+from time import sleep
+
 from fastapi import FastAPI, Request
 from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
@@ -51,6 +53,20 @@ async def post_echo(request: Request):
   print(body)
   print(request.headers)
   print("----------")
+  return Response(body)
+
+
+@app.post("/post_echo_delay")
+async def post_echo_delay(request: Request):
+  """
+  API for post testing (delayed response, supposed using high load API)
+  """
+  body = await request.body()
+  print("----------")
+  print(body)
+  print(request.headers)
+  print("----------")
+  sleep(1)
   return Response(body)
 
 
