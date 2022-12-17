@@ -8,7 +8,7 @@
  *
  * @author aKuad
  */
-async function obj_disabling_post(url, body, objs) {
+ async function obj_disabling_post(url, body = undefined, objs = []) {
   // Disable all objects
   for(const obj of objs) {
     obj.disabled = true;
