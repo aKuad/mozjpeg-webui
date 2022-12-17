@@ -1,14 +1,14 @@
 /**
  * Disable specified objects during post requesting
  *
- * @param {Array<HTMLInputElement>} objs Objects to be disabled
  * @param {string} url Post URL
  * @param {*} body Post body object
+ * @param {Array<HTMLInputElement>} objs Objects to be disabled during fetch
  * @returns {Response} Fetch API's result object
  *
  * @author aKuad
  */
-async function obj_disabling_post(objs, url, body) {
+async function obj_disabling_post(url, body, objs) {
   // Disable all objects
   for(const obj of objs) {
     obj.disabled = true;
