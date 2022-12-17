@@ -42,12 +42,17 @@ def obj_disabling_post(request: Request):
 
 
 @app.post("/post_echo")
-def post_echo(data: bytes):
+async def post_echo(request: Request):
   """
   API for post testing
   """
-  return Response(data)
+  body = await request.body()
+  print("----------")
+  print(body)
+  print(request.headers)
+  print("----------")
+  return Response(body)
 
 
 if __name__ == '__main__':
-  run("main:app")
+  run("main:app", reload=True)
