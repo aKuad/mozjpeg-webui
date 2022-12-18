@@ -46,7 +46,7 @@
   // An element 'obj'  -> true
   // Other cases       -> false
   let is_obj = objs.map(obj => typeof obj === "object");
-  let are_all_obj = is_obj.includes(false);
+  let are_all_obj = !is_obj.includes(false);
 
   return !has_null && are_all_obj;
 }
