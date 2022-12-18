@@ -40,7 +40,7 @@
  function check_are_objects(objs) {
   // An element 'null' -> true
   // Other cases       -> false
-  let is_null = objs.map(obj => typeof obj === null);
+  let is_null = objs.map(obj => obj === null);
   let has_null = is_null.includes(true);
 
   // An element 'obj'  -> true
