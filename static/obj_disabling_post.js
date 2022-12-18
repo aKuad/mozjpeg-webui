@@ -38,8 +38,15 @@
  * @returns {boolean} All elements are object: true, other cases: false
  */
  function check_are_objects(objs) {
+  // An element 'null' -> true
+  // Other cases       -> false
+  let is_null = objs.map(obj => typeof obj === null);
+  let has_null = is_null.includes(true);
+
+  // An element 'obj'  -> true
+  // Other cases       -> false
   let is_obj = objs.map(obj => typeof obj === "object");
-  // Exist 'false' means: non-object element(s) exist
-  // Only 'true' means  : all element(s) are object
-  return !is_obj.includes(false);
+  let are_all_obj = is_obj.includes(false);
+
+  return !has_null && are_all_obj;
 }
