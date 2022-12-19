@@ -38,7 +38,7 @@ def Test_JpegOptimizing():
 def Test_ErrCheck_NonJpegInput():
   print("-- Test_ErrCheck_NonJpegInput")
   try:
-    jpeg_opt(b"h")
+    jpeg_opt(b"a")  # "a" as non jpeg input
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print(e)
