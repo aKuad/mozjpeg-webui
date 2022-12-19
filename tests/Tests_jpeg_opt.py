@@ -1,5 +1,5 @@
 # coding: UTF-8
-"""Tests for ``mozjpeg_opt.py`` module
+"""Tests for ``jpeg_opt.py`` module
 
 Test cases:
   * Can optimize a JPEG file
@@ -9,7 +9,7 @@ Test cases:
 Test steps:
   1. Set current to this ``tests`` directory
   2. Create any JPEG file as ``img.jpg``
-  3. Execute this ``Tests_mozjpeg_opt.py`` with python3 interpreter
+  3. Execute it with python3 interpreter
   4. Check generated JPEG file ``out.jpg`` size has been smaller
   5. Check generated JPEG file ``out.jpg`` can open by other software
 
@@ -22,14 +22,14 @@ Author:
 import sys
 sys.path.append("../")
 
-from util.mozjpeg_opt import mozjpeg_opt
+from util.jpeg_opt import jpeg_opt
 
 
 def Test_JpegOptimizing():
   print("-- Test_JpegOptimizing")
   with open("img.jpg", "rb") as f:
     org = f.read()
-  opt = mozjpeg_opt(org)
+  opt = jpeg_opt(org)
   with open("out.jpg", "wb") as f:
     f.write(opt)
   print("--- OK")
@@ -38,7 +38,7 @@ def Test_JpegOptimizing():
 def Test_ErrCheck_NonJpegInput():
   print("-- Test_ErrCheck_NonJpegInput")
   try:
-    mozjpeg_opt(b"h")
+    jpeg_opt(b"h")
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print(e)
@@ -53,7 +53,7 @@ def Test_ErrCheck_NonExistCommand():
   try:
     with open("img.jpg", "rb") as f:
       org = f.read()
-    mozjpeg_opt(org, "a") # "a" as non exist command
+    jpeg_opt(org, "a") # "a" as non exist command
     print("--- NG - Exception hasn't raised")
   except OSError as e:
     print(e)
