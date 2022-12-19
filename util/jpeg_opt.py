@@ -3,12 +3,12 @@
 from subprocess import run
 
 
-def jpeg_opt(data_org: bytes, executable: str = "jpegtran", options: str = "-optimize") -> bytes:
+def jpeg_opt(jpeg_in: bytes, executable: str = "jpegtran", options: str = "-optimize") -> bytes:
   """JPEG optimizing by external command
 
   Args:
-    executable (str): Executable `jpegtran` path or command
     jpeg_in (bytes): Target JPEG binary
+    executable (str): Executable `jpegtran` path or command
     options (str): Options to pass executable
 
   Returns:
@@ -29,7 +29,7 @@ def jpeg_opt(data_org: bytes, executable: str = "jpegtran", options: str = "-opt
   """
   res = run(f"{executable} {options}", shell=True,
                                        capture_output=True,
-                                       input=data_org,
+                                       input=jpeg_in,
                                        text=False)
 
   if res.returncode == 127:
