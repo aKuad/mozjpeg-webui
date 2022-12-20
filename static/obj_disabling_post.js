@@ -27,7 +27,7 @@
     obj.disabled = false;
   }
 
-  return response
+  return response;
 }
 
 
