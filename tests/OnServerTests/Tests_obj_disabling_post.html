@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="/static/obj_disabling_post.js"></script>
+    <script>
+      /**
+       * Tests for `obj_disabling_post.js` module
+       *
+       * Note:
+       *   To run this test, need a dummy Web API to post.
+       *   Please run it through `main.py` (a temporary HTTP server program).
+       *   About requirements, see `main.py` docstring.
+       *
+       * Test cases:
+       *   * Can make specified object disabled during post request (by `fetch`)
+       *   * Throw error when non object specified
+       *     * Expected error message: "Non object element(s) specified as argument."
+       *
+       * Test steps:
+       *   1. Execute `main.py` (in same directory) with python3 interpriter
+       *   2. Access to `http://localhost:8000/obj_disabling_post` in browser
+       *   3. Open JavaScript console
+       *   4. Click page's test buttons and check console output
+       *
+       * @author aKuad
+       */
+
+      async function Test_PostWithoutBody() {
+        console.log("-- Test_PostWithoutBody");
+        let related_objs = [document.querySelector("#Test_PostWithoutBody")];
+        await obj_disabling_post("/post_echo_delay", "", related_objs);
+        console.log("--- CHECK - Was button disabled until print this log?");
+      }
+
+      async function Test_PostWithBody() {
+        console.log("-- Test_PostWithBody");
+        let body = document.querySelector("#Test_PostWithBody_body").value;
+        let related_objs = [document.querySelector("#Test_PostWithBody"),
+                            document.querySelector("#Test_PostWithBody_body")];
+        let res = await obj_disabling_post("/post_echo_delay", body, related_objs)
+                        .then(response => response.text());
+        console.log(res);
+        console.log("--- CHECK1 - Was button and text-area disabled until print this log?");
+        console.log("--- CHECK2 - Is typed text printed?");
+      }
+
+      async function Test_ErrCheck_NonObjectInputs() {
+        let test_cases = [{"type": "null", "obj": null},
+                          {"type": "number", "obj": 1},
+                          {"type": "string", "obj": "hello"},
+                          {"type": "function", "obj": () => {}}];
+        for(const test_case of test_cases) {
+          console.log("-- Test_ErrCheck_NonObjectInputs - " + test_case.type);
+          let related_objs = [document.querySelector("#Test_ErrCheck_NonObjectInputs"),
+                              test_case.obj];
+          try {
+            await obj_disabling_post("/post_echo_delay", "", related_objs);
+            console.log("--- NG - Error hasn't throwed");
+          } catch(e) {
+            console.log(e);
+            console.log("--- CHECK - Is the error message 'Non object element(s) specified as argument.'?");
+          }
+        }
+      }
+    </script>
+    <style>
+      #Test_PostWithBody_body {
+        display: block;
+        width: 400px;
+        height: 100px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <input type="button" value="Test_PostWithoutBody" id="Test_PostWithoutBody" onclick="Test_PostWithoutBody()">
+    <hr>
+    <textarea placeholder="Any text to post" id="Test_PostWithBody_body"></textarea>
+    <input type="button" value="Test_PostWithBody" id="Test_PostWithBody" onclick="Test_PostWithBody()">
+    <hr>
+    <input type="button" value="Test_ErrCheck_NonObjectInputs" id="Test_ErrCheck_NonObjectInputs" onclick="Test_ErrCheck_NonObjectInputs()">
+  </body>
+</html>
