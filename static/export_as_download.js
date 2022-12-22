@@ -3,7 +3,10 @@
  *
  * @param {Blob | File} blob Data body to export
  * @param {string} name Default file name to export
- * 
+ *
+ * @throws {Error} Not enough arguments
+ * @throws {Error} `blob` type must be `Blob` or `File`
+ *
  * @author aKuad
  */
 function export_as_download(blob, name = "file") {

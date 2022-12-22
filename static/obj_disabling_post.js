@@ -6,6 +6,8 @@
  * @param {Array<HTMLInputElement>} objs Objects to be disabled during fetch
  * @returns {Promise<Response>} Fetch API's result object
  *
+ * @throws {Error} `objs` must be includes only `HTMLElement`
+ *
  * @author aKuad
  */
  async function obj_disabling_post(url, body = undefined, objs = []) {
