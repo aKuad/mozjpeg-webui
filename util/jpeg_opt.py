@@ -3,7 +3,7 @@
 from subprocess import run
 
 
-def jpeg_opt(jpeg_in: bytes, executable: str = "jpegtran", options: str = "-optimize") -> bytes:
+def jpeg_opt(jpeg_in: bytes, executable: str = "jpegtran", options: str = "-optimize -copy all") -> bytes:
   """JPEG optimizing by external command
 
   Args:
