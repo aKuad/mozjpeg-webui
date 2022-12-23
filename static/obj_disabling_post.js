@@ -1,6 +1,7 @@
 /**
  * Disable specified objects during post requesting
  *
+ * @async
  * @param {string} url Post URL
  * @param {*} body Post body object
  * @param {Array<HTMLInputElement>} objs Objects to be disabled during fetch
