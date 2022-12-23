@@ -3,12 +3,13 @@
 from subprocess import run
 
 
-def mozjpeg_opt(data_org: bytes, executable: str = "mozjpegtran") -> bytes:
-  """JPEG optimizing by mozjpeg
+def jpeg_opt(jpeg_in: bytes, executable: str = "jpegtran", options: str = "-optimize -copy all") -> bytes:
+  """JPEG optimizing by external command
 
   Args:
-    executable (str): mozjpeg's executable path or command
     jpeg_in (bytes): Target JPEG binary
+    executable (str): Executable `jpegtran` path or command
+    options (str): Options to pass executable
 
   Returns:
     bytes: Optimized JPEG binary
@@ -18,17 +19,17 @@ def mozjpeg_opt(data_org: bytes, executable: str = "mozjpegtran") -> bytes:
     ValueError: Input was invalid JPEG binary
 
   Note:
-    It requires mozjpeg's jpegtran executable.
-    Put executable into $PATH directory as ``mozjpegtran``
+    It requires `jpegtran` executable.
+    Put executable into $PATH directory as ``jpegtran``
       or specify executable path to argument.
 
   Author:
     aKuad
 
   """
-  res = run(f"{executable} -optimize", shell=True,
+  res = run(f"{executable} {options}", shell=True,
                                        capture_output=True,
-                                       input=data_org,
+                                       input=jpeg_in,
                                        text=False)
 
   if res.returncode == 127:
