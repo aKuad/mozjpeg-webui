@@ -5,6 +5,9 @@
  * @param {FileSystemFileEntry | FileSystemDirectoryEntry} entry File system entry to get all file objects
  * @returns {Promise<Array<FileWithFullpath>>} File objects (with full path) array
  *
+ * @throws {Error} Not enough arguments
+ * @throws {Error} `entry` type must be `FileSystemFileEntry` or `FileSystemDirectoryEntry`
+ *
  * @author aKuad
  */
 async function files_from_entry(entry) {
