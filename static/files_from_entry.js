@@ -84,9 +84,5 @@ function is_file_or_directory_entry(obj) {
   let true_cases = ["[object DirectoryEntry]", "[object FileEntry]",
                     "[object FileSystemDirectoryEntry]", "[object FileSystemFileEntry]"];
   let obj_string = obj.toString();
-  if(true_cases.includes(obj_string)) {
-    return true;
-  } else {
-    return false;
-  }
+  return true_cases.includes(obj_string);
 }
