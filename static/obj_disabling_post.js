@@ -11,7 +11,7 @@
  *
  * @author aKuad
  */
- async function obj_disabling_post(url, body = undefined, objs = []) {
+async function obj_disabling_post(url, body = undefined, objs = []) {
   // Check are 'objs' elements object
   if(!check_are_objects(objs)) {
     throw new Error("Non object element(s) specified as argument.");
@@ -40,7 +40,7 @@
  * @param {Array<*>} objs Objects to check containing in array
  * @returns {boolean} All elements are object: true, other cases: false
  */
- function check_are_objects(objs) {
+function check_are_objects(objs) {
   // An element 'null' -> true
   // Other cases       -> false
   let is_null = objs.map(obj => obj === null);

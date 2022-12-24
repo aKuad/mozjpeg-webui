@@ -34,6 +34,7 @@ async function files_from_entry(entry) {
       files = files.concat(await files_from_entry(child_entry));
     }
     return files;
+
   } else {
     // FileEntry -> File object
     let file = await new Promise(resolve => {
@@ -68,15 +69,17 @@ class FileWithFullpath {
  * @param {*} obj Object to check
  * @returns {boolean} When file/directory entry: true, other cases: false
  */
- function is_file_or_directory_entry(obj) {
+function is_file_or_directory_entry(obj) {
   // Check is object and not null
   if((typeof(obj) !== "object") || (obj === null)) {
     return false;
   }
+
   // Check is toString method available
   if(typeof(obj.toString) !== "function") {
     return false;
   }
+
   // Check is in true cases
   let true_cases = ["[object DirectoryEntry]", "[object FileEntry]",
                     "[object FileSystemDirectoryEntry]", "[object FileSystemFileEntry]"];
