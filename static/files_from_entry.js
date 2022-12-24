@@ -74,10 +74,12 @@ function is_file_or_directory_entry(obj) {
   if((typeof(obj) !== "object") || (obj === null)) {
     return false;
   }
+
   // Check is toString method available
   if(typeof(obj.toString) !== "function") {
     return false;
   }
+
   // Check is in true cases
   let true_cases = ["[object DirectoryEntry]", "[object FileEntry]",
                     "[object FileSystemDirectoryEntry]", "[object FileSystemFileEntry]"];
