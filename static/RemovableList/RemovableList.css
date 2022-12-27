@@ -19,7 +19,7 @@
 
 .RemovableList-item {
   position: relative;
-  overflow-wrap: break-word;
+  word-break: break-all;
   line-height: var(--RemovableList-text-height);
   padding: var(--RemovableList-text-padding);
   padding-right: calc(var(--RemovableList-text-padding) * 2 + var(--RemovableList-cross-size));
