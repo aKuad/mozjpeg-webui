@@ -29,6 +29,7 @@ class ButtonLock {
 
     // Set member variables
     this.#target_elem = target_elem;
+    this.#text_origin = target_elem.value;
     this.#text_lock = text_lock;
   }
 
@@ -38,7 +39,6 @@ class ButtonLock {
    */
   lock() {
     this.#target_elem.disabled = true;
-    this.#text_origin = this.#target_elem.value;
     this.#target_elem.value = this.#text_lock;
   }
 
