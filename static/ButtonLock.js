@@ -22,6 +22,12 @@ class ButtonLock {
    * @param {string} text_lock Text to view until locking
    */
   constructor(target_elem, text_lock) {
+    // Check is argument Object
+    if(!ButtonLock.#is_object(target_elem)) {
+      throw new Error("Incorrect argument type, `target_elem` must be object.");
+    }
+
+    // Set member variables
     this.#target_elem = target_elem;
     this.#text_lock = text_lock;
   }
@@ -43,5 +49,16 @@ class ButtonLock {
   unlock() {
     this.#target_elem.value = this.#text_origin;
     this.#target_elem.disabled = false;
+  }
+
+
+  /**
+   * Return is argument type Object
+   *
+   * @param {*} obj Object to check
+   * @return {boolean} When object: true, other cases: false
+   */
+  static #is_object(obj) {
+    return (typeof(obj) === "object") && (obj !== null);
   }
 }
