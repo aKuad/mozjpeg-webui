@@ -56,9 +56,5 @@ function is_blob_or_file(obj) {
   // Check is in true cases
   let true_cases = ["[object Blob]", "[object File]"];
   let obj_string = obj.toString();
-  if(true_cases.includes(obj_string)) {
-    return true;
-  } else {
-    return false;
-  }
+  return true_cases.includes(obj_string);
 }
