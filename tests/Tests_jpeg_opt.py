@@ -27,11 +27,9 @@ from util.jpeg_opt import jpeg_opt
 
 def Test_JpegOptimizing():
   print("-- Test_JpegOptimizing")
-  with open("img.jpg", "rb") as f:
-    org = f.read()
+  org = Part_BinaryFileRead("img.jpg")
   opt = jpeg_opt(org)
-  with open("out.jpg", "wb") as f:
-    f.write(opt)
+  Part_BinaryFileWrite("out.jpg", opt)
   print("--- OK")
 
 
@@ -51,8 +49,7 @@ def Test_ErrCheck_NonJpegInput():
 def Test_ErrCheck_NonExistCommand():
   print("-- Test_ErrCheck_NonExistCommand")
   try:
-    with open("img.jpg", "rb") as f:
-      org = f.read()
+    org = Part_BinaryFileRead("img.jpg")
     jpeg_opt(org, "a") # "a" as non exist command
     print("--- NG - Exception hasn't raised")
   except OSError as e:
@@ -61,6 +58,16 @@ def Test_ErrCheck_NonExistCommand():
   except BaseException as e:
     print(e)
     print("--- NG - Un expected exception raised")
+
+
+def Part_BinaryFileRead(file_name: str):
+  with open(file_name, "rb") as f:
+    return f.read()
+
+
+def Part_BinaryFileWrite(file_name: str, file_body: bytes):
+  with open(file_name, "wb") as f:
+    f.write(file_body)
 
 
 if __name__ == "__main__":
