@@ -33,7 +33,7 @@
   add_items_no_overwrite(objs) {
     // Check is argument correct
     if(!RemovableList.#are_correct_objs(objs)) {
-      throw new Error("Incorrect argument type, or incorrect elements has.");
+      throw new Error("Incorrect elements detected in argument.");
     }
 
     // Process all elements
@@ -137,7 +137,7 @@
     if(RemovableList.#add_items_no_overwrite_core(list_items, content, index)) { return; }
 
     // Get index and overwrite content
-    let write_index = RemovableList.#get_index_by_text(list_items, text);
+    let write_index = RemovableList.#get_index_by_text(list_items, index);
     list_items[write_index].content = content;
   }
 
