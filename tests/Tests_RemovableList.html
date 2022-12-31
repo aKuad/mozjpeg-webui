@@ -110,9 +110,10 @@
       }
 
       function ErrCheck_InvalidObjectArrayInput() {
-        let test_cases = [{"case": "No 'index' object", "obj": {content: "any_content"}},
-                          {"case": "No 'content' object", "obj": {index: "any_index"}},
-                          {"case": "Empty 'index'", "obj": {content: "content", index: ""}}];
+        let test_cases = [{"case": "null", "obj": null},
+                          {"case": "No 'index'", "obj": {content: "any_content"}},
+                          {"case": "Empty 'index'", "obj": {content: "content", index: ""}},
+                          {"case": "No 'content'", "obj": {index: "any_index"}}];
         for(const test_case of test_cases) {
           console.log("-- ErrCheck_InvalidObjectArrayInput - " + test_case.case);
           try {
@@ -120,7 +121,7 @@
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
             console.log(e);
-            console.log("--- CHECK - Is the error message 'Incorrect elements detected in argument.'?");
+            console.log("--- CHECK - Is the error message 'Incorrect elements detected - ...'?");
           }
         }
       }
