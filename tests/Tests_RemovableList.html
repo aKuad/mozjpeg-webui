@@ -26,7 +26,7 @@
        *   * Throw error when no arguments specified to add item
        *     * Expected error message: "At least 1 argument must be specified, but only 0 passed."
        *   * Throw error when invalid elements included array specified
-       *     * Valid element is: An object has `content` (:custom object) and `index` (:string) value
+       *     * Valid element is: An object has `content` (:custom object) and `index` (:string, not empty) value
        *     * Expected error message: "Incorrect elements detected in argument."
        *
        * Test steps:
@@ -110,13 +110,18 @@
       }
 
       function ErrCheck_InvalidObjectArrayInput() {
-        console.log("-- ErrCheck_InvalidObjectArrayInput");
-        try {
-          list.add_items_overwrite([{any: "invalid", object: "here"}]);
-          console.log("--- NG - Error hasn't throwed");
-        } catch(e) {
-          console.log(e);
-          console.log("--- CHECK - Is the error message 'Incorrect elements detected in argument.'?");
+        let test_cases = [{"case": "No 'index' object", "obj": {content: "any_content"}},
+                          {"case": "No 'content' object", "obj": {index: "any_index"}},
+                          {"case": "Empty 'index'", "obj": {content: "content", index: ""}}];
+        for(const test_case of test_cases) {
+          console.log("-- ErrCheck_InvalidObjectArrayInput - " + test_case.case);
+          try {
+            list.add_items_overwrite([test_case.obj]);
+            console.log("--- NG - Error hasn't throwed");
+          } catch(e) {
+            console.log(e);
+            console.log("--- CHECK - Is the error message 'Incorrect elements detected in argument.'?");
+          }
         }
       }
 
