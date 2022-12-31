@@ -240,13 +240,18 @@
       throw new Error("Non array object specified as argument.");
     }
 
-    // Is not including null
     let has_null = objs.map(obj => obj === null).includes(true);
     if(has_null) { return false; }
 
-    // Are all has string `index` and any content
     let non_string_index_exists = objs.map(obj => typeof(obj.index) !== "string").includes(true);
+    if(non_string_index_exists) { return false; }
+    
+    let empty_string_index_exists = objs.map(obj => obj.index === "").includes(true);
+    if(empty_string_index_exists) { return false; }
+
     let undefined_content_exists = objs.map(obj => obj.content === undefined).includes(true);
-    return !non_string_index_exists && !undefined_content_exists;
+    if(undefined_content_exists) { return false; }
+
+    return true;
   }
 }
