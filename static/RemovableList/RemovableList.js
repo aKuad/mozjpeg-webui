@@ -27,14 +27,10 @@
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
    * @returns {Array<boolean>} Each objects were - success to add: true, failed: false
-   *
-   * @throws {Error} Incorrect elements detected in argument.
    */
   add_items_no_overwrite(objs) {
     // Check is argument correct
-    if(!RemovableList.#are_correct_objs(objs)) {
-      throw new Error("Incorrect elements detected in argument.");
-    }
+    RemovableList.#check_appendable_object_error(objs);
 
     // Process all elements
     let list_items = Array.from(this.#list_container.children);
@@ -69,14 +65,10 @@
    * @param {Array<Object>} objs Custom object and index text contained objects to append
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
-   *
-   * @throws {Error} Incorrect elements detected in argument.
    */
   add_items_keep_each(objs) {
     // Check is argument correct
-    if(!RemovableList.#are_correct_objs(objs)) {
-      throw new Error("Incorrect elements detected in argument.");
-    }
+    RemovableList.#check_appendable_object_error(objs);
 
     // Process all elements
     let list_items = Array.from(this.#list_container.children);
@@ -109,14 +101,10 @@
    * @param {Array<Object>} objs Custom object and index text contained objects to append
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
-   *
-   * @throws {Error} Incorrect elements detected in argument.
    */
   add_items_overwrite(objs) {
     // Check is argument correct
-    if(!RemovableList.#are_correct_objs(objs)) {
-      throw new Error("Incorrect elements detected in argument.");
-    }
+    RemovableList.#check_appendable_object_error(objs);
 
     // Process all elements
     let list_items = Array.from(this.#list_container.children);
@@ -221,15 +209,18 @@
 
 
   /**
-   * Return are input array's all elements has string `index` and any object
+   * Check array's all elements has string `index` and any object
    *
    * @param {Array<Object>} objs Array object to check
-   * @returns {boolean} All elements fit the condition: true, othe cases: false
    *
    * @throws {Error} Not enough arguments
    * @throws {Error} Non array object specified as argument.
+   * @throws {Error} Incorrect elements detected - null elements
+   * @throws {Error} Incorrect elements detected - non string 'index'
+   * @throws {Error} Incorrect elements detected - empty string 'index'
+   * @throws {Error} Incorrect elements detected - undefined 'content'
    */
-  static #are_correct_objs(objs) {
+  static #check_appendable_object_error(objs) {
     // Is argument specified
     if(objs === undefined) {
       throw new Error("At least 1 argument must be specified, but only 0 passed.");
@@ -240,18 +231,20 @@
       throw new Error("Non array object specified as argument.");
     }
 
-    let has_null = objs.map(obj => obj === null).includes(true);
-    if(has_null) { return false; }
+    if(objs.map(obj => obj === null).includes(true)) {
+      throw new Error("Incorrect elements detected - null elements");
+    }
 
-    let non_string_index_exists = objs.map(obj => typeof(obj.index) !== "string").includes(true);
-    if(non_string_index_exists) { return false; }
-    
-    let empty_string_index_exists = objs.map(obj => obj.index === "").includes(true);
-    if(empty_string_index_exists) { return false; }
+    if(objs.map(obj => typeof(obj.index) !== "string").includes(true)) {
+      throw new Error("Incorrect elements detected - non string or undefined 'index'");
+    }
 
-    let undefined_content_exists = objs.map(obj => obj.content === undefined).includes(true);
-    if(undefined_content_exists) { return false; }
+    if(objs.map(obj => obj.index === "").includes(true)) {
+      throw new Error("Incorrect elements detected - empty string 'index'");
+    }
 
-    return true;
+    if(objs.map(obj => obj.content === undefined).includes(true)) {
+      throw new Error("Incorrect elements detected - undefined 'content'");
+    }
   }
 }
