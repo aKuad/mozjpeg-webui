@@ -28,7 +28,7 @@
    * @property {string} objs.index Text to view in list
    * @returns {Array<boolean>} Each objects were - success to add: true, failed: false
    *
-   * @throws {Error} Incorrect argument type, or incorrect elements has
+   * @throws {Error} Incorrect elements detected in argument.
    */
   add_items_no_overwrite(objs) {
     // Check is argument correct
@@ -70,12 +70,12 @@
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
    *
-   * @throws {Error} Incorrect argument type, or incorrect elements has
+   * @throws {Error} Incorrect elements detected in argument.
    */
   add_items_keep_each(objs) {
     // Check is argument correct
     if(!RemovableList.#are_correct_objs(objs)) {
-      throw new Error("Incorrect argument type, or incorrect elements has.");
+      throw new Error("Incorrect elements detected in argument.");
     }
 
     // Process all elements
@@ -110,12 +110,12 @@
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
    *
-   * @throws {Error} Incorrect argument type, or incorrect elements has
+   * @throws {Error} Incorrect elements detected in argument.
    */
   add_items_overwrite(objs) {
     // Check is argument correct
     if(!RemovableList.#are_correct_objs(objs)) {
-      throw new Error("Incorrect argument type, or incorrect elements has.");
+      throw new Error("Incorrect elements detected in argument.");
     }
 
     // Process all elements
