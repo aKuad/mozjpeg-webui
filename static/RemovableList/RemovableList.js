@@ -1,6 +1,8 @@
 /**
  * User removable list, which can contain custom objects with index text
  *
+ * `RemovableList.css` requires to link as stylesheet
+ *
  * @property {HTMLElement} list_container A HTML element to view list
  *
  * @author aKuad
