@@ -68,4 +68,4 @@ async def jpegs_opt(files: List[UploadFile] = File(...), names: List[str] = Form
     
 
 if __name__ == '__main__':
-  run("main:app", reload=True)
+  run("main_3-8:app", reload=True)
