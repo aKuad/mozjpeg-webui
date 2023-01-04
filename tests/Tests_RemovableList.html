@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/RemovableList/RemovableList.css">
+    <script src="../static/RemovableList/RemovableList.js"></script>
+    <style>
+      #list-container {
+        border: 1px solid #000;
+        width: 400px;
+        min-height: 300px;
+      }
+    </style>
+    <script>
+      /**
+       * Tests for `RemovableList.js` module
+       *
+       * Test cases:
+       *   * Can add custom item to list without overwriting
+       *   * Can add custom item to list with auto renaming
+       *   * Can add custom item to list with overwriting
+       *   * Can export all items from list
+       *   * Can remove all items from list
+       *   * Throw error when non array specified to add item
+       *     * Expected error message: "Non array object specified as argument."
+       *   * Throw error when no arguments specified to add item
+       *     * Expected error message: "At least 1 argument must be specified, but only 0 passed."
+       *   * Throw error when invalid elements included array specified
+       *     * Valid element is: An object has `content` (:custom object) and `index` (:string, not empty) value
+       *     * Expected error message: "Incorrect elements detected in argument."
+       *
+       * Test steps:
+       *   1. Open this HTML in browser
+       *   2. Open JavaScript console
+       *   3. Input an any text to `Index to add`
+       *   4. Input an any file for `Content to add`
+       *   5. Click page's test buttons and check console output
+       *
+       * @author aKuad
+       */
+
+      function Test_ItemAddingNoOverwrite() {
+        console.log("-- Test_ItemAddingNoOverwrite");
+        let append_obj = Part_CreateAppendObj();
+        console.log(list.add_items_no_overwrite([append_obj]));
+        console.log("--- CHECK - Was item added? or ignored when same index specified?");
+      }
+
+      function Test_ItemAddAutoRename() {
+        console.log("-- Test_ItemAddAutoRename");
+        let append_obj = Part_CreateAppendObj();
+        list.add_items_keep_each([append_obj]);
+        console.log("--- CHECK - Was item added with index name_n");
+      }
+
+      function Test_ItemAddOverwrite() {
+        console.log("-- Test_ItemAddOverwrite");
+        console.log("[Before modification]");
+        console.log(list.export_items_all());
+        console.log("[After mofification]");
+        let append_obj = Part_CreateAppendObj();
+        list.add_items_overwrite([append_obj]);
+        console.log(list.export_items_all());
+        console.log("--- CHECK - Was item content updated?");
+      }
+
+      function Part_CreateAppendObj() {
+        return {content: document.querySelector("#value-content").files[0],
+                index: document.querySelector("#value-index").value}
+      }
+
+      function Test_ItemsAddMultipleRandom() {
+        console.log("-- Test_ItemsAddMultipleRandom");
+        let append_objs = [];
+        for(let i = 0; i < 1000; i++) {
+          append_objs.push({content: Math.random().toString(), index: Math.random().toString()});
+        }
+        list.add_items_keep_each(append_objs);
+        console.log("--- CHECK - Were 1000 items added?");
+      }
+
+      function Test_ItemsExporting() {
+        console.log("-- Test_ItemsExporting");
+        let items = list.export_items_all();
+        console.log(items);
+        console.log("--- CHECK - Were all items content & index printed?");
+      }
+
+      function Test_ClearList() {
+        console.log("-- Test_ClearList");
+        list.remove_items_all();
+        console.log("--- CHECK - Were all items deleted?");
+      }
+
+      function ErrCheck_InvalidArgumentInputs() {
+        let test_cases = [{"type": "null", "obj": null},
+                          {"type": "number", "obj": 1},
+                          {"type": "string", "obj": "hello"},
+                          {"type": "function", "obj": () => {}}];
+        for(const test_case of test_cases) {
+          console.log("-- ErrCheck_InvalidArgumentInput - " + test_case.type);
+          try {
+            list.add_items_no_overwrite(test_case.obj);
+            console.log("--- NG - Error hasn't throwed");
+          } catch(e) {
+            console.log(e);
+            console.log("--- CHECK - Is the error message 'Non array object specified as argument.'?");
+          }
+        }
+      }
+
+      function ErrCheck_InvalidObjectArrayInput() {
+        let test_cases = [{"case": "null", "obj": null},
+                          {"case": "No 'index'", "obj": {content: "any_content"}},
+                          {"case": "Empty 'index'", "obj": {content: "content", index: ""}},
+                          {"case": "No 'content'", "obj": {index: "any_index"}}];
+        for(const test_case of test_cases) {
+          console.log("-- ErrCheck_InvalidObjectArrayInput - " + test_case.case);
+          try {
+            list.add_items_overwrite([test_case.obj]);
+            console.log("--- NG - Error hasn't throwed");
+          } catch(e) {
+            console.log(e);
+            console.log("--- CHECK - Is the error message 'Incorrect elements detected - ...'?");
+          }
+        }
+      }
+
+      window.addEventListener("load", () => {
+        list = new RemovableList(document.querySelector("#list-container"));
+      });
+    </script>
+  </head>
+
+  <body>
+    Index to add: <input type="text" id="value-index">
+    <br>
+    Content to add: <input type="file" id="value-content">
+    <hr>
+    <input type="button" value="Test_ItemAddingNoOverwrite" onclick="Test_ItemAddingNoOverwrite()">
+    <input type="button" value="Test_ItemAddAutoRename" onclick="Test_ItemAddAutoRename()">
+    <input type="button" value="Test_ItemAddOverwrite" onclick="Test_ItemAddOverwrite()">
+    <input type="button" value="Test_ItemsAddMultipleRandom" onclick="Test_ItemsAddMultipleRandom()">
+    <hr>
+    <input type="button" value="Test_ItemsExporting" onclick="Test_ItemsExporting()">
+    <input type="button" value="Test_ClearList" onclick="Test_ClearList()">
+    <hr>
+    <input type="button" value="ErrCheck_InvalidArgumentInputs" onclick="ErrCheck_InvalidArgumentInputs()">
+    <hr>
+    <input type="button" value="ErrCheck_InvalidObjectArrayInput" onclick="ErrCheck_InvalidObjectArrayInput()">
+    <hr>
+    <div id="list-container"></div>
+  </body>
+</html>
