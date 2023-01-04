@@ -47,8 +47,8 @@ def Test_JpegOptimizingMultiple():
   print("--- OK")
 
 
-def Test_ErrCheck_NonJpegInput():
-  print("-- Test_ErrCheck_NonJpegInput")
+def ErrCheck_NonJpegInput():
+  print("-- ErrCheck_NonJpegInput")
   try:
     jpeg_opt(b"a")  # "a" as non jpeg input
     print("--- NG - Exception hasn't raised")
@@ -60,8 +60,8 @@ def Test_ErrCheck_NonJpegInput():
     print("--- NG - Un expected exception raised")
 
 
-def Test_ErrCheck_NonExistCommand():
-  print("-- Test_ErrCheck_NonExistCommand")
+def ErrCheck_NonExistCommand():
+  print("-- ErrCheck_NonExistCommand")
   try:
     org = Part_BinaryFileRead("img.jpg")
     jpeg_opt(org, "a") # "a" as non exist command
@@ -87,5 +87,5 @@ def Part_BinaryFileWrite(file_name: str, file_body: bytes):
 if __name__ == "__main__":
   Test_JpegOptimizing()
   Test_JpegOptimizingMultiple()
-  Test_ErrCheck_NonJpegInput()
-  Test_ErrCheck_NonExistCommand()
+  ErrCheck_NonJpegInput()
+  ErrCheck_NonExistCommand()

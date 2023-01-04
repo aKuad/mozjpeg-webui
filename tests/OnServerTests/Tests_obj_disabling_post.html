@@ -45,14 +45,14 @@
         console.log("--- CHECK2 - Is typed text printed?");
       }
 
-      async function Test_ErrCheck_NonObjectInputs() {
+      async function ErrCheck_NonObjectInputs() {
         let test_cases = [{"type": "null", "obj": null},
                           {"type": "number", "obj": 1},
                           {"type": "string", "obj": "hello"},
                           {"type": "function", "obj": () => {}}];
         for(const test_case of test_cases) {
-          console.log("-- Test_ErrCheck_NonObjectInputs - " + test_case.type);
-          let related_objs = [document.querySelector("#Test_ErrCheck_NonObjectInputs"),
+          console.log("-- ErrCheck_NonObjectInputs - " + test_case.type);
+          let related_objs = [document.querySelector("#ErrCheck_NonObjectInputs"),
                               test_case.obj];
           try {
             await obj_disabling_post("/post_echo_delay", "", related_objs);
@@ -79,6 +79,6 @@
     <textarea placeholder="Any text to post" id="Test_PostWithBody_body"></textarea>
     <input type="button" value="Test_PostWithBody" id="Test_PostWithBody" onclick="Test_PostWithBody()">
     <hr>
-    <input type="button" value="Test_ErrCheck_NonObjectInputs" id="Test_ErrCheck_NonObjectInputs" onclick="Test_ErrCheck_NonObjectInputs()">
+    <input type="button" value="ErrCheck_NonObjectInputs" id="ErrCheck_NonObjectInputs" onclick="ErrCheck_NonObjectInputs()">
   </body>
 </html>

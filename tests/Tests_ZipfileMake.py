@@ -100,8 +100,8 @@ def Test_CreateZip_Lzma():
   print("--- OK")
 
 
-def Test_ErrCheck_InvalidCompmode():
-  print("-- Test_ErrCheck_InvalidCompmode")
+def ErrCheck_InvalidCompmode():
+  print("-- ErrCheck_InvalidCompmode")
   try:
     zipfilemake = ZipfileMake("hoge")
     print("--- NG - Exception hasn't raised")
@@ -113,8 +113,8 @@ def Test_ErrCheck_InvalidCompmode():
     print("--- NG - Un expected exception raised")
 
 
-def Test_ErrCheck_InvalidComplevelDeflated():
-  print("-- Test_ErrCheck_InvalidComplevelDeflated")
+def ErrCheck_InvalidComplevelDeflated():
+  print("-- ErrCheck_InvalidComplevelDeflated")
   try:
     zipfilemake = ZipfileMake("deflated", 10)
     print("--- NG - Exception hasn't raised")
@@ -126,8 +126,8 @@ def Test_ErrCheck_InvalidComplevelDeflated():
     print("--- NG - Un expected exception raised")
 
 
-def Test_ErrCheck_InvalidComplevelBzip2():
-  print("-- Test_ErrCheck_InvalidComplevelBzip2")
+def ErrCheck_InvalidComplevelBzip2():
+  print("-- ErrCheck_InvalidComplevelBzip2")
   try:
     zipfilemake = ZipfileMake("bzip2", 10)
     print("--- NG - Exception hasn't raised")
@@ -147,6 +147,6 @@ if __name__ == "__main__":
   Test_CreateZip_Bzip2_Level1()
   Test_CreateZip_Bzip2_Level9()
   Test_CreateZip_Lzma()
-  Test_ErrCheck_InvalidCompmode()
-  Test_ErrCheck_InvalidComplevelDeflated()
-  Test_ErrCheck_InvalidComplevelBzip2()
+  ErrCheck_InvalidCompmode()
+  ErrCheck_InvalidComplevelDeflated()
+  ErrCheck_InvalidComplevelBzip2()

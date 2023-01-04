@@ -42,14 +42,14 @@
         console.log("--- CHECK - Are all files detected?");
       }
 
-      async function Test_ErrCheck_NonEntryInputs() {
+      async function ErrCheck_NonEntryInputs() {
         let test_cases = [{"type": "null", "obj": null},
                           {"type": "number", "obj": 1},
                           {"type": "string", "obj": "hello"},
                           {"type": "function", "obj": () => {}},
                           {"type": "custom_object", "obj": {}}];
         for(const test_case of test_cases) {
-          console.log("-- Test_ErrCheck_NonBlobInput - " + test_case.type)
+          console.log("-- ErrCheck_NonBlobInput - " + test_case.type)
           try {
             await files_from_entry(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
@@ -60,8 +60,8 @@
         }
       }
 
-      async function Test_ErrCheck_NoArgument() {
-        console.log("-- Test_ErrCheck_NoArgument");
+      async function ErrCheck_NoArgument() {
+        console.log("-- ErrCheck_NoArgument");
         try {
           await files_from_entry();
           console.log("--- NG - Error hasn't throwed");
@@ -80,8 +80,8 @@
   <body>
     Test_ReadingFiles: <input type="file" multiple id="Test_ReadingFiles">
     <hr>
-    <input type="button" value="Test_ErrCheck_NonEntryInputs" onclick="Test_ErrCheck_NonEntryInputs()">
+    <input type="button" value="ErrCheck_NonEntryInputs" onclick="ErrCheck_NonEntryInputs()">
     <hr>
-    <input type="button" value="Test_ErrCheck_NoArgument" onclick="Test_ErrCheck_NoArgument()">
+    <input type="button" value="ErrCheck_NoArgument" onclick="ErrCheck_NoArgument()">
   </body>
 </html>
