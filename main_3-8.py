@@ -7,7 +7,7 @@ About requirements and details, see ``README.md``
 
 from typing import List
 
-from fastapi import FastAPI, Request, status, Form, File, UploadFile, HTTPException
+from fastapi import FastAPI, Request, status, File, UploadFile, HTTPException
 from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -37,12 +37,11 @@ def index(request: Request):
 
 
 @app.post("/api/jpegs-opt")
-async def jpegs_opt(files: List[UploadFile] = File(...), names: List[str] = Form(...)):
+async def jpegs_opt(files: List[UploadFile] = File(...)):
   """Optimize JPEG binary, support multiple files
 
   Args:
     files (list[UploadFile]): File items to optimize
-    names (list[str]): File names of ``files``
 
   Returns:
     Response: On single file: Optimized JPEG binary,
@@ -66,16 +65,16 @@ async def jpegs_opt(files: List[UploadFile] = File(...), names: List[str] = Form
     raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Empty filename detected")
 
   try:
-    if len(files) == 1 or len(names) == 1:
+    if len(files) == 1:
       # On single JPEG input
       file_opt = jpeg_opt(await files[0].read(), "/opt/mozjpeg/bin/jpegtran")
       return Response(file_opt, media_type="image/jpeg")
     else:
       # On multiple JPEG input
       zipfilemake = ZipfileMake()
-      for file, name in zip(files, names):
+      for file in files:
         file_opt = jpeg_opt(await file.read(), "/opt/mozjpeg/bin/jpegtran")
-        zipfilemake.add_file(name, file_opt)
+        zipfilemake.add_file(file.filename, file_opt)
       return Response(zipfilemake.export_zip(), media_type="application/zip")
   except ValueError:
     # On optimizing error occured
