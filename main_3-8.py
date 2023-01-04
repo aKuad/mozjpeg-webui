@@ -52,12 +52,18 @@ async def jpegs_opt(files: List[UploadFile] = File(...), names: List[str] = Form
   Note:
     File items must be:
       * MIME is ``image/jpeg``
+      * Any file name has, not empty
 
   """
   # Check all files MIME is image/jpeg
   are_mime_jpeg = map(lambda e: e.content_type == "image/jpeg", files)
   if False in are_mime_jpeg:
     raise HTTPException(status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, detail="Non jpeg input")
+
+  # Check all files have filename
+  are_filename_empty = map(lambda e: e.filename == "", files)
+  if True in are_filename_empty:
+    raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Empty filename detected")
 
   try:
     if len(files) == 1 or len(names) == 1:
