@@ -4,8 +4,10 @@
 Test cases:
   * Can return optimized JPEG from single JPEG
   * Can return optimized JPEG files packed ZIP from multiple JPEG
+  * Return error when non JPEG binary input
   * Return error when invalid JPEG binary input
-  * Return error when ``files`` or/and ``names`` fields missing post
+  * Return error when no name (empty string) file input
+  * Return error when ``files`` field missing post
 
 Test steps:
   1. Create jpeg files ``img.jpg``, ``img1.jpg``, ``img2.jpg``, ``img3.jpg``
