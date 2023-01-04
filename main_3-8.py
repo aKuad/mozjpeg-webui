@@ -49,7 +49,16 @@ async def jpegs_opt(files: List[UploadFile] = File(...), names: List[str] = Form
               On multiple files: Optimized JPEGs packed in a zip,
               On error: JSON string with detail in ``mes``
 
+  Note:
+    File items must be:
+      * MIME is ``image/jpeg``
+
   """
+  # Check all files MIME is image/jpeg
+  are_mime_jpeg = map(lambda e: e.content_type == "image/jpeg", files)
+  if False in are_mime_jpeg:
+    raise HTTPException(status.HTTP_415_UNSUPPORTED_MEDIA_TYPE, detail="Non jpeg input")
+
   try:
     if len(files) == 1 or len(names) == 1:
       # On single JPEG input
