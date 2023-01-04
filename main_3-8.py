@@ -7,8 +7,8 @@ About requirements and details, see ``README.md``
 
 from typing import List
 
-from fastapi import FastAPI, Request, status, Form, File, UploadFile
-from fastapi.responses import Response, JSONResponse
+from fastapi import FastAPI, Request, status, Form, File, UploadFile, HTTPException
+from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from uvicorn import run
@@ -64,8 +64,8 @@ async def jpegs_opt(files: List[UploadFile] = File(...), names: List[str] = Form
       return Response(zipfilemake.export_zip(), media_type="application/zip")
   except ValueError:
     # On optimizing error occured
-    return JSONResponse({"mes": "Invalid jpeg input"}, status_code=status.HTTP_400_BAD_REQUEST)
-    
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid jpeg input")
+
 
 if __name__ == '__main__':
   run("main_3-8:app", reload=True)
