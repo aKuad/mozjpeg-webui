@@ -55,7 +55,11 @@
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
             console.log(e);
-            console.log("--- CHECK - Is the message 'Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object.'?");
+            if(e.toString() === "Error: Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object.") {
+              console.log("--- OK");
+            } else {
+              console.log("--- NG - Un expected error throwed");
+            }
           }
         }
       }
@@ -67,7 +71,11 @@
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
           console.log(e);
-          console.log("--- CHECK - Is the message 'At least 1 argument must be specified, but only 0 passed.'?");
+          if(e.toString() === "Error: At least 1 argument must be specified, but only 0 passed.") {
+            console.log("--- OK");
+          } else {
+            console.log("--- NG - Un expected error throwed");
+          }
         }
       }
 

@@ -44,7 +44,11 @@
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
             console.log(e);
-            console.log("--- CHECK - Is the error message 'Incorrect argument type, `target_elem` must be object.'?");
+            if(e.toString() === "Error: Incorrect argument type, `target_elem` must be object.") {
+              console.log("--- OK");
+            } else {
+              console.log("--- NG - Un expected error throwed");
+            }
           }
         }
       }

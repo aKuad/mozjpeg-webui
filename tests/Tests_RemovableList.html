@@ -104,16 +104,20 @@
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
             console.log(e);
-            console.log("--- CHECK - Is the error message 'Non array object specified as argument.'?");
+            if(e.toString() === "Error: Non array object specified as argument.") {
+              console.log("--- OK");
+            } else {
+              console.log("--- NG - Un expected error throwed");
+            }
           }
         }
       }
 
       function ErrCheck_InvalidObjectArrayInput() {
-        let test_cases = [{"case": "null", "obj": null},
-                          {"case": "No 'index'", "obj": {content: "any_content"}},
-                          {"case": "Empty 'index'", "obj": {content: "content", index: ""}},
-                          {"case": "No 'content'", "obj": {index: "any_index"}}];
+        let test_cases = [{case: "null",          obj: null,                                errmes: "Incorrect elements detected - null elements"},
+                          {case: "No 'index'",    obj: {content: "any_content"},            errmes: "Incorrect elements detected - non string or undefined 'index'"},
+                          {case: "Empty 'index'", obj: {content: "any_content", index: ""}, errmes: "Incorrect elements detected - empty string 'index'"},
+                          {case: "No 'content'",  obj: {index: "any_index"},                errmes: "Incorrect elements detected - undefined 'content'"}];
         for(const test_case of test_cases) {
           console.log("-- ErrCheck_InvalidObjectArrayInput - " + test_case.case);
           try {
@@ -121,7 +125,11 @@
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
             console.log(e);
-            console.log("--- CHECK - Is the error message 'Incorrect elements detected - ...'?");
+            if(e.toString() === ("Error: " + test_case.errmes)) {
+              console.log("--- OK");
+            } else {
+              console.log("--- NG - Un expected error throwed");
+            }
           }
         }
       }

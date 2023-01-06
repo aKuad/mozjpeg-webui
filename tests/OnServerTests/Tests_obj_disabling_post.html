@@ -59,7 +59,11 @@
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
             console.log(e);
-            console.log("--- CHECK - Is the error message 'Non object element(s) specified as argument.'?");
+            if(e.toString() === "Error: Non object element(s) specified as argument.") {
+              console.log("--- OK");
+            } else {
+              console.log("--- NG - Un expected error throwed");
+            }
           }
         }
       }
