@@ -31,7 +31,7 @@ def Test_JpegOptimizing():
   org = Part_BinaryFileRead("img.jpg")
   opt = jpeg_opt(org)
   Part_BinaryFileWrite("out.jpg", opt)
-  print("--- OK")
+  print("--- CHECK - Can out.jpg open")
 
 
 def Test_JpegOptimizingMultiple():
@@ -44,7 +44,7 @@ def Test_JpegOptimizingMultiple():
   Part_BinaryFileWrite("out1.jpg", opt[0])
   Part_BinaryFileWrite("out2.jpg", opt[1])
   Part_BinaryFileWrite("out3.jpg", opt[2])
-  print("--- OK")
+  print("--- CHECK - Can 'img1.jpg' 'img2.jpg' 'img3.jpg' open")
 
 
 def ErrCheck_NonJpegInput():
