@@ -5,7 +5,13 @@
     <script src="/static/files_from_entry.js"></script>
     <script>
       /**
-       * Tests for files_from_entry module
+       * Tests for `files_from_entry.js` module
+       *
+       * Note:
+       *   This module using Files/Directories Entry APIs.
+       *   The APIs requires on HTTP connection running.
+       *   Please run it through `main.py` (a temporary HTTP server program).
+       *   About requirements, see `main.py` docstring.
        *
        * Test cases:
        *   * Can get a file object when input 1 file
@@ -18,19 +24,13 @@
        *     * Expected error message: "At least 1 argument must be specified, but only 0 passed."
        *
        * Test steps:
-       *   1. Set current to this ``Tests_files_from_entry`` directory
-       *   2. Execute ``main.py`` with python3 interpriter
-       *   3. Access to ``http://localhost:8000`` in browser
-       *   4. Open JavaScript console
-       *   5. Click page's test buttons and check console output
-       *   6. Input any file(s) for `Test_ReadingFiles` and check console output
-       * 
-       * Test requirements:
-       *   * This module using File and Directories Entry APIs.
-       *   * To use the APIs, on HTTP connection running required.
-       *   * ``main.py`` is temporary HTTP server program for this test.
-       *   * To run it, some additional modules are required.
-       *     * Install all of them: ``pip install fastapi uvicorn jinja2 aiofiles``
+       *   1. Execute `main.py` (in same directory) with python3 interpriter
+       *   2. Access to `http://localhost:8000/files_from_entry` in browser
+       *   3. Open JavaScript console
+       *   4. Click page's test buttons and check console output
+       *   5. Input any file(s) for `Test_ReadingFiles` and check console output
+       *
+       * @author aKuad
        */
 
       async function Test_ReadingFiles(e) {
@@ -42,32 +42,40 @@
         console.log("--- CHECK - Are all files detected?");
       }
 
-      async function Test_ErrCheck_NonEntryInputs() {
+      async function ErrCheck_NonEntryInputs() {
         let test_cases = [{"type": "null", "obj": null},
                           {"type": "number", "obj": 1},
                           {"type": "string", "obj": "hello"},
                           {"type": "function", "obj": () => {}},
                           {"type": "custom_object", "obj": {}}];
         for(const test_case of test_cases) {
-          console.log("-- Test_ErrCheck_NonBlobInput - " + test_case.type)
+          console.log("-- ErrCheck_NonBlobInput - " + test_case.type)
           try {
             await files_from_entry(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
             console.log(e);
-            console.log("--- CHECK - Is the message 'Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object.'?");
+            if(e.toString() === "Error: Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object.") {
+              console.log("--- OK");
+            } else {
+              console.log("--- NG - Un expected error throwed");
+            }
           }
         }
       }
 
-      async function Test_ErrCheck_NoArgument() {
-        console.log("-- Test_ErrCheck_NoArgument");
+      async function ErrCheck_NoArgument() {
+        console.log("-- ErrCheck_NoArgument");
         try {
           await files_from_entry();
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
           console.log(e);
-          console.log("--- CHECK - Is the message 'At least 1 argument must be specified, but only 0 passed.'?");
+          if(e.toString() === "Error: At least 1 argument must be specified, but only 0 passed.") {
+            console.log("--- OK");
+          } else {
+            console.log("--- NG - Un expected error throwed");
+          }
         }
       }
 
@@ -80,8 +88,8 @@
   <body>
     Test_ReadingFiles: <input type="file" multiple id="Test_ReadingFiles">
     <hr>
-    <input type="button" value="Test_ErrCheck_NonEntryInputs" onclick="Test_ErrCheck_NonEntryInputs()">
+    <input type="button" value="ErrCheck_NonEntryInputs" onclick="ErrCheck_NonEntryInputs()">
     <hr>
-    <input type="button" value="Test_ErrCheck_NoArgument" onclick="Test_ErrCheck_NoArgument()">
+    <input type="button" value="ErrCheck_NoArgument" onclick="ErrCheck_NoArgument()">
   </body>
 </html>

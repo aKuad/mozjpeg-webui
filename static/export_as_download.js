@@ -3,7 +3,10 @@
  *
  * @param {Blob | File} blob Data body to export
  * @param {string} name Default file name to export
- * 
+ *
+ * @throws {Error} Not enough arguments
+ * @throws {Error} `blob` type must be `Blob` or `File`
+ *
  * @author aKuad
  */
 function export_as_download(blob, name = "file") {
@@ -44,16 +47,14 @@ function is_blob_or_file(obj) {
   if((typeof(obj) !== "object") || (obj === null)) {
     return false;
   }
+
   // Check is toString method available
   if(typeof(obj.toString) !== "function") {
     return false;
   }
+
   // Check is in true cases
   let true_cases = ["[object Blob]", "[object File]"];
   let obj_string = obj.toString();
-  if(true_cases.includes(obj_string)) {
-    return true;
-  } else {
-    return false;
-  }
+  return true_cases.includes(obj_string);
 }

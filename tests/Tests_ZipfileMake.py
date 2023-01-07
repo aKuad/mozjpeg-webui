@@ -1,5 +1,5 @@
 # coding: UTF-8
-"""Tests for ZipfileMake module
+"""Tests for ``ZipfileMake.py`` module
 
 Test cases:
   * Can create zip files by supported compression mode
@@ -19,6 +19,9 @@ Test steps:
   2. Execute ``Tests_ZipfileMake.py`` with python3 interpreter
   3. Check generated zip files can open by other software
 
+Author:
+  aKuad
+
 """
 
 # For import top layer module
@@ -35,7 +38,7 @@ def Test_CreateZip_Default():
   zipfilemake.add_file("log/hoge.log", "hoge")
   with open("default.zip", "wb") as f:
     f.write(zipfilemake.export_zip())
-  print("--- OK")
+  print("--- CHECK - Can 'default.zip' open and containe 2 files")
 
 def Test_CreateZip_Stored():
   print("-- Test_CreateZip_Stored")
@@ -44,7 +47,7 @@ def Test_CreateZip_Stored():
   zipfilemake.add_file("log/hoge.log", "hoge")
   with open("stored.zip", "wb") as f:
     f.write(zipfilemake.export_zip())
-  print("--- OK")
+  print("--- CHECK - Can 'stored.zip' open and containe 2 files")
 
 
 def Test_CreateZip_Deflated_Level0():
@@ -54,7 +57,7 @@ def Test_CreateZip_Deflated_Level0():
   zipfilemake.add_file("hoge.log", "hoge")
   with open("deflated-0.zip", "wb") as f:
     f.write(zipfilemake.export_zip())
-  print("--- OK")
+  print("--- CHECK - Can 'deflated-0.zip' open and containe 2 files")
 
 
 def Test_CreateZip_Deflated_Level9():
@@ -64,7 +67,7 @@ def Test_CreateZip_Deflated_Level9():
   zipfilemake.add_file("hoge.log", "hoge")
   with open("deflated-9.zip", "wb") as f:
     f.write(zipfilemake.export_zip())
-  print("--- OK")
+  print("--- CHECK - Can 'deflated-9.zip' open and containe 2 files")
 
 
 def Test_CreateZip_Bzip2_Level1():
@@ -74,7 +77,7 @@ def Test_CreateZip_Bzip2_Level1():
   zipfilemake.add_file("hoge.log", "hoge")
   with open("bzip2-0.zip", "wb") as f:
     f.write(zipfilemake.export_zip())
-  print("--- OK")
+  print("--- CHECK - Can 'bzip2-0.zip' open and containe 2 files")
 
 
 def Test_CreateZip_Bzip2_Level9():
@@ -84,7 +87,7 @@ def Test_CreateZip_Bzip2_Level9():
   zipfilemake.add_file("hoge.log", "hoge")
   with open("bzip2-9.zip", "wb") as f:
     f.write(zipfilemake.export_zip())
-  print("--- OK")
+  print("--- CHECK - Can 'bzip2-9.zip' open and containe 2 files")
 
 
 def Test_CreateZip_Lzma():
@@ -94,11 +97,11 @@ def Test_CreateZip_Lzma():
   zipfilemake.add_file("hoge.log", "hoge")
   with open("lzma.zip", "wb") as f:
     f.write(zipfilemake.export_zip())
-  print("--- OK")
+  print("--- CHECK - Can 'lzma.zip' open and containe 2 files")
 
 
-def Test_ErrCheck_InvalidCompmode():
-  print("-- Test_ErrCheck_InvalidCompmode")
+def ErrCheck_InvalidCompmode():
+  print("-- ErrCheck_InvalidCompmode")
   try:
     zipfilemake = ZipfileMake("hoge")
     print("--- NG - Exception hasn't raised")
@@ -110,8 +113,8 @@ def Test_ErrCheck_InvalidCompmode():
     print("--- NG - Un expected exception raised")
 
 
-def Test_ErrCheck_InvalidComplevelDeflated():
-  print("-- Test_ErrCheck_InvalidComplevelDeflated")
+def ErrCheck_InvalidComplevelDeflated():
+  print("-- ErrCheck_InvalidComplevelDeflated")
   try:
     zipfilemake = ZipfileMake("deflated", 10)
     print("--- NG - Exception hasn't raised")
@@ -123,8 +126,8 @@ def Test_ErrCheck_InvalidComplevelDeflated():
     print("--- NG - Un expected exception raised")
 
 
-def Test_ErrCheck_InvalidComplevelBzip2():
-  print("-- Test_ErrCheck_InvalidComplevelBzip2")
+def ErrCheck_InvalidComplevelBzip2():
+  print("-- ErrCheck_InvalidComplevelBzip2")
   try:
     zipfilemake = ZipfileMake("bzip2", 10)
     print("--- NG - Exception hasn't raised")
@@ -144,6 +147,6 @@ if __name__ == "__main__":
   Test_CreateZip_Bzip2_Level1()
   Test_CreateZip_Bzip2_Level9()
   Test_CreateZip_Lzma()
-  Test_ErrCheck_InvalidCompmode()
-  Test_ErrCheck_InvalidComplevelDeflated()
-  Test_ErrCheck_InvalidComplevelBzip2()
+  ErrCheck_InvalidCompmode()
+  ErrCheck_InvalidComplevelDeflated()
+  ErrCheck_InvalidComplevelBzip2()

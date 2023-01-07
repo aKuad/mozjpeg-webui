@@ -3,7 +3,10 @@
  *
  * @async
  * @param {FileSystemFileEntry | FileSystemDirectoryEntry} entry File system entry to get all file objects
- * @returns {Promise<Array<FileWithFullpath>>} File objects (with full path) array
+ * @returns {Promise<Array<File>>} File objects (with full path) array
+ *
+ * @throws {Error} Not enough arguments
+ * @throws {Error} `entry` type must be `FileSystemFileEntry` or `FileSystemDirectoryEntry`
  *
  * @author aKuad
  */
@@ -31,31 +34,26 @@ async function files_from_entry(entry) {
       files = files.concat(await files_from_entry(child_entry));
     }
     return files;
+
   } else {
     // FileEntry -> File object
     let file = await new Promise(resolve => {
       entry.file(f => { resolve(f); });
     });
-    return [new FileWithFullpath(file, entry.fullPath)];
+    return [file_obj_rename(file, entry.fullPath)];
   }
 }
 
 
-class FileWithFullpath {
-  /**
-   * File containing object to keep full path
-   *
-   * @param {File} file File object to contain
-   * @param {string} fullpath Contained file object's name with full path
-   */
-  constructor(file, fullpath) {
-    this.file = file;
-    this.fullpath = fullpath;
-  }
-
-  toString() {
-    return this.fullpath;
-  }
+/**
+ * Change name field in file object
+ *
+ * @param {File} file File object to rename
+ * @param {string} name New name of file
+ * @returns {File} Renamed file object
+ */
+function file_obj_rename(file, name) {
+  return new File([file], name, {type: file.type, lastModified: file.lastModified});
 }
 
 
@@ -65,22 +63,20 @@ class FileWithFullpath {
  * @param {*} obj Object to check
  * @returns {boolean} When file/directory entry: true, other cases: false
  */
- function is_file_or_directory_entry(obj) {
+function is_file_or_directory_entry(obj) {
   // Check is object and not null
   if((typeof(obj) !== "object") || (obj === null)) {
     return false;
   }
+
   // Check is toString method available
   if(typeof(obj.toString) !== "function") {
     return false;
   }
+
   // Check is in true cases
   let true_cases = ["[object DirectoryEntry]", "[object FileEntry]",
                     "[object FileSystemDirectoryEntry]", "[object FileSystemFileEntry]"];
   let obj_string = obj.toString();
-  if(true_cases.includes(obj_string)) {
-    return true;
-  } else {
-    return false;
-  }
+  return true_cases.includes(obj_string);
 }

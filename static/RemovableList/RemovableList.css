@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+:root {
+  --RemovableList-cross-size: 1em;
+  --RemovableList-text-padding: 1em;
+  --RemovableList-text-height: 1.2em;
+}
+
+.RemovableList-container {
+  padding: 0.5em;
+}
+.RemovableList-container:empty {
+  text-align: center;
+}
+.RemovableList-container:empty::before {
+  font-style: italic;
+  content: "No items";
+}
+
+.RemovableList-item {
+  position: relative;
+  word-break: break-all;
+  line-height: var(--RemovableList-text-height);
+  padding: var(--RemovableList-text-padding);
+  padding-right: calc(var(--RemovableList-text-padding) * 2 + var(--RemovableList-cross-size));
+  border-bottom: 1px solid hsl(0, 0%, 50%);
+}
+.RemovableList-item:last-child {
+  border-bottom: none;
+}
+
+.RemovableList-cross {
+  position: absolute;
+  width: var(--RemovableList-cross-size);
+  height: var(--RemovableList-cross-size);
+  top: calc((var(--RemovableList-text-height) - 1em) / 2 + var(--RemovableList-text-padding));
+  right: var(--RemovableList-text-padding);
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+.RemovableList-cross:hover {
+  opacity: 0.5;
+}
+.RemovableList-cross::before, .RemovableList-cross::after {
+  display: block;
+  position: absolute;
+  border-bottom: 2px solid hsl(0, 0%, 20%);
+  width: calc(var(--RemovableList-cross-size) * 1.4);   /* 1.4 as sqrt(2) */
+  top: calc(var(--RemovableList-cross-size) / 2 - 1px);
+  right: calc(var(--RemovableList-cross-size) * -0.2);  /* (1.4 - 1) / 2 = 0.2 */
+  content: "";
+}
+.RemovableList-cross::before {
+  transform: rotate(45deg);
+}
+.RemovableList-cross::after {
+  transform: rotate(-45deg);
+}
