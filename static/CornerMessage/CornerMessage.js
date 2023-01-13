@@ -64,7 +64,7 @@ class CornerMessage {
   async view(mes, style = CornerMessage.style.info) {
     // Check is message string
     if(typeof(mes) !== "string") {
-      throw new Error("Incorrect argument type, 'mes' must be object.");
+      throw new Error("Incorrect argument type, 'mes' must be string.");
     }
 
     // Check is message not empty
