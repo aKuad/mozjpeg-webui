@@ -57,9 +57,21 @@ class CornerMessage {
    * @param {string} mes String to view
    * @param {string} style Message box color `info (Blue)`, `warn (Yellow)`, `danger (Red)`
    *
+   * @throws {Error} Non string `mes`
+   * @throws {Error} Empty string `mes`
    * @throws {Error} Incorrect argument `style`
    */
   async view(mes, style = CornerMessage.style.info) {
+    // Check is message string
+    if(typeof(mes) !== "string") {
+      throw new Error("Incorrect argument type, 'mes' must be object.");
+    }
+
+    // Check is message not empty
+    if(mes === "") {
+      throw new Error("Empty string message.");
+    }
+
     // Check is correct style specified
     if(!this.#style_values.includes(style)) {
       throw new Error("Unknown style specified.");
