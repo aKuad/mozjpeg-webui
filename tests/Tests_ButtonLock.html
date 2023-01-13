@@ -38,7 +38,7 @@
                           {"type": "string", "obj": "hello"},
                           {"type": "function", "obj": () => {}}];
         for(const test_case of test_cases) {
-          console.log("-- ErrCheck_NonObjectInput" + test_case.type);
+          console.log("-- ErrCheck_NonObjectInput - " + test_case.type);
           try {
             let test_inst = new ButtonLock(test_case.obj, "");
             console.log("--- NG - Error hasn't throwed");
