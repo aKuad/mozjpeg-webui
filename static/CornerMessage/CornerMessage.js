@@ -51,10 +51,10 @@ class CornerMessage {
   /**
    * View message box with any message and style
    *
-   * @param {string} mes 
-   * @param {string} style 
+   * @param {string} mes String to view
+   * @param {string} style Message box color `info (Blue)`, `warn (Yellow)`, `danger (Red)`
    *
-   * @throws {Error} a
+   * @throws {Error} Incorrect argument `style`
    */
   async view(mes, style = CornerMessage.style.info) {
     if(!this.#style_values.includes(style)) {
