@@ -29,9 +29,11 @@ class CornerMessage {
    * @constructor
    */
   constructor() {
+    // Initialize member variables
     this.#is_viewing = false;
     this.#style_values = Object.values(CornerMessage.style);
 
+    // Create message element
     this.#container = document.createElement("div");
     this.#container.classList.add("CornerMessage-container");
 
@@ -51,36 +53,44 @@ class CornerMessage {
   /**
    * View message box with any message and style
    *
+   * @async
    * @param {string} mes String to view
    * @param {string} style Message box color `info (Blue)`, `warn (Yellow)`, `danger (Red)`
    *
    * @throws {Error} Incorrect argument `style`
    */
   async view(mes, style = CornerMessage.style.info) {
+    // Check is correct style specified
     if(!this.#style_values.includes(style)) {
       throw new Error("Unknown style specified.");
     }
 
+    // If previous message viewing, close
     if(this.#is_viewing) {
       await this.close();
     }
 
+    // New message append
     this.#mesbox.innerText = mes;
 
+    // Style append
     this.#container.classList.remove(...this.#style_values);
     this.#container.classList.add(style);
     this.#container.classList.add("CornerMessage-container-view");
 
+    // Flag update
     this.#is_viewing = true;
   }
 
 
   /**
    * Close message box
+   *
+   * @async
    */
   async close() {
     this.#container.classList.remove("CornerMessage-container-view");
-    await new Promise(r => setTimeout(r, 200));
+    await new Promise(r => setTimeout(r, 200));   // Wait for the message hide
     this.#is_viewing = false;
   }
 }
