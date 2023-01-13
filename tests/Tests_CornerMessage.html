@@ -8,9 +8,24 @@
     <script>
       /**
        * Tests for `CornerMessage.js` module
+       *
        * Test cases:
-       * 
+       *   * Can view blue message box
+       *   * Can view yellow message box
+       *   * Can view red message box
+       *   * Can close message box clicking X button
+       *   * Can close message box from code
+       *   * Throw error when non string specified as message 
+       *     * Expected error message: "Incorrect argument type, 'mes' must be string."
+       *   * Throw error when empty string specified as message
+       *     * Expected error message: "Empty string message."
+       *   * Throw error when unknown style specified
+       *     * Expected error message: "Unknown style specified."
+       *
        * Test steps:
+       *   1. Open this HTML in browser
+       *   2. Open JavaScript console
+       *   3. Click page's test buttons and check console output
        *
        * @author aKuad
        */
