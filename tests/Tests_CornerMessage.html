@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="../static/CornerMessage/CornerMessage.css">
+    <script src="../static/CornerMessage/CornerMessage.js"></script>
+    <script>
+      /**
+       * Tests for `CornerMessage.js` module
+       *
+       * Test cases:
+       *   * Can view blue message box
+       *   * Can view yellow message box
+       *   * Can view red message box
+       *   * Can close message box clicking X button
+       *   * Can close message box from code
+       *   * Throw error when non string specified as message 
+       *     * Expected error message: "Incorrect argument type, 'mes' must be string."
+       *   * Throw error when empty string specified as message
+       *     * Expected error message: "Empty string message."
+       *   * Throw error when unknown style specified
+       *     * Expected error message: "Unknown style specified."
+       *
+       * Test steps:
+       *   1. Open this HTML in browser
+       *   2. Open JavaScript console
+       *   3. Click page's test buttons and check console output
+       *
+       * @author aKuad
+       */
+
+      function Test_ViewDefault() {
+        console.log("-- Test_ViewDefault");
+        corner_message.view("Default message");
+        console.log("--- CHECK - Is blue message box viewing?");
+      }
+
+      function Test_ViewInfo() {
+        console.log("-- Test_ViewInfo");
+        corner_message.view("Info message", CornerMessage.style.info);
+        console.log("--- CHECK - Is blue message box viewing?");
+      }
+
+      function Test_ViewWarn() {
+        console.log("-- Test_ViewWarn");
+        corner_message.view("Warn message", CornerMessage.style.warn);
+        console.log("--- CHECK - Is yellow message box viewing?");
+      }
+
+      function Test_ViewDanger() {
+        console.log("-- Test_ViewDanger");
+        corner_message.view("Danger message", CornerMessage.style.danger);
+        console.log("--- CHECK - Is red message box viewing?");
+      }
+
+      function Test_CloseFromScript() {
+        console.log("-- Test_CloseFromScript");
+        corner_message.close();
+        console.log("--- CHECK - Was message box hide?");
+      }
+
+      async function ErrCheck_MessageNonString() {
+        let test_cases = [{type: "null", obj: null},
+                          {type: "number", obj: 1},
+                          {type: "boolean", obj: true},
+                          {type: "object", obj: {}},
+                          {type: "function", obj: () => {}}];
+        for(const test_case of test_cases) {
+          console.log("-- ErrCheck_MessageNonString - " + test_case.type);
+          try {
+            await corner_message.view(test_case.obj);
+            console.log("--- NG - Error hasn't throwed");
+          } catch(e) {
+            console.log(e);
+            if(e.toString() === "Error: Incorrect argument type, 'mes' must be string.") {
+              console.log("--- OK");
+            } else {
+              console.log("--- NG - Un expected error throwed");
+            }
+          }
+        }
+      }
+
+      async function ErrCheck_EmptyMessage() {
+        console.log("-- ErrCheck_EmptyMessage");
+        try {
+          await corner_message.view("");
+          console.log("--- NG - Error hasn't throwed");
+        } catch(e) {
+          console.log(e);
+          if(e.toString() === "Error: Empty string message.") {
+            console.log("--- OK");
+          } else {
+            console.log("--- NG - Un expected error throwed");
+          }
+        }
+      }
+
+      async function ErrCheck_InvalidStyle() {
+        try {
+          await corner_message.view("any mes", "invalid style");
+          console.log("--- NG - Error hasn't throwed");
+        } catch(e) {
+          console.log(e);
+          if(e.toString() === "Error: Unknown style specified.") {
+            console.log("--- OK");
+          } else {
+            console.log("--- NG - Un expected error throwed");
+          }
+        }
+      }
+
+      window.addEventListener("load", () => {
+        corner_message = new CornerMessage();
+      });
+    </script>
+  </head>
+
+  <body>
+    <input type="button" value="Test_ViewDefault" onclick="Test_ViewDefault()">
+    <input type="button" value="Test_ViewInfo" onclick="Test_ViewInfo()">
+    <input type="button" value="Test_ViewWarn" onclick="Test_ViewWarn()">
+    <input type="button" value="Test_ViewDanger" onclick="Test_ViewDanger()">
+    <input type="button" value="Test_CloseFromScript" onclick="Test_CloseFromScript()">
+    <hr>
+    <input type="button" value="ErrCheck_MessageNonString" onclick="ErrCheck_MessageNonString()">
+    <input type="button" value="ErrCheck_EmptyMessage" onclick="ErrCheck_EmptyMessage()">
+    <input type="button" value="ErrCheck_InvalidStyle" onclick="ErrCheck_InvalidStyle()">
+  </body>
+</html>
