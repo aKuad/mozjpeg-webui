@@ -32,31 +32,31 @@
 
       function Test_ViewDefault() {
         console.log("-- Test_ViewDefault");
-        corner_message.view("Default message");
+        CornerMessage.view("Default message");
         console.log("--- CHECK - Is blue message box viewing?");
       }
 
       function Test_ViewInfo() {
         console.log("-- Test_ViewInfo");
-        corner_message.view("Info message", CornerMessage.style.info);
+        CornerMessage.view("Info message", CornerMessage.style.info);
         console.log("--- CHECK - Is blue message box viewing?");
       }
 
       function Test_ViewWarn() {
         console.log("-- Test_ViewWarn");
-        corner_message.view("Warn message", CornerMessage.style.warn);
+        CornerMessage.view("Warn message", CornerMessage.style.warn);
         console.log("--- CHECK - Is yellow message box viewing?");
       }
 
       function Test_ViewDanger() {
         console.log("-- Test_ViewDanger");
-        corner_message.view("Danger message", CornerMessage.style.danger);
+        CornerMessage.view("Danger message", CornerMessage.style.danger);
         console.log("--- CHECK - Is red message box viewing?");
       }
 
       function Test_CloseFromScript() {
         console.log("-- Test_CloseFromScript");
-        corner_message.close();
+        CornerMessage.close();
         console.log("--- CHECK - Was message box hide?");
       }
 
@@ -69,7 +69,7 @@
         for(const test_case of test_cases) {
           console.log("-- ErrCheck_MessageNonString - " + test_case.type);
           try {
-            await corner_message.view(test_case.obj);
+            await CornerMessage.view(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
             console.log(e);
@@ -85,7 +85,7 @@
       async function ErrCheck_EmptyMessage() {
         console.log("-- ErrCheck_EmptyMessage");
         try {
-          await corner_message.view("");
+          await CornerMessage.view("");
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
           console.log(e);
@@ -99,7 +99,7 @@
 
       async function ErrCheck_InvalidStyle() {
         try {
-          await corner_message.view("any mes", "invalid style");
+          await CornerMessage.view("any mes", "invalid style");
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
           console.log(e);
@@ -110,10 +110,6 @@
           }
         }
       }
-
-      window.addEventListener("load", () => {
-        corner_message = new CornerMessage();
-      });
     </script>
   </head>
 
