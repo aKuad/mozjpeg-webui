@@ -11,6 +11,9 @@
   /** @type {HTMLElement} */
   #list_container;
 
+  /** @type {CSSStyleRule} */
+  #cross_class;
+
 
   /**
    * @constructor
@@ -19,6 +22,16 @@
   constructor(list_container) {
     this.#list_container = list_container;
     this.#list_container.classList.add("RemovableList-container");
+
+    // Get .RemovableList-cross css class object
+    this.#cross_class = null;
+    for(const sheet of document.styleSheets) {
+      for(const rule of sheet.cssRules) {
+        if(rule.selectorText == ".RemovableList-cross") {
+          this.#cross_class = rule;
+        }
+      }
+    }
   }
 
 
@@ -129,6 +142,22 @@
     // Get index and overwrite content
     let write_index = RemovableList.#get_index_by_text(list_items, index);
     list_items[write_index].content = content;
+  }
+
+
+  /**
+   * Hide item remove button
+   */
+  remove_lock() {
+    this.#cross_class.style.display = "none";
+  }
+
+
+  /**
+   * Re display item remove button
+   */
+  remove_unlock() {
+    this.#cross_class.style.display = "";
   }
 
 
