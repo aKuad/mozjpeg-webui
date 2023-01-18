@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/RemovableList/RemovableList.css">
-    <script src="../static/RemovableList/RemovableList.js"></script>
+    <link rel="stylesheet" href="/static/RemovableList/RemovableList.css">
+    <script src="/static/RemovableList/RemovableList.js"></script>
     <style>
       #list-container {
         border: 1px solid #000;
@@ -21,6 +21,8 @@
        *   * Can add custom item to list with overwriting
        *   * Can export all items from list
        *   * Can remove all items from list
+       *   * Can hide item removing button
+       *   * Can re-display item removing button
        *   * Throw error when non array specified to add item
        *     * Expected error message: "Non array object specified as argument."
        *   * Throw error when no arguments specified to add item
@@ -92,6 +94,18 @@
         console.log("--- CHECK - Were all items deleted?");
       }
 
+      function Test_RemoveLock() {
+        console.log("-- Test_RemoveLock");
+        list.remove_lock();
+        console.log("--- CHECK - Is cross button hidden?");
+      }
+
+      function Test_RemoveUnlock() {
+        console.log("-- Test_RemoveUnlock");
+        list.remove_unlock();
+        console.log("--- CHECK - Is cross button re-displayed?");
+      }
+
       function ErrCheck_InvalidArgumentInputs() {
         let test_cases = [{"type": "null", "obj": null},
                           {"type": "number", "obj": 1},
@@ -153,8 +167,10 @@
     <input type="button" value="Test_ItemsExporting" onclick="Test_ItemsExporting()">
     <input type="button" value="Test_ClearList" onclick="Test_ClearList()">
     <hr>
-    <input type="button" value="ErrCheck_InvalidArgumentInputs" onclick="ErrCheck_InvalidArgumentInputs()">
+    <input type="button" value="Test_RemoveLock" onclick="Test_RemoveLock()">
+    <input type="button" value="Test_RemoveUnlock" onclick="Test_RemoveUnlock()">
     <hr>
+    <input type="button" value="ErrCheck_InvalidArgumentInputs" onclick="ErrCheck_InvalidArgumentInputs()">
     <input type="button" value="ErrCheck_InvalidObjectArrayInput" onclick="ErrCheck_InvalidObjectArrayInput()">
     <hr>
     <div id="list-container"></div>
