@@ -6,15 +6,6 @@
  * @author aKuad
  */
 class CornerMessage {
-  /** @type {HTMLDivElement} */
-  #container;
-
-  /** @type {HTMLDivElement} */
-  #mesbox;
-  
-  /** @type {boolean} */
-  #is_viewing;
-
   static style = Object.freeze({
     info:   "CornerMessage-style-info",
     warn:   "CornerMessage-style-warn",
@@ -22,32 +13,7 @@ class CornerMessage {
   });
 
   /** @type {Array<string>} */
-  #style_values;
-
-
-  /**
-   * @constructor
-   */
-  constructor() {
-    // Initialize member variables
-    this.#is_viewing = false;
-    this.#style_values = Object.values(CornerMessage.style);
-
-    // Create message element
-    this.#container = document.createElement("div");
-    this.#container.classList.add("CornerMessage-container");
-
-    this.#mesbox = document.createElement("div");
-    this.#mesbox.classList.add("CornerMessage-mesbox");
-    this.#container.appendChild(this.#mesbox);
-
-    let cross = document.createElement("div");
-    cross.classList.add("CornerMessage-cross");
-    cross.addEventListener("click", () => this.close() );
-    this.#container.appendChild(cross);
-
-    document.body.appendChild(this.#container);
-  }
+  static #style_values = Object.values(CornerMessage.style);
 
 
   /**
@@ -61,7 +27,7 @@ class CornerMessage {
    * @throws {Error} Empty string `mes`
    * @throws {Error} Incorrect argument `style`
    */
-  async view(mes, style = CornerMessage.style.info) {
+  static async view(mes, style = CornerMessage.style.info) {
     // Check is message string
     if(typeof(mes) !== "string") {
       throw new Error("Incorrect argument type, 'mes' must be string.");
@@ -73,25 +39,34 @@ class CornerMessage {
     }
 
     // Check is correct style specified
-    if(!this.#style_values.includes(style)) {
+    if(!CornerMessage.#style_values.includes(style)) {
       throw new Error("Unknown style specified.");
     }
 
     // If previous message viewing, close
-    if(this.#is_viewing) {
-      await this.close();
+    if(document.querySelector("#CornerMessage-container")) {
+      await CornerMessage.close();
     }
 
-    // New message append
-    this.#mesbox.innerText = mes;
+    let container = document.createElement("div");
+    container.id = "CornerMessage-container";
+    container.classList.add(style);
+    container.classList.add("CornerMessage-container-hide");
 
-    // Style append
-    this.#container.classList.remove(...this.#style_values);
-    this.#container.classList.add(style);
-    this.#container.classList.add("CornerMessage-container-view");
+    let mesbox = document.createElement("div");
+    mesbox.id = "CornerMessage-mesbox";
+    mesbox.innerText = mes;
+    container.appendChild(mesbox);
 
-    // Flag update
-    this.#is_viewing = true;
+    let cross = document.createElement("div");
+    cross.id = "CornerMessage-cross";
+    cross.addEventListener("click", () => CornerMessage.close() );
+    container.appendChild(cross);
+
+    document.body.appendChild(container);
+    await new Promise(r => setTimeout(r, 50));  // strangely, it makes stable viewing
+    container.classList.add("CornerMessage-container-view");
+    container.classList.remove("CornerMessage-container-hide");
   }
 
 
@@ -100,9 +75,11 @@ class CornerMessage {
    *
    * @async
    */
-  async close() {
-    this.#container.classList.remove("CornerMessage-container-view");
+  static async close() {
+    let container = document.querySelector("#CornerMessage-container");
+    container.classList.add("CornerMessage-container-hide");
+    container.classList.remove("CornerMessage-container-view");
     await new Promise(r => setTimeout(r, 200));   // Wait for the message hide
-    this.#is_viewing = false;
+    container.remove();
   }
 }

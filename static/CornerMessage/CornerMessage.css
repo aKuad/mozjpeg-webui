@@ -7,10 +7,9 @@
   --CornerMessage-container-margin: 1em;
 }
 
-.CornerMessage-container {
+#CornerMessage-container {
   position: fixed;
   right: var(--CornerMessage-container-margin);
-  bottom: calc(-1 * (var(--CornerMessage-text-height) + var(--CornerMessage-text-padding) * 2 + 1em));
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   border-radius: 1em;
   box-sizing: border-box;
@@ -19,6 +18,9 @@
   transition: bottom 0.2s ease-in-out;
 }
 
+.CornerMessage-container-hide{
+  bottom: calc(-1 * (var(--CornerMessage-text-height) + var(--CornerMessage-text-padding) * 2 + 1em));
+}
 .CornerMessage-container-view {
   bottom: var(--CornerMessage-container-margin);
 }
@@ -33,14 +35,14 @@
   background-color: hsl(0, 50%, 90%);
 }
 
-.CornerMessage-mesbox {
+#CornerMessage-mesbox {
   margin: 0;
   padding: var(--CornerMessage-text-padding);
   padding-right: calc(var(--CornerMessage-cross-size) + var(--CornerMessage-text-padding) * 2);
   line-height: var(--CornerMessage-text-height);
 }
 
-.CornerMessage-cross {
+#CornerMessage-cross {
   position: absolute;
   width: var(--CornerMessage-cross-size);
   height: var(--CornerMessage-cross-size);
@@ -50,10 +52,10 @@
   opacity: 0.6;
   transition: opacity 0.2s;
 }
-.CornerMessage-cross:hover {
+#CornerMessage-cross:hover {
   opacity: 0.2;
 }
-.CornerMessage-cross::before, .CornerMessage-cross::after {
+#CornerMessage-cross::before, #CornerMessage-cross::after {
   display: block;
   position: absolute;
   width: calc(var(--CornerMessage-cross-size) * 1.4);   /* 1.4 as sqrt(2) */
@@ -62,9 +64,9 @@
   border-bottom: 2px solid #000;
   content: "";
 }
-.CornerMessage-cross::before {
+#CornerMessage-cross::before {
   transform: rotate(45deg);
 }
-.CornerMessage-cross::after {
+#CornerMessage-cross::after {
   transform: rotate(-45deg);
 }
