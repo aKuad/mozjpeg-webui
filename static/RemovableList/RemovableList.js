@@ -1,7 +1,7 @@
 /**
  * User removable list, which can contain custom objects with index text
  *
- * `RemovableList.css` requires to link as stylesheet, BEFORE THIS JS IMPORT
+ * `RemovableList.css` requires to link as stylesheet, BEFORE INSTANTIATE `RemovableList` CLASS
  *
  * @property {HTMLElement} list_container A HTML element to view list
  *
