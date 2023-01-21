@@ -41,12 +41,12 @@
   transition: opacity 0.2s;
 }
 .RemovableList-cross:hover {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 .RemovableList-cross::before, .RemovableList-cross::after {
   display: block;
   position: absolute;
-  border-bottom: 2px solid hsl(0, 0%, 20%);
+  border-bottom: 2px solid hsl(0, 0%, 40%);
   width: calc(var(--RemovableList-cross-view) * 1.4);   /* 1.4 as sqrt(2) */
   top: calc(var(--RemovableList-cross-hit) / 2 - 1px);
   /* (move left edge) + (move to center) */
