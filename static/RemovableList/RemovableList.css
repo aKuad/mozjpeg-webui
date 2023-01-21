@@ -10,13 +10,6 @@
 .RemovableList-container {
   padding: 0.5em;
 }
-.RemovableList-container:empty {
-  text-align: center;
-}
-.RemovableList-container:empty::before {
-  font-style: italic;
-  content: "No items";
-}
 
 .RemovableList-item {
   position: relative;
