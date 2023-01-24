@@ -38,12 +38,12 @@
   /**
    * Try adding items to list without overwriting
    *
-   * @param {Array<Object>} objs Custom object and index text contained objects to append
+   * @param {...Object} objs Custom object and index text contained objects to append
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
    * @returns {Array<boolean>} Each objects were - success to add: true, failed: false
    */
-  add_items_no_overwrite(objs) {
+  add_items_no_overwrite(...objs) {
     // Check is argument correct
     RemovableList.#check_appendable_object_error(objs);
 
@@ -77,11 +77,11 @@
   /**
    * Add items to list with resolving index text duplication
    *
-   * @param {Array<Object>} objs Custom object and index text contained objects to append
+   * @param {...Object} objs Custom object and index text contained objects to append
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
    */
-  add_items_keep_each(objs) {
+  add_items_keep_each(...objs) {
     // Check is argument correct
     RemovableList.#check_appendable_object_error(objs);
 
@@ -113,11 +113,11 @@
   /**
    * Add items with overwriting when index was duplicated
    *
-   * @param {Array<Object>} objs Custom object and index text contained objects to append
+   * @param {...Object} objs Custom object and index text contained objects to append
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
    */
-  add_items_overwrite(objs) {
+  add_items_overwrite(...objs) {
     // Check is argument correct
     RemovableList.#check_appendable_object_error(objs);
 
