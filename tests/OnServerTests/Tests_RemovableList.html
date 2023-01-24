@@ -106,27 +106,6 @@
         console.log("--- CHECK - Is cross button re-displayed?");
       }
 
-      function ErrCheck_InvalidArgumentInputs() {
-        let test_cases = [{"type": "null", "obj": null},
-                          {"type": "number", "obj": 1},
-                          {"type": "string", "obj": "hello"},
-                          {"type": "function", "obj": () => {}}];
-        for(const test_case of test_cases) {
-          console.log("-- ErrCheck_InvalidArgumentInput - " + test_case.type);
-          try {
-            list.add_items_no_overwrite(test_case.obj);
-            console.log("--- NG - Error hasn't throwed");
-          } catch(e) {
-            console.log(e);
-            if(e.toString() === "Error: Non array object specified as argument.") {
-              console.log("--- OK");
-            } else {
-              console.log("--- NG - Un expected error throwed");
-            }
-          }
-        }
-      }
-
       function ErrCheck_InvalidObjectArrayInput() {
         let test_cases = [{case: "null",          obj: null,                                errmes: "Incorrect elements detected - null elements"},
                           {case: "No 'index'",    obj: {content: "any_content"},            errmes: "Incorrect elements detected - non string or undefined 'index'"},
@@ -170,7 +149,6 @@
     <input type="button" value="Test_RemoveLock" onclick="Test_RemoveLock()">
     <input type="button" value="Test_RemoveUnlock" onclick="Test_RemoveUnlock()">
     <hr>
-    <input type="button" value="ErrCheck_InvalidArgumentInputs" onclick="ErrCheck_InvalidArgumentInputs()">
     <input type="button" value="ErrCheck_InvalidObjectArrayInput" onclick="ErrCheck_InvalidObjectArrayInput()">
     <hr>
     <div id="list-container"></div>

@@ -257,11 +257,6 @@
       throw new Error("At least 1 argument must be specified, but only 0 passed.");
     }
 
-    // Is array object
-    if(objs === null || typeof(objs.map) !== "function") {
-      throw new Error("Non array object specified as argument.");
-    }
-
     if(objs.map(obj => obj === null).includes(true)) {
       throw new Error("Incorrect elements detected - null elements");
     }
