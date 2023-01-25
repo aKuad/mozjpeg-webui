@@ -3,7 +3,8 @@
 :root {
   --CornerMessage-cross-size: 0.8em;
   --CornerMessage-text-padding: 1em;
-  --CornerMessage-text-height: 1.2em;
+  --CornerMessage-text-height: 1.4em;
+  --CornerMessage-text-line: 3;
   --CornerMessage-container-margin: 1em;
 }
 
@@ -19,7 +20,8 @@
 }
 
 .CornerMessage-container-hide{
-  bottom: calc(-1 * (var(--CornerMessage-text-height) + var(--CornerMessage-text-padding) * 2 + 1em));
+  /* text space + message padding + additional */
+  bottom: calc(-1 * (var(--CornerMessage-text-height) * var(--CornerMessage-text-line) + var(--CornerMessage-text-padding) * 2 + 1em));
 }
 .CornerMessage-container-view {
   bottom: var(--CornerMessage-container-margin);
