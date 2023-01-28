@@ -31,7 +31,7 @@ async function files_from_entry(entry) {
     // Child entries -> File objects
     let files = [];
     for(const child_entry of child_entries) {
-      files = files.concat(await files_from_entry(child_entry));
+      files.push(...await files_from_entry(child_entry));
     }
     return files;
 
