@@ -88,6 +88,13 @@
         console.log("--- CHECK - Were all items content & index printed?");
       }
 
+      function Test_ItemsCounting() {
+        console.log("-- Test_ItemsCounting");
+        const items_count = list.count_items();
+        console.log(items_count);
+        console.log("--- CHECK - Was items count printed?");
+      }
+
       function Test_ClearList() {
         console.log("-- Test_ClearList");
         list.remove_items_all();
@@ -144,6 +151,7 @@
     <input type="button" value="Test_ItemsAddMultipleRandom" onclick="Test_ItemsAddMultipleRandom()">
     <hr>
     <input type="button" value="Test_ItemsExporting" onclick="Test_ItemsExporting()">
+    <input type="button" value="Test_ItemsCounting" onclick="Test_ItemsCounting()">
     <input type="button" value="Test_ClearList" onclick="Test_ClearList()">
     <hr>
     <input type="button" value="Test_RemoveLock" onclick="Test_RemoveLock()">
