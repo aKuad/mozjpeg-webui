@@ -177,6 +177,16 @@
 
 
   /**
+   * Get items count in list
+   *
+   * @returns {number} Count of items in list
+   */
+  count_items() {
+    return this.#list_container.children.length;
+  }
+
+
+  /**
    * Remove all items from DOM
    */
   remove_items_all() {
