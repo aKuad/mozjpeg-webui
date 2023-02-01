@@ -1,7 +1,8 @@
 @charset "UTF-8";
 
 :root {
-  --CornerMessage-cross-size: 0.8em;
+  --CornerMessage-cross-view: 0.7em;
+  --CornerMessage-cross-hit: 2em;
   --CornerMessage-text-padding: 1em;
   --CornerMessage-text-height: 1.4em;
   --CornerMessage-text-line: 3;
@@ -40,15 +41,15 @@
 #CornerMessage-mesbox {
   margin: 0;
   padding: var(--CornerMessage-text-padding);
-  padding-right: calc(var(--CornerMessage-cross-size) + var(--CornerMessage-text-padding) * 2);
+  padding-right: calc(var(--CornerMessage-cross-hit) + var(--CornerMessage-text-padding) * 2);
   line-height: var(--CornerMessage-text-height);
 }
 
 #CornerMessage-cross {
   position: absolute;
-  width: var(--CornerMessage-cross-size);
-  height: var(--CornerMessage-cross-size);
-  top: calc(var(--CornerMessage-text-padding) + (var(--CornerMessage-text-height) - var(--CornerMessage-cross-size)) / 2);
+  width: var(--CornerMessage-cross-hit);
+  height: var(--CornerMessage-cross-hit);
+  top: calc(var(--CornerMessage-text-padding) + (var(--CornerMessage-text-height) - var(--CornerMessage-cross-hit)) / 2);
   right: var(--CornerMessage-text-padding);
   cursor: pointer;
   opacity: 0.6;
@@ -60,9 +61,10 @@
 #CornerMessage-cross::before, #CornerMessage-cross::after {
   display: block;
   position: absolute;
-  width: calc(var(--CornerMessage-cross-size) * 1.4);   /* 1.4 as sqrt(2) */
-  top: calc(var(--CornerMessage-cross-size) / 2 - 1px);
-  right: calc(var(--CornerMessage-cross-size) * -0.2);  /* (1.4 - 1) / 2 = 0.2 */
+  width: calc(var(--CornerMessage-cross-view) * 1.4);   /* 1.4 as sqrt(2) */
+  top: calc(var(--CornerMessage-cross-hit) / 2 - 1px);
+  /* (move left edge) + (move to center) */
+  left: calc((-1 * var(--CornerMessage-cross-view) * 1.4 / 2) + (var(--CornerMessage-cross-hit) / 2));
   border-bottom: 2px solid #000;
   content: "";
 }
