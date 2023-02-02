@@ -16,7 +16,7 @@
   word-break: break-all;
   line-height: var(--RemovableList-text-height);
   padding: var(--RemovableList-text-padding);
-  padding-right: calc(var(--RemovableList-text-padding) * 2 + var(--RemovableList-cross-view));
+  padding-right: calc(var(--RemovableList-text-padding) * 2 + var(--RemovableList-cross-hit));
   border-bottom: 1px solid hsl(0, 0%, 50%);
 }
 .RemovableList-item:last-child {
