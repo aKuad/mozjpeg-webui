@@ -5,10 +5,11 @@
     <link rel="stylesheet" href="/static/RemovableList/RemovableList.css">
     <script src="/static/RemovableList/RemovableList.js"></script>
     <style>
-      #list-container {
+      #list-container, #list-container-call {
         border: 1px solid #000;
         width: 400px;
         min-height: 300px;
+        margin-bottom: 10px;
       }
     </style>
     <script>
@@ -24,6 +25,7 @@
        *   * Can remove all items from list
        *   * Can hide item removing button
        *   * Can re-display item removing button
+       *   * Can execute specified callback when removing button clicked
        *   * Throw error when non array specified to add item
        *     * Expected error message: "Non array object specified as argument."
        *   * Throw error when no arguments specified to add item
@@ -136,8 +138,15 @@
         }
       }
 
+      function Test_OnRemoveCallback() {
+        console.log("-- Test_OnRemoveCallback");
+        console.log("--- OK");
+      }
+
       window.addEventListener("load", () => {
         list = new RemovableList(document.querySelector("#list-container"));
+        list_call = new RemovableList(document.querySelector("#list-container-call"), Test_OnRemoveCallback);
+        list_call.add_items_no_overwrite({content: "content", index: "On remove callback check"});
       });
     </script>
   </head>
@@ -162,5 +171,6 @@
     <input type="button" value="ErrCheck_InvalidObjectArrayInput" onclick="ErrCheck_InvalidObjectArrayInput()">
     <hr>
     <div id="list-container"></div>
+    <div id="list-container-call"></div>
   </body>
 </html>

@@ -14,14 +14,19 @@
   /** @type {CSSStyleRule} */
   #cross_class;
 
+  /** @type {function} */
+  #onremove_callback;
+
 
   /**
    * @constructor
    * @param list_container A HTML element to view list
+   * @param {function} onremove_callback Will call when remove button clicked
    */
-  constructor(list_container) {
+  constructor(list_container, onremove_callback = null) {
     this.#list_container = list_container;
     this.#list_container.classList.add("RemovableList-container");
+    this.#onremove_callback = onremove_callback;
 
     // Get .RemovableList-cross css class object
     this.#cross_class = null;
@@ -49,7 +54,7 @@
 
     // Process all elements
     let list_items = Array.from(this.#list_container.children);
-    let add_results = objs.map(obj => RemovableList.#add_items_no_overwrite_core(list_items, obj.content, obj.index));
+    let add_results = objs.map(obj => this.#add_items_no_overwrite_core(list_items, obj.content, obj.index));
     this.#view_update(list_items);
     return add_results;
   }
@@ -63,12 +68,12 @@
    * @param {string} index Text to view in list
    * @returns {boolean} Success to add: true, failed: false
    */
-  static #add_items_no_overwrite_core(list_items, content, index) {
+  #add_items_no_overwrite_core(list_items, content, index) {
     // Check is same index not exist
     if(RemovableList.#get_index_by_text(list_items, index) !== -1) { return false; }
 
     // Create item element and append
-    let new_item = RemovableList.#create_item_element(content, index);
+    let new_item = this.#create_item_element(content, index);
     list_items.push(new_item);
     return true;
   }
@@ -87,7 +92,7 @@
 
     // Process all elements
     let list_items = Array.from(this.#list_container.children);
-    objs.map(obj => RemovableList.#add_items_keep_each_core(list_items, obj.content, obj.index));
+    objs.map(obj => this.#add_items_keep_each_core(list_items, obj.content, obj.index));
     this.#view_update(list_items);
   }
 
@@ -99,11 +104,11 @@
    * @param {*} content Object to append in new item
    * @param {string} index Text to view in list
    */
-  static #add_items_keep_each_core(list_items, content, index) {
+  #add_items_keep_each_core(list_items, content, index) {
     let suffix = "";
     let suffix_num = 0;
     while(true) {
-      if(RemovableList.#add_items_no_overwrite_core(list_items, content, index + suffix)) { return; }
+      if(this.#add_items_no_overwrite_core(list_items, content, index + suffix)) { return; }
       suffix_num++;
       suffix = "_" + suffix_num.toString();
     }
@@ -123,7 +128,7 @@
 
     // Process all elements
     let list_items = Array.from(this.#list_container.children);
-    objs.map(obj => RemovableList.#add_items_overwrite_core(list_items, obj.content, obj.index));
+    objs.map(obj => this.#add_items_overwrite_core(list_items, obj.content, obj.index));
     this.#view_update(list_items);
   }
 
@@ -135,9 +140,9 @@
    * @param {*} content Object to append in new item
    * @param {string} index Text to view in list
    */
-  static #add_items_overwrite_core(list_items, content, index) {
+  #add_items_overwrite_core(list_items, content, index) {
     // Try to add without overwriting
-    if(RemovableList.#add_items_no_overwrite_core(list_items, content, index)) { return; }
+    if(this.#add_items_no_overwrite_core(list_items, content, index)) { return; }
 
     // Get index and overwrite content
     let write_index = RemovableList.#get_index_by_text(list_items, index);
@@ -230,7 +235,7 @@
    * @param {string} index Text to view in list
    * @returns {HTMLDivElement} Created element object
    */
-  static #create_item_element(content, index) {
+  #create_item_element(content, index) {
     // Create base element
     let ele = document.createElement("div");
     ele.classList.add("RemovableList-item");
@@ -243,6 +248,9 @@
     ele_cross.addEventListener("click", e => {
       e.target.parentNode.remove();
     });
+    if(this.#onremove_callback !== null) {
+      ele_cross.addEventListener("click", this.#onremove_callback);
+    }
     ele.appendChild(ele_cross);
 
     return ele;
