@@ -2,6 +2,8 @@
 
 JPEG optimizing web app
 
+![Screen shot](/imgs/screen.webp)
+
 ## Features
 
 * Written with only plain HTML/CSS/JavaScript frontend
@@ -9,11 +11,15 @@ JPEG optimizing web app
 
 ## Useage
 
-Drag&drop files to file input field, or click the field to select files.
+Click "Add files" to select files. (or drag&drop files here)
 
-Execute optimizing, clicking button.
+![Demo - Add files](imgs/demo-1.webp)
 
-File save dialog will open, and save processed file.
+Click "Process" to execute optimizing.
+
+![Demo - Process](imgs/demo-2.webp)
+
+File saving dialog will open, and save processed file.
 
 ## Deployments
 
@@ -46,7 +52,7 @@ cmake -G"Unix Makefiles" -DPNG_SUPPORTED=0 ./
 sudo make install/local
 ```
 
-### Install required python modules
+### Install required python packages
 
 > **Note**
 > If you need, work in virtual environment.
@@ -91,9 +97,9 @@ So main source divided `main_3-8.py` and `main_3-9.py` because of that reason.
 
 ### Why annotation necessary?
 
-In fast api, data type cheking work with type annotation.
+In fast api, data type cheking works with type annotation.
 
-An api `/api/jpegs-opt`, requires file input (can be multiple).
+An api `/api/jpegs-opt` requires file input (can be multiple).
 And type checking supplied by FastAPI.
 
 ```py
@@ -101,7 +107,7 @@ And type checking supplied by FastAPI.
 async def jpegs_opt(files: list[UploadFile] = File(...)):
 ```
 
-So annotation support was necessary.
+So annotation support is necessary.
 
 ## License
 
