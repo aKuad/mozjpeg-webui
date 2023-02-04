@@ -1,4 +1,6 @@
 /**
+ * mozjpeg-webui frontend main
+ *
  * @author aKuad
  */
 
@@ -115,7 +117,7 @@ window.addEventListener("load", () => {
 
 
 /**
- * @param {RemovableList} filesList 
+ * @param {RemovableList} filesList Files list to control
  */
 function controls_lock(filesList) {
   filesList.remove_lock();
@@ -128,7 +130,7 @@ function controls_lock(filesList) {
 
 
 /**
- * @param {RemovableList} filesList 
+ * @param {RemovableList} filesList Files list to control
  */
 function controls_unlock(filesList) {
   filesList.remove_unlock();
@@ -141,7 +143,7 @@ function controls_unlock(filesList) {
 
 
 /**
- * @param {RemovableList} filesList 
+ * @param {RemovableList} filesList Files list to read item count
  */
 function toggle_process_available(filesList) {
   if(filesList.count_items() === 0) {
