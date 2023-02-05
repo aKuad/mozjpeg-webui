@@ -53,8 +53,8 @@
     RemovableList.#check_appendable_object_error(objs);
 
     // Process all elements
-    let list_items = Array.from(this.#list_container.children);
-    let add_results = objs.map(obj => this.#add_items_no_overwrite_core(list_items, obj.content, obj.index));
+    const list_items = Array.from(this.#list_container.children);
+    const add_results = objs.map(obj => this.#add_items_no_overwrite_core(list_items, obj.content, obj.index));
     this.#view_update(list_items);
     return add_results;
   }
@@ -73,7 +73,7 @@
     if(RemovableList.#get_index_by_text(list_items, index) !== -1) { return false; }
 
     // Create item element and append
-    let new_item = this.#create_item_element(content, index);
+    const new_item = this.#create_item_element(content, index);
     list_items.push(new_item);
     return true;
   }
@@ -91,7 +91,7 @@
     RemovableList.#check_appendable_object_error(objs);
 
     // Process all elements
-    let list_items = Array.from(this.#list_container.children);
+    const list_items = Array.from(this.#list_container.children);
     objs.map(obj => this.#add_items_keep_each_core(list_items, obj.content, obj.index));
     this.#view_update(list_items);
   }
@@ -127,7 +127,7 @@
     RemovableList.#check_appendable_object_error(objs);
 
     // Process all elements
-    let list_items = Array.from(this.#list_container.children);
+    const list_items = Array.from(this.#list_container.children);
     objs.map(obj => this.#add_items_overwrite_core(list_items, obj.content, obj.index));
     this.#view_update(list_items);
   }
@@ -145,7 +145,7 @@
     if(this.#add_items_no_overwrite_core(list_items, content, index)) { return; }
 
     // Get index and overwrite content
-    let write_index = RemovableList.#get_index_by_text(list_items, index);
+    const write_index = RemovableList.#get_index_by_text(list_items, index);
     list_items[write_index].content = content;
   }
 
@@ -174,10 +174,9 @@
    * @property {string} Array[].index Text viewing in list
    */
   export_items_all() {
-    let items = Array.from(this.#list_container.children, e => {
+    return Array.from(this.#list_container.children, e => {
       return {content: e.content, index: e.innerText};
     });
-    return items;
   }
 
 
@@ -202,10 +201,10 @@
   /**
    * Sort items and update DOM
    *
-   * @param {Array<HTMLDivElement>} items Item array to modify
+   * @param {Array<HTMLDivElement>} items Item array to append
    */
   #view_update(items) {
-    let items_sort = Array.from(items);
+    const items_sort = Array.from(items);
     items_sort.sort((a, b) => {
       if(a.innerText < b.innerText) { return -1; }
       if(a.innerText > b.innerText) { return 1; }
@@ -223,7 +222,7 @@
    * @returns {number} Index number or -1 as not found
    */
   static #get_index_by_text(list_items, search_text) {
-    let list_texts = Array.from(list_items, e => e.innerText);
+    const list_texts = Array.from(list_items, e => e.innerText);
     return list_texts.indexOf(search_text);
   }
 
@@ -237,13 +236,13 @@
    */
   #create_item_element(content, index) {
     // Create base element
-    let ele = document.createElement("div");
+    const ele = document.createElement("div");
     ele.classList.add("RemovableList-item");
     ele.content = content;
     ele.innerText = index;
 
     // Create and append removing button
-    let ele_cross = document.createElement("div");
+    const ele_cross = document.createElement("div");
     ele_cross.classList.add("RemovableList-cross");
     ele_cross.addEventListener("click", e => {
       e.target.parentNode.remove();

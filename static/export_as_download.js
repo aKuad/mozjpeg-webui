@@ -16,14 +16,13 @@ function export_as_download(blob, name = "file") {
   }
 
   // Check input is Blob or File object
-  if(!is_blob_or_file(blob))
-  {
+  if(!is_blob_or_file(blob)) {
     throw new Error("Other than Blob or File object can't export.");
   }
 
   // Create link element (linked to object downloading)
-  let url = URL.createObjectURL(blob);
-  let elem = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  const elem = document.createElement("a");
   elem.download = name;
   elem.href = url;
 
@@ -54,7 +53,7 @@ function is_blob_or_file(obj) {
   }
 
   // Check is in true cases
-  let true_cases = ["[object Blob]", "[object File]"];
-  let obj_string = obj.toString();
+  const true_cases = ["[object Blob]", "[object File]"];
+  const obj_string = obj.toString();
   return true_cases.includes(obj_string);
 }

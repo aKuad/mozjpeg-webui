@@ -48,17 +48,17 @@ class CornerMessage {
       await CornerMessage.close();
     }
 
-    let container = document.createElement("div");
+    const container = document.createElement("div");
     container.id = "CornerMessage-container";
     container.classList.add(style);
     container.classList.add("CornerMessage-container-hide");
 
-    let mesbox = document.createElement("div");
+    const mesbox = document.createElement("div");
     mesbox.id = "CornerMessage-mesbox";
     mesbox.innerText = mes;
     container.appendChild(mesbox);
 
-    let cross = document.createElement("div");
+    const cross = document.createElement("div");
     cross.id = "CornerMessage-cross";
     cross.addEventListener("click", () => CornerMessage.close() );
     container.appendChild(cross);
@@ -76,7 +76,7 @@ class CornerMessage {
    * @async
    */
   static async close() {
-    let container = document.querySelector("#CornerMessage-container");
+    const container = document.querySelector("#CornerMessage-container");
     container.classList.add("CornerMessage-container-hide");
     container.classList.remove("CornerMessage-container-view");
     await new Promise(r => setTimeout(r, 200));   // Wait for the message hide

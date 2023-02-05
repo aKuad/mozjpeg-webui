@@ -36,18 +36,18 @@
       async function Test_ReadingFiles(e) {
         console.log("-- Test_ReadingFiles");
         for(entry of e.target.webkitEntries) {
-          let files = await files_from_entry(entry);
+          const files = await files_from_entry(entry);
           console.log(files);
         }
         console.log("--- CHECK - Are all files detected?");
       }
 
       async function ErrCheck_NonEntryInputs() {
-        let test_cases = [{"type": "null", "obj": null},
-                          {"type": "number", "obj": 1},
-                          {"type": "string", "obj": "hello"},
-                          {"type": "function", "obj": () => {}},
-                          {"type": "custom_object", "obj": {}}];
+        const test_cases = [{"type": "null", "obj": null},
+                            {"type": "number", "obj": 1},
+                            {"type": "string", "obj": "hello"},
+                            {"type": "function", "obj": () => {}},
+                            {"type": "custom_object", "obj": {}}];
         for(const test_case of test_cases) {
           console.log("-- ErrCheck_NonBlobInput - " + test_case.type)
           try {

@@ -61,11 +61,11 @@
       }
 
       async function ErrCheck_MessageNonString() {
-        let test_cases = [{type: "null", obj: null},
-                          {type: "number", obj: 1},
-                          {type: "boolean", obj: true},
-                          {type: "object", obj: {}},
-                          {type: "function", obj: () => {}}];
+        const test_cases = [{type: "null", obj: null},
+                            {type: "number", obj: 1},
+                            {type: "boolean", obj: true},
+                            {type: "object", obj: {}},
+                            {type: "function", obj: () => {}}];
         for(const test_case of test_cases) {
           console.log("-- ErrCheck_MessageNonString - " + test_case.type);
           try {

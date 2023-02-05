@@ -47,14 +47,14 @@
 
       function Test_ItemAddingNoOverwrite() {
         console.log("-- Test_ItemAddingNoOverwrite");
-        let append_obj = Part_CreateAppendObj();
+        const append_obj = Part_CreateAppendObj();
         console.log(list.add_items_no_overwrite(append_obj));
         console.log("--- CHECK - Was item added? or ignored when same index specified?");
       }
 
       function Test_ItemAddAutoRename() {
         console.log("-- Test_ItemAddAutoRename");
-        let append_obj = Part_CreateAppendObj();
+        const append_obj = Part_CreateAppendObj();
         list.add_items_keep_each(append_obj);
         console.log("--- CHECK - Was item added with index name_n");
       }
@@ -64,7 +64,7 @@
         console.log("[Before modification]");
         console.log(list.export_items_all());
         console.log("[After mofification]");
-        let append_obj = Part_CreateAppendObj();
+        const append_obj = Part_CreateAppendObj();
         list.add_items_overwrite(append_obj);
         console.log(list.export_items_all());
         console.log("--- CHECK - Was item content updated?");
@@ -77,7 +77,7 @@
 
       function Test_ItemsAddMultipleRandom() {
         console.log("-- Test_ItemsAddMultipleRandom");
-        let append_objs = [];
+        const append_objs = [];
         for(let i = 0; i < 1000; i++) {
           append_objs.push({content: Math.random().toString(), index: Math.random().toString()});
         }
@@ -87,7 +87,7 @@
 
       function Test_ItemsExporting() {
         console.log("-- Test_ItemsExporting");
-        let items = list.export_items_all();
+        const items = list.export_items_all();
         console.log(items);
         console.log("--- CHECK - Were all items content & index printed?");
       }
@@ -118,10 +118,10 @@
       }
 
       function ErrCheck_InvalidObjectArrayInput() {
-        let test_cases = [{case: "null",          obj: null,                                errmes: "Incorrect elements detected - null elements"},
-                          {case: "No 'index'",    obj: {content: "any_content"},            errmes: "Incorrect elements detected - non string or undefined 'index'"},
-                          {case: "Empty 'index'", obj: {content: "any_content", index: ""}, errmes: "Incorrect elements detected - empty string 'index'"},
-                          {case: "No 'content'",  obj: {index: "any_index"},                errmes: "Incorrect elements detected - undefined 'content'"}];
+        const test_cases = [{case: "null",          obj: null,                                errmes: "Incorrect elements detected - null elements"},
+                            {case: "No 'index'",    obj: {content: "any_content"},            errmes: "Incorrect elements detected - non string or undefined 'index'"},
+                            {case: "Empty 'index'", obj: {content: "any_content", index: ""}, errmes: "Incorrect elements detected - empty string 'index'"},
+                            {case: "No 'content'",  obj: {index: "any_index"},                errmes: "Incorrect elements detected - undefined 'content'"}];
         for(const test_case of test_cases) {
           console.log("-- ErrCheck_InvalidObjectArrayInput - " + test_case.case);
           try {
