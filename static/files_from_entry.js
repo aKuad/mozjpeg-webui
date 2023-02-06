@@ -52,6 +52,7 @@ async function files_from_entry(entry) {
  * @returns {File} Renamed file object
  */
 function file_obj_rename(file, name) {
+  // Re-creating file object, because name field is read-only
   return new File([file], name, {type: file.type, lastModified: file.lastModified});
 }
 

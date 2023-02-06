@@ -194,6 +194,7 @@
    * Remove all items from DOM
    */
   remove_items_all() {
+    // Replace to empty, means all child elements remove
     this.#list_container.replaceChildren();
   }
 

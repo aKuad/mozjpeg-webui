@@ -6,6 +6,7 @@
  * @author aKuad
  */
 class CornerMessage {
+  // type unspecified, because of code suggesting
   static style = Object.freeze({
     info:   "CornerMessage-style-info",
     warn:   "CornerMessage-style-warn",
