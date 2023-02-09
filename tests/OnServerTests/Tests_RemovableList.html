@@ -128,10 +128,10 @@
             list.add_items_overwrite(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
-            console.log(e);
             if(e.toString() === ("Error: " + test_case.errmes)) {
               console.log("--- OK");
             } else {
+              console.log(e);
               console.log("--- NG - Un expected error throwed");
             }
           }

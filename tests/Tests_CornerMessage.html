@@ -72,10 +72,10 @@
             await CornerMessage.view(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
-            console.log(e);
             if(e.toString() === "Error: Incorrect argument type, 'mes' must be string.") {
               console.log("--- OK");
             } else {
+              console.log(e);
               console.log("--- NG - Un expected error throwed");
             }
           }
@@ -88,10 +88,10 @@
           await CornerMessage.view("");
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          console.log(e);
           if(e.toString() === "Error: Empty string message.") {
             console.log("--- OK");
           } else {
+            console.log(e);
             console.log("--- NG - Un expected error throwed");
           }
         }
@@ -102,10 +102,10 @@
           await CornerMessage.view("any mes", "invalid style");
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          console.log(e);
           if(e.toString() === "Error: Unknown style specified.") {
             console.log("--- OK");
           } else {
+            console.log(e);
             console.log("--- NG - Un expected error throwed");
           }
         }

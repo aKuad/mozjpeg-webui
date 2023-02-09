@@ -54,10 +54,10 @@
             await files_from_entry(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
-            console.log(e);
             if(e.toString() === "Error: Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object.") {
               console.log("--- OK");
             } else {
+              console.log(e);
               console.log("--- NG - Un expected error throwed");
             }
           }
@@ -70,10 +70,10 @@
           await files_from_entry();
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          console.log(e);
           if(e.toString() === "Error: At least 1 argument must be specified, but only 0 passed.") {
             console.log("--- OK");
           } else {
+            console.log(e);
             console.log("--- NG - Un expected error throwed");
           }
         }
