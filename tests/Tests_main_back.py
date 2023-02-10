@@ -68,8 +68,8 @@ def ErrCheck_NonJpeg():
   files = [("files", ("invalid.txt", open("invalid.txt", "rb"), "text/plain"))]
   res = requests.post(API_URL, files=files)
 
-  print(res.content)
   if int(res.status_code / 100) != 4:
+    print(res.content)
     print("--- NG - Client error wasn's occured")
     return
 
@@ -77,6 +77,7 @@ def ErrCheck_NonJpeg():
   if res_dict["detail"] == "Non jpeg input":
     print("--- OK")
   else:
+    print(res.content)
     print("--- NG - Unexpected error occured")
 
 
@@ -85,8 +86,8 @@ def ErrCheck_InvalidJpeg():
   files = [("files", ("invalid.jpg", open("invalid.jpg", "rb"), "image/jpeg"))]
   res = requests.post(API_URL, files=files)
 
-  print(res.content)
   if int(res.status_code / 100) != 4:
+    print(res.content)
     print("--- NG - Client error wasn's occured")
     return
 
@@ -94,6 +95,7 @@ def ErrCheck_InvalidJpeg():
   if res_dict["detail"] == "Invalid jpeg input":
     print("--- OK")
   else:
+    print(res.content)
     print("--- NG - Unexpected error occured")
 
 
@@ -102,8 +104,8 @@ def ErrCheck_NoNameFile():
   files = [("files", ("", open("img.jpg", "rb"), "image/jpeg"))]
   res = requests.post(API_URL, files=files)
 
-  print(res.content)
   if int(res.status_code / 100) != 4:
+    print(res.content)
     print("--- NG - Client error wasn's occured")
     return
 
@@ -111,6 +113,7 @@ def ErrCheck_NoNameFile():
   if res_dict["detail"] == "Empty filename detected":
     print("--- OK")
   else:
+    print(res.content)
     print("--- NG - Unexpected error occured")
 
 
@@ -118,8 +121,8 @@ def ErrCheck_NoBody():
   print("-- ErrCheck_NoBody")
   res = requests.post(API_URL)
 
-  print(res.content)
   if int(res.status_code / 100) != 4:
+    print(res.content)
     print("--- NG - Client error wasn's occured")
     return
 
@@ -127,6 +130,7 @@ def ErrCheck_NoBody():
   if res_dict["detail"][0]["type"] == "value_error.missing":
     print("--- OK")
   else:
+    print(res.content)
     print("--- NG - Unexpected error occured")
 
 

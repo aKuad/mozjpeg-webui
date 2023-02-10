@@ -21,7 +21,7 @@
        *   2. Open JavaScript console
        *   3. Click page's test buttons and check console output
        *   4. Input an any file for `Test_ExportCustomFile`
-       * 
+       *
        * @author aKuad
        */
 
@@ -46,21 +46,21 @@
       }
 
       function ErrCheck_NonBlobInputs() {
-        let test_cases = [{"type": "null", "obj": null},
-                          {"type": "number", "obj": 1},
-                          {"type": "string", "obj": "hello"},
-                          {"type": "function", "obj": () => {}},
-                          {"type": "custom_object", "obj": {}}];
+        const test_cases = [{"type": "null", "obj": null},
+                            {"type": "number", "obj": 1},
+                            {"type": "string", "obj": "hello"},
+                            {"type": "function", "obj": () => {}},
+                            {"type": "custom_object", "obj": {}}];
         test_cases.forEach(test_case => {
           console.log("-- ErrCheck_NonBlobInput - " + test_case.type);
           try {
             export_as_download(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
-            console.log(e);
             if(e.toString() === "Error: Other than Blob or File object can't export.") {
               console.log("--- OK");
             } else {
+              console.log(e);
               console.log("--- NG - Un expected error throwed");
             }
           }
@@ -73,10 +73,10 @@
           export_as_download();
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          console.log(e);
           if(e.toString() === "Error: At least 1 argument must be specified, but only 0 passed.") {
             console.log("--- OK");
           } else {
+            console.log(e);
             console.log("--- NG - Un expected error throwed");
           }
         }
@@ -90,14 +90,12 @@
 
   <body>
     <input type="button" value="Test_ExportTextFile" onclick="Test_ExportTextFile()">
-    <hr>
     <input type="button" value="Test_ExportNamedTextFile" onclick="Test_ExportTextFileWithName()">
     <hr>
     Test_ExportCustomFile:
     <input type="file" id="Test_ExportCustomFile">
     <hr>
     <input type="button" value="ErrCheck_NonBlobInput" onclick="ErrCheck_NonBlobInputs()">
-    <hr>
     <input type="button" value="ErrCheck_NoArgument" onclick="ErrCheck_NoArgument()">
   </body>
 </html>

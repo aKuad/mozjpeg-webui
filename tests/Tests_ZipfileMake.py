@@ -106,7 +106,6 @@ def ErrCheck_InvalidCompmode():
     zipfilemake = ZipfileMake("hoge")
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
-    print(e)
     print("--- OK")
   except BaseException as e:
     print(e)
@@ -119,7 +118,6 @@ def ErrCheck_InvalidComplevelDeflated():
     zipfilemake = ZipfileMake("deflated", 10)
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
-    print(e)
     print("--- OK")
   except BaseException as e:
     print(e)
@@ -132,7 +130,6 @@ def ErrCheck_InvalidComplevelBzip2():
     zipfilemake = ZipfileMake("bzip2", 10)
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
-    print(e)
     print("--- OK")
   except BaseException as e:
     print(e)

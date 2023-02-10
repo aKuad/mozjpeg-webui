@@ -15,7 +15,7 @@
        *   * Can view red message box
        *   * Can close message box clicking X button
        *   * Can close message box from code
-       *   * Throw error when non string specified as message 
+       *   * Throw error when non string specified as message
        *     * Expected error message: "Incorrect argument type, 'mes' must be string."
        *   * Throw error when empty string specified as message
        *     * Expected error message: "Empty string message."
@@ -61,21 +61,21 @@
       }
 
       async function ErrCheck_MessageNonString() {
-        let test_cases = [{type: "null", obj: null},
-                          {type: "number", obj: 1},
-                          {type: "boolean", obj: true},
-                          {type: "object", obj: {}},
-                          {type: "function", obj: () => {}}];
+        const test_cases = [{type: "null", obj: null},
+                            {type: "number", obj: 1},
+                            {type: "boolean", obj: true},
+                            {type: "object", obj: {}},
+                            {type: "function", obj: () => {}}];
         for(const test_case of test_cases) {
           console.log("-- ErrCheck_MessageNonString - " + test_case.type);
           try {
             await CornerMessage.view(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
-            console.log(e);
             if(e.toString() === "Error: Incorrect argument type, 'mes' must be string.") {
               console.log("--- OK");
             } else {
+              console.log(e);
               console.log("--- NG - Un expected error throwed");
             }
           }
@@ -88,10 +88,10 @@
           await CornerMessage.view("");
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          console.log(e);
           if(e.toString() === "Error: Empty string message.") {
             console.log("--- OK");
           } else {
+            console.log(e);
             console.log("--- NG - Un expected error throwed");
           }
         }
@@ -102,10 +102,10 @@
           await CornerMessage.view("any mes", "invalid style");
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          console.log(e);
           if(e.toString() === "Error: Unknown style specified.") {
             console.log("--- OK");
           } else {
+            console.log(e);
             console.log("--- NG - Un expected error throwed");
           }
         }

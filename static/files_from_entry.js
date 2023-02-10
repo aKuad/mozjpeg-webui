@@ -24,12 +24,11 @@ async function files_from_entry(entry) {
 
   if(entry.isDirectory) {
     // DirectoryEntry -> Directory/FileEntries (child entries)
-    let reader = entry.createReader();
-    let child_entries = await new Promise(resolve => {
-      reader.readEntries(entries => { resolve(entries); });
+    const child_entries = await new Promise(resolve => {
+      entry.createReader().readEntries(entries => { resolve(entries); });
     });
     // Child entries -> File objects
-    let files = [];
+    const files = [];
     for(const child_entry of child_entries) {
       files.push(...await files_from_entry(child_entry));
     }
@@ -37,7 +36,7 @@ async function files_from_entry(entry) {
 
   } else {
     // FileEntry -> File object
-    let file = await new Promise(resolve => {
+    const file = await new Promise(resolve => {
       entry.file(f => { resolve(f); });
     });
     return [file_obj_rename(file, entry.fullPath)];
@@ -53,6 +52,7 @@ async function files_from_entry(entry) {
  * @returns {File} Renamed file object
  */
 function file_obj_rename(file, name) {
+  // Re-creating file object, because name field is read-only
   return new File([file], name, {type: file.type, lastModified: file.lastModified});
 }
 
@@ -75,8 +75,8 @@ function is_file_or_directory_entry(obj) {
   }
 
   // Check is in true cases
-  let true_cases = ["[object DirectoryEntry]", "[object FileEntry]",
-                    "[object FileSystemDirectoryEntry]", "[object FileSystemFileEntry]"];
-  let obj_string = obj.toString();
+  const true_cases = ["[object DirectoryEntry]", "[object FileEntry]",
+                      "[object FileSystemDirectoryEntry]", "[object FileSystemFileEntry]"];
+  const obj_string = obj.toString();
   return true_cases.includes(obj_string);
 }
