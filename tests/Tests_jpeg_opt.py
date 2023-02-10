@@ -53,7 +53,6 @@ def ErrCheck_NonJpegInput():
     jpeg_opt(b"a")  # "a" as non jpeg input
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
-    print(e)
     print("--- OK")
   except BaseException as e:
     print(e)
@@ -67,7 +66,6 @@ def ErrCheck_NonExistCommand():
     jpeg_opt(org, "a") # "a" as non exist command
     print("--- NG - Exception hasn't raised")
   except OSError as e:
-    print(e)
     print("--- OK")
   except BaseException as e:
     print(e)
