@@ -1,6 +1,7 @@
 # mozjpeg-webui
 
 ![Release](https://img.shields.io/github/v/release/akuad/mozjpeg-webui?label=Latest%20release)
+![License](https://img.shields.io/github/license/aKuad/mozjpeg-webui?label=License)
 
 JPEG optimizing web app
 
