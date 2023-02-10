@@ -2,25 +2,36 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/RemovableList/RemovableList.css">
-    <script src="../static/RemovableList/RemovableList.js"></script>
+    <link rel="stylesheet" href="/static/RemovableList/RemovableList.css">
+    <script src="/static/RemovableList/RemovableList.js"></script>
     <style>
-      #list-container {
+      #list-container, #list-container-call {
         border: 1px solid #000;
         width: 400px;
         min-height: 300px;
+        margin-bottom: 10px;
       }
     </style>
     <script>
       /**
        * Tests for `RemovableList.js` module
        *
+       * Note:
+       *   This module accesses to css class objects.
+       *   It requires on HTTP connection running.
+       *   Please run it through `main.py` (a temporary HTTP server program).
+       *   About requirements, see `main.py` docstring.
+       *
        * Test cases:
        *   * Can add custom item to list without overwriting
        *   * Can add custom item to list with auto renaming
        *   * Can add custom item to list with overwriting
        *   * Can export all items from list
+       *   * Can output count of items in list
        *   * Can remove all items from list
+       *   * Can hide item removing button
+       *   * Can re-display item removing button
+       *   * Can execute specified callback when removing button clicked
        *   * Throw error when non array specified to add item
        *     * Expected error message: "Non array object specified as argument."
        *   * Throw error when no arguments specified to add item
@@ -30,26 +41,27 @@
        *     * Expected error message: "Incorrect elements detected in argument."
        *
        * Test steps:
-       *   1. Open this HTML in browser
-       *   2. Open JavaScript console
-       *   3. Input an any text to `Index to add`
-       *   4. Input an any file for `Content to add`
-       *   5. Click page's test buttons and check console output
+       *   1. Execute `main.py` (in same directory) with python3 interpriter
+       *   2. Access to `http://localhost:8000/RemovableList` in browser
+       *   3. Open JavaScript console
+       *   4. Input an any text to `Index to add`
+       *   5. Input an any file for `Content to add`
+       *   6. Click page's test buttons and check console output
        *
        * @author aKuad
        */
 
       function Test_ItemAddingNoOverwrite() {
         console.log("-- Test_ItemAddingNoOverwrite");
-        let append_obj = Part_CreateAppendObj();
-        console.log(list.add_items_no_overwrite([append_obj]));
+        const append_obj = Part_CreateAppendObj();
+        console.log(list.add_items_no_overwrite(append_obj));
         console.log("--- CHECK - Was item added? or ignored when same index specified?");
       }
 
       function Test_ItemAddAutoRename() {
         console.log("-- Test_ItemAddAutoRename");
-        let append_obj = Part_CreateAppendObj();
-        list.add_items_keep_each([append_obj]);
+        const append_obj = Part_CreateAppendObj();
+        list.add_items_keep_each(append_obj);
         console.log("--- CHECK - Was item added with index name_n");
       }
 
@@ -58,8 +70,8 @@
         console.log("[Before modification]");
         console.log(list.export_items_all());
         console.log("[After mofification]");
-        let append_obj = Part_CreateAppendObj();
-        list.add_items_overwrite([append_obj]);
+        const append_obj = Part_CreateAppendObj();
+        list.add_items_overwrite(append_obj);
         console.log(list.export_items_all());
         console.log("--- CHECK - Was item content updated?");
       }
@@ -71,19 +83,26 @@
 
       function Test_ItemsAddMultipleRandom() {
         console.log("-- Test_ItemsAddMultipleRandom");
-        let append_objs = [];
+        const append_objs = [];
         for(let i = 0; i < 1000; i++) {
           append_objs.push({content: Math.random().toString(), index: Math.random().toString()});
         }
-        list.add_items_keep_each(append_objs);
+        list.add_items_keep_each(...append_objs);
         console.log("--- CHECK - Were 1000 items added?");
       }
 
       function Test_ItemsExporting() {
         console.log("-- Test_ItemsExporting");
-        let items = list.export_items_all();
+        const items = list.export_items_all();
         console.log(items);
         console.log("--- CHECK - Were all items content & index printed?");
+      }
+
+      function Test_ItemsCounting() {
+        console.log("-- Test_ItemsCounting");
+        const items_count = list.count_items();
+        console.log(items_count);
+        console.log("--- CHECK - Was items count printed?");
       }
 
       function Test_ClearList() {
@@ -92,50 +111,48 @@
         console.log("--- CHECK - Were all items deleted?");
       }
 
-      function ErrCheck_InvalidArgumentInputs() {
-        let test_cases = [{"type": "null", "obj": null},
-                          {"type": "number", "obj": 1},
-                          {"type": "string", "obj": "hello"},
-                          {"type": "function", "obj": () => {}}];
+      function Test_RemoveLock() {
+        console.log("-- Test_RemoveLock");
+        list.remove_lock();
+        console.log("--- CHECK - Is cross button hidden?");
+      }
+
+      function Test_RemoveUnlock() {
+        console.log("-- Test_RemoveUnlock");
+        list.remove_unlock();
+        console.log("--- CHECK - Is cross button re-displayed?");
+      }
+
+      function ErrCheck_InvalidObjectArrayInput() {
+        const test_cases = [{case: "null",          obj: null,                                errmes: "Incorrect elements detected - null elements"},
+                            {case: "No 'index'",    obj: {content: "any_content"},            errmes: "Incorrect elements detected - non string or undefined 'index'"},
+                            {case: "Empty 'index'", obj: {content: "any_content", index: ""}, errmes: "Incorrect elements detected - empty string 'index'"},
+                            {case: "No 'content'",  obj: {index: "any_index"},                errmes: "Incorrect elements detected - undefined 'content'"}];
         for(const test_case of test_cases) {
-          console.log("-- ErrCheck_InvalidArgumentInput - " + test_case.type);
+          console.log("-- ErrCheck_InvalidObjectArrayInput - " + test_case.case);
           try {
-            list.add_items_no_overwrite(test_case.obj);
+            list.add_items_overwrite(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
-            console.log(e);
-            if(e.toString() === "Error: Non array object specified as argument.") {
+            if(e.toString() === ("Error: " + test_case.errmes)) {
               console.log("--- OK");
             } else {
+              console.log(e);
               console.log("--- NG - Un expected error throwed");
             }
           }
         }
       }
 
-      function ErrCheck_InvalidObjectArrayInput() {
-        let test_cases = [{case: "null",          obj: null,                                errmes: "Incorrect elements detected - null elements"},
-                          {case: "No 'index'",    obj: {content: "any_content"},            errmes: "Incorrect elements detected - non string or undefined 'index'"},
-                          {case: "Empty 'index'", obj: {content: "any_content", index: ""}, errmes: "Incorrect elements detected - empty string 'index'"},
-                          {case: "No 'content'",  obj: {index: "any_index"},                errmes: "Incorrect elements detected - undefined 'content'"}];
-        for(const test_case of test_cases) {
-          console.log("-- ErrCheck_InvalidObjectArrayInput - " + test_case.case);
-          try {
-            list.add_items_overwrite([test_case.obj]);
-            console.log("--- NG - Error hasn't throwed");
-          } catch(e) {
-            console.log(e);
-            if(e.toString() === ("Error: " + test_case.errmes)) {
-              console.log("--- OK");
-            } else {
-              console.log("--- NG - Un expected error throwed");
-            }
-          }
-        }
+      function Test_OnRemoveCallback() {
+        console.log("-- Test_OnRemoveCallback");
+        console.log("--- OK");
       }
 
       window.addEventListener("load", () => {
         list = new RemovableList(document.querySelector("#list-container"));
+        list_call = new RemovableList(document.querySelector("#list-container-call"), Test_OnRemoveCallback);
+        list_call.add_items_no_overwrite({content: "content", index: "On remove callback check"});
       });
     </script>
   </head>
@@ -151,12 +168,15 @@
     <input type="button" value="Test_ItemsAddMultipleRandom" onclick="Test_ItemsAddMultipleRandom()">
     <hr>
     <input type="button" value="Test_ItemsExporting" onclick="Test_ItemsExporting()">
+    <input type="button" value="Test_ItemsCounting" onclick="Test_ItemsCounting()">
     <input type="button" value="Test_ClearList" onclick="Test_ClearList()">
     <hr>
-    <input type="button" value="ErrCheck_InvalidArgumentInputs" onclick="ErrCheck_InvalidArgumentInputs()">
+    <input type="button" value="Test_RemoveLock" onclick="Test_RemoveLock()">
+    <input type="button" value="Test_RemoveUnlock" onclick="Test_RemoveUnlock()">
     <hr>
     <input type="button" value="ErrCheck_InvalidObjectArrayInput" onclick="ErrCheck_InvalidObjectArrayInput()">
     <hr>
     <div id="list-container"></div>
+    <div id="list-container-call"></div>
   </body>
 </html>

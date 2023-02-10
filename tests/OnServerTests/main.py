@@ -35,12 +35,12 @@ def files_from_entry(request: Request):
   return templates.TemplateResponse("Tests_files_from_entry.html", {"request": request})
 
 
-@app.get("/obj_disabling_post")
-def obj_disabling_post(request: Request):
+@app.get("/RemovableList")
+def RemovableList(request: Request):
   """
-  URL: http://localhost:8000/obj_disabling_post
+  URL: http://localhost:8000/RemovableList
   """
-  return templates.TemplateResponse("Tests_obj_disabling_post.html", {"request": request})
+  return templates.TemplateResponse("Tests_RemovableList.html", {"request": request})
 
 
 @app.post("/post_echo")

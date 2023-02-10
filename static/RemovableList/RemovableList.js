@@ -1,7 +1,7 @@
 /**
  * User removable list, which can contain custom objects with index text
  *
- * `RemovableList.css` requires to link as stylesheet
+ * `RemovableList.css` requires to link as stylesheet, BEFORE INSTANTIATE `RemovableList` CLASS
  *
  * @property {HTMLElement} list_container A HTML element to view list
  *
@@ -11,32 +11,50 @@
   /** @type {HTMLElement} */
   #list_container;
 
+  /** @type {CSSStyleRule} */
+  #cross_class;
+
+  /** @type {function} */
+  #onremove_callback;
+
 
   /**
    * @constructor
    * @param list_container A HTML element to view list
+   * @param {function} onremove_callback Will call when remove button clicked
    */
-  constructor(list_container) {
+  constructor(list_container, onremove_callback = null) {
     this.#list_container = list_container;
     this.#list_container.classList.add("RemovableList-container");
+    this.#onremove_callback = onremove_callback;
+
+    // Get .RemovableList-cross css class object
+    this.#cross_class = null;
+    for(const sheet of document.styleSheets) {
+      for(const rule of sheet.cssRules) {
+        if(rule.selectorText == ".RemovableList-cross") {
+          this.#cross_class = rule;
+        }
+      }
+    }
   }
 
 
   /**
    * Try adding items to list without overwriting
    *
-   * @param {Array<Object>} objs Custom object and index text contained objects to append
+   * @param {...Object} objs Custom object and index text contained objects to append
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
    * @returns {Array<boolean>} Each objects were - success to add: true, failed: false
    */
-  add_items_no_overwrite(objs) {
+  add_items_no_overwrite(...objs) {
     // Check is argument correct
     RemovableList.#check_appendable_object_error(objs);
 
     // Process all elements
-    let list_items = Array.from(this.#list_container.children);
-    let add_results = objs.map(obj => RemovableList.#add_items_no_overwrite_core(list_items, obj.content, obj.index));
+    const list_items = Array.from(this.#list_container.children);
+    const add_results = objs.map(obj => this.#add_items_no_overwrite_core(list_items, obj.content, obj.index));
     this.#view_update(list_items);
     return add_results;
   }
@@ -50,12 +68,12 @@
    * @param {string} index Text to view in list
    * @returns {boolean} Success to add: true, failed: false
    */
-  static #add_items_no_overwrite_core(list_items, content, index) {
+  #add_items_no_overwrite_core(list_items, content, index) {
     // Check is same index not exist
     if(RemovableList.#get_index_by_text(list_items, index) !== -1) { return false; }
 
     // Create item element and append
-    let new_item = RemovableList.#create_item_element(content, index);
+    const new_item = this.#create_item_element(content, index);
     list_items.push(new_item);
     return true;
   }
@@ -64,17 +82,17 @@
   /**
    * Add items to list with resolving index text duplication
    *
-   * @param {Array<Object>} objs Custom object and index text contained objects to append
+   * @param {...Object} objs Custom object and index text contained objects to append
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
    */
-  add_items_keep_each(objs) {
+  add_items_keep_each(...objs) {
     // Check is argument correct
     RemovableList.#check_appendable_object_error(objs);
 
     // Process all elements
-    let list_items = Array.from(this.#list_container.children);
-    objs.map(obj => RemovableList.#add_items_keep_each_core(list_items, obj.content, obj.index));
+    const list_items = Array.from(this.#list_container.children);
+    objs.map(obj => this.#add_items_keep_each_core(list_items, obj.content, obj.index));
     this.#view_update(list_items);
   }
 
@@ -86,11 +104,11 @@
    * @param {*} content Object to append in new item
    * @param {string} index Text to view in list
    */
-  static #add_items_keep_each_core(list_items, content, index) {
+  #add_items_keep_each_core(list_items, content, index) {
     let suffix = "";
     let suffix_num = 0;
     while(true) {
-      if(RemovableList.#add_items_no_overwrite_core(list_items, content, index + suffix)) { return; }
+      if(this.#add_items_no_overwrite_core(list_items, content, index + suffix)) { return; }
       suffix_num++;
       suffix = "_" + suffix_num.toString();
     }
@@ -100,17 +118,17 @@
   /**
    * Add items with overwriting when index was duplicated
    *
-   * @param {Array<Object>} objs Custom object and index text contained objects to append
+   * @param {...Object} objs Custom object and index text contained objects to append
    * @property {*}      objs.content Object to append in new item
    * @property {string} objs.index Text to view in list
    */
-  add_items_overwrite(objs) {
+  add_items_overwrite(...objs) {
     // Check is argument correct
     RemovableList.#check_appendable_object_error(objs);
 
     // Process all elements
-    let list_items = Array.from(this.#list_container.children);
-    objs.map(obj => RemovableList.#add_items_overwrite_core(list_items, obj.content, obj.index));
+    const list_items = Array.from(this.#list_container.children);
+    objs.map(obj => this.#add_items_overwrite_core(list_items, obj.content, obj.index));
     this.#view_update(list_items);
   }
 
@@ -122,13 +140,29 @@
    * @param {*} content Object to append in new item
    * @param {string} index Text to view in list
    */
-  static #add_items_overwrite_core(list_items, content, index) {
+  #add_items_overwrite_core(list_items, content, index) {
     // Try to add without overwriting
-    if(RemovableList.#add_items_no_overwrite_core(list_items, content, index)) { return; }
+    if(this.#add_items_no_overwrite_core(list_items, content, index)) { return; }
 
     // Get index and overwrite content
-    let write_index = RemovableList.#get_index_by_text(list_items, index);
+    const write_index = RemovableList.#get_index_by_text(list_items, index);
     list_items[write_index].content = content;
+  }
+
+
+  /**
+   * Hide item remove button
+   */
+  remove_lock() {
+    this.#cross_class.style.display = "none";
+  }
+
+
+  /**
+   * Re display item remove button
+   */
+  remove_unlock() {
+    this.#cross_class.style.display = "";
   }
 
 
@@ -140,10 +174,19 @@
    * @property {string} Array[].index Text viewing in list
    */
   export_items_all() {
-    let items = Array.from(this.#list_container.children, e => {
+    return Array.from(this.#list_container.children, e => {
       return {content: e.content, index: e.innerText};
     });
-    return items;
+  }
+
+
+  /**
+   * Get items count in list
+   *
+   * @returns {number} Count of items in list
+   */
+  count_items() {
+    return this.#list_container.children.length;
   }
 
 
@@ -151,6 +194,7 @@
    * Remove all items from DOM
    */
   remove_items_all() {
+    // Replace to empty, means all child elements remove
     this.#list_container.replaceChildren();
   }
 
@@ -158,10 +202,10 @@
   /**
    * Sort items and update DOM
    *
-   * @param {Array<HTMLDivElement>} items Item array to modify
+   * @param {Array<HTMLDivElement>} items Item array to append
    */
   #view_update(items) {
-    let items_sort = Array.from(items);
+    const items_sort = Array.from(items);
     items_sort.sort((a, b) => {
       if(a.innerText < b.innerText) { return -1; }
       if(a.innerText > b.innerText) { return 1; }
@@ -179,7 +223,7 @@
    * @returns {number} Index number or -1 as not found
    */
   static #get_index_by_text(list_items, search_text) {
-    let list_texts = Array.from(list_items, e => e.innerText);
+    const list_texts = Array.from(list_items, e => e.innerText);
     return list_texts.indexOf(search_text);
   }
 
@@ -191,19 +235,22 @@
    * @param {string} index Text to view in list
    * @returns {HTMLDivElement} Created element object
    */
-  static #create_item_element(content, index) {
+  #create_item_element(content, index) {
     // Create base element
-    let ele = document.createElement("div");
+    const ele = document.createElement("div");
     ele.classList.add("RemovableList-item");
     ele.content = content;
     ele.innerText = index;
 
     // Create and append removing button
-    let ele_cross = document.createElement("div");
+    const ele_cross = document.createElement("div");
     ele_cross.classList.add("RemovableList-cross");
     ele_cross.addEventListener("click", e => {
       e.target.parentNode.remove();
     });
+    if(this.#onremove_callback !== null) {
+      ele_cross.addEventListener("click", this.#onremove_callback);
+    }
     ele.appendChild(ele_cross);
 
     return ele;
@@ -226,11 +273,6 @@
     // Is argument specified
     if(objs === undefined) {
       throw new Error("At least 1 argument must be specified, but only 0 passed.");
-    }
-
-    // Is array object
-    if(objs === null || typeof(objs.map) !== "function") {
-      throw new Error("Non array object specified as argument.");
     }
 
     if(objs.map(obj => obj === null).includes(true)) {
