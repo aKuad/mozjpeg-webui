@@ -35,6 +35,14 @@ def files_from_entry(request: Request):
   return templates.TemplateResponse("Tests_files_from_entry.html", {"request": request})
 
 
+@app.get("/InputFileReader")
+def InputFileReader(request: Request):
+  """
+  URL: http://localhost:8000/InputFileReader
+  """
+  return templates.TemplateResponse("Tests_InputFileReader.html", {"request": request})
+
+
 @app.get("/RemovableList")
 def RemovableList(request: Request):
   """
