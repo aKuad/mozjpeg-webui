@@ -39,7 +39,7 @@ sudo apt install cmake nasm
 ## Throwgh git
 git clone https://github.com/mozilla/mozjpeg.git
 cd mozjpeg
-### or ###
+### === or ===
 ## Throwgh wget
 wget -O - https://github.com/mozilla/mozjpeg/archive/refs/tags/v4.1.1.tar.gz | tar -xzv -C ./
 cd mozjpeg-4.1.1
