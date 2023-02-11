@@ -16,15 +16,7 @@ window.addEventListener("load", () => {
     if(event.target.files.length === 0) { return; }
 
     // Get all inputted files
-    const files_all = [];
-    if(event.target.webkitEntries.length !== 0) {
-      for(const entry of event.target.webkitEntries) {
-        files_all.push(...await files_from_entry(entry));
-      }
-    } else {
-      files_all.push(...event.target.files);
-    }
-
+    const files_all = await InputFileReader.read(event.target);
     if(files_all.length === 0) {
       // If no files (e.g. Empty directory), view error message
       CornerMessage.view("No files detected.", CornerMessage.style.warn);
@@ -40,15 +32,14 @@ window.addEventListener("load", () => {
     if(files_nojpeg.length > 0) {
       err_mes_array.push("Non jpeg input:");
       if(files_nojpeg.length === 1) {
-        // .replace(/^\//, "") ... /file.jpg -> file.jpg
-        err_mes_array.push(files_nojpeg[0].name.replace(/^\//, ""));
+        err_mes_array.push(files_nojpeg[0].name);
       } else {
-        err_mes_array.push(files_nojpeg[0].name.replace(/^\//, "") + " (+" + (files_nojpeg.length - 1).toString() + ")");
+        err_mes_array.push(files_nojpeg[0].name + ` (+${ files_nojpeg.length-1 })`);
       }
     }
 
     // Add files to file list
-    const items = files_jpeg.map(e => new Object({content: e, index: e.name.replace(/^\//, "")}));
+    const items = files_jpeg.map(e => new Object({content: e, index: e.name}));
     const items_result = filesList.add_items_no_overwrite(...items);
     toggle_process_available(filesList);
 
@@ -58,9 +49,9 @@ window.addEventListener("load", () => {
       err_mes_array.push("Some file(s) name duplicated:");
       const failed_first = files_jpeg[items_result.indexOf(false)];
       if(failed_count === 1) {
-        err_mes_array.push(failed_first.name.replace(/^\//, ""));
+        err_mes_array.push(failed_first.name);
       } else {
-        err_mes_array.push(failed_first.name.replace(/^\//, "") + " (+" + (failed_count - 1).toString() + ")");
+        err_mes_array.push(failed_first.name + ` (+${ failed_count-1 })`);
       }
     }
 
