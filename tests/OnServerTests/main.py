@@ -27,14 +27,6 @@ app.mount("/static", StaticFiles(directory="../../static"), name="static")
 templates = Jinja2Templates(directory="./")
 
 
-@app.get("/files_from_entry")
-def files_from_entry(request: Request):
-  """
-  URL: http://localhost:8000/files_from_entry
-  """
-  return templates.TemplateResponse("Tests_files_from_entry.html", {"request": request})
-
-
 @app.get("/InputFileReader")
 def InputFileReader(request: Request):
   """
