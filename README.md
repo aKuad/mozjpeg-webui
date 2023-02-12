@@ -1,6 +1,6 @@
 # mozjpeg-webui
 
-![Release](https://img.shields.io/github/v/release/akuad/mozjpeg-webui?label=Latest%20release)
+![Release](https://img.shields.io/github/v/release/aKuad/mozjpeg-webui?label=Latest%20release)
 ![License](https://img.shields.io/github/license/aKuad/mozjpeg-webui?label=License)
 
 JPEG optimizing web app
@@ -39,7 +39,7 @@ sudo apt install cmake nasm
 ## Throwgh git
 git clone https://github.com/mozilla/mozjpeg.git
 cd mozjpeg
-### or ###
+### === or ===
 ## Throwgh wget
 wget -O - https://github.com/mozilla/mozjpeg/archive/refs/tags/v4.1.1.tar.gz | tar -xzv -C ./
 cd mozjpeg-4.1.1
