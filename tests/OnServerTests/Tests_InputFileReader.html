@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <script src="/static/files_from_entry.js"></script>
+    <script src="/static/InputFileReader.js"></script>
     <script>
       /**
        * Tests for `files_from_entry.js` module
@@ -14,14 +14,13 @@
        *   About requirements, see `main.py` docstring.
        *
        * Test cases:
-       *   * Can get a file object when input 1 file
-       *   * Can get file objects when input over 2 files
-       *   * Can get file object(s) when input 1 directories
-       *   * Can get file object(s) when input over 2 directories
+       *   * Can get file objects from an input.file element
+       *     * By selecting multiple files
+       *     * By selecting a directory
        *   * Throw error when non entry object specified
-       *     * Expected error message: "Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object."
+       *     * Expected error message: "Argument is non input element."
        *   * Throw error when no arguments specified
-       *     * Expected error message: "At least 1 argument must be specified, but only 0 passed."
+       *     * Expected error message: "No arguments specified."
        *
        * Test steps:
        *   1. Execute `main.py` (in same directory) with python3 interpriter
@@ -29,32 +28,31 @@
        *   3. Open JavaScript console
        *   4. Click page's test buttons and check console output
        *   5. Input any file(s) for `Test_ReadingFiles` and check console output
+       *      * By click&select, or drag&drop
        *
        * @author aKuad
        */
 
       async function Test_ReadingFiles(e) {
         console.log("-- Test_ReadingFiles");
-        for(entry of e.target.webkitEntries) {
-          const files = await files_from_entry(entry);
-          console.log(files);
-        }
+        const files = await InputFileReader.read(e.target);
+        console.log(files);
         console.log("--- CHECK - Are all files detected?");
       }
 
-      async function ErrCheck_NonEntryInputs() {
+      async function ErrCheck_NonInputElementInputs() {
         const test_cases = [{"type": "null", "obj": null},
                             {"type": "number", "obj": 1},
                             {"type": "string", "obj": "hello"},
                             {"type": "function", "obj": () => {}},
                             {"type": "custom_object", "obj": {}}];
         for(const test_case of test_cases) {
-          console.log("-- ErrCheck_NonBlobInput - " + test_case.type)
+          console.log("-- ErrCheck_NonInputElementInputs - " + test_case.type)
           try {
-            await files_from_entry(test_case.obj);
+            await InputFileReader.read(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
-            if(e.toString() === "Error: Argument is not a FileSystemFileEntry or FileSystemDirectoryEntry object.") {
+            if(e.toString() === "TypeError: Argument is non input element.") {
               console.log("--- OK");
             } else {
               console.log(e);
@@ -67,10 +65,10 @@
       async function ErrCheck_NoArgument() {
         console.log("-- ErrCheck_NoArgument");
         try {
-          await files_from_entry();
+          await InputFileReader.read();
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          if(e.toString() === "Error: At least 1 argument must be specified, but only 0 passed.") {
+          if(e.toString() === "TypeError: No arguments specified.") {
             console.log("--- OK");
           } else {
             console.log(e);
@@ -80,15 +78,18 @@
       }
 
       window.addEventListener("load", () => {
-        document.querySelector("#Test_ReadingFiles").addEventListener("change", Test_ReadingFiles);
+        document.querySelector("#Test_ReadingFiles_multiple").addEventListener("change", Test_ReadingFiles);
+        document.querySelector("#Test_ReadingFiles_directory").addEventListener("change", Test_ReadingFiles);
       });
     </script>
   </head>
 
   <body>
-    Test_ReadingFiles: <input type="file" multiple id="Test_ReadingFiles">
+    Test_ReadingFiles (multiple): <input type="file" id="Test_ReadingFiles_multiple" multiple>
+    <br>
+    Test_ReadingFiles (directory): <input type="file" id="Test_ReadingFiles_directory" webkitdirectory>
     <hr>
-    <input type="button" value="ErrCheck_NonEntryInputs" onclick="ErrCheck_NonEntryInputs()">
+    <input type="button" value="ErrCheck_NonInputElementInputs" onclick="ErrCheck_NonInputElementInputs()">
     <input type="button" value="ErrCheck_NoArgument" onclick="ErrCheck_NoArgument()">
   </body>
 </html>
