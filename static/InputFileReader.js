@@ -8,8 +8,8 @@ class InputFileReader {
    * Get files from an `input.file` element
    *
    * @async
-   * @param {HTMLInputElement} elem
-   * @returns {Array<File>}
+   * @param {HTMLInputElement} elem `input.file` element to read files
+   * @returns {Array<File>} Loaded file objects
    *
    * @throws {TypeError} No arguments specified.
    * @throws {TypeError} Argument is non input element.
@@ -44,7 +44,7 @@ class InputFileReader {
    *
    * @async
    * @param {FileSystemFileEntry | FileSystemDirectoryEntry} entry File system entry to get all file objects
-   * @returns {Promise<Array<File>>} File objects (with full path) array
+   * @returns {Promise<Array<File>>} Loaded file objects (with full path)
    */
   static async #files_from_entry(entry) {
     if(entry.isDirectory) {
