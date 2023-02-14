@@ -20,7 +20,7 @@
 
   /**
    * @constructor
-   * @param list_container A HTML element to view list
+   * @param {HTMLElement} list_container A HTML element to view list
    * @param {onremove_callback} onremove_callback Will call when remove button clicked
    */
   constructor(list_container, onremove_callback = null) {
