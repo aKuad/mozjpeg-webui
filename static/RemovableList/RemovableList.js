@@ -3,8 +3,6 @@
  *
  * `RemovableList.css` requires to link as stylesheet, BEFORE INSTANTIATE `RemovableList` CLASS
  *
- * @property {HTMLElement} list_container A HTML element to view list
- *
  * @author aKuad
  */
  class RemovableList {
