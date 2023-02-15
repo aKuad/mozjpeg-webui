@@ -19,6 +19,10 @@ Click "Add files" to select files. (or drag&drop files here)
 
 ![Demo - Add files](imgs/demo-add-files.webp)
 
+Or click "Add a directory".
+
+![Demo - Add a directory](imgs/demo-add-adir.webp)
+
 Click "Process" to execute optimizing.
 
 ![Demo - Process](imgs/demo-process.webp)
