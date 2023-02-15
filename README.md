@@ -17,11 +17,11 @@ JPEG optimizing web app
 
 Click "Add files" to select files. (or drag&drop files here)
 
-![Demo - Add files](imgs/demo-1.webp)
+![Demo - Add files](imgs/demo-add-files.webp)
 
 Click "Process" to execute optimizing.
 
-![Demo - Process](imgs/demo-2.webp)
+![Demo - Process](imgs/demo-process.webp)
 
 File saving dialog will open, and save processed file.
 
