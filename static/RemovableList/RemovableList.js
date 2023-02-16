@@ -3,8 +3,6 @@
  *
  * `RemovableList.css` requires to link as stylesheet, BEFORE INSTANTIATE `RemovableList` CLASS
  *
- * @property {HTMLElement} list_container A HTML element to view list
- *
  * @author aKuad
  */
  class RemovableList {
@@ -14,14 +12,14 @@
   /** @type {CSSStyleRule} */
   #cross_class;
 
-  /** @type {function} */
+  /** @callback onremove_callback */
   #onremove_callback;
 
 
   /**
    * @constructor
-   * @param list_container A HTML element to view list
-   * @param {function} onremove_callback Will call when remove button clicked
+   * @param {HTMLElement} list_container A HTML element to view list
+   * @param {onremove_callback} onremove_callback Will call when remove button clicked
    */
   constructor(list_container, onremove_callback = null) {
     this.#list_container = list_container;
