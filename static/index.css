@@ -98,13 +98,16 @@ body {
 #button-add-dir   { background-image: url(../static/icons/add-dir.svg); }
 #button-clear     { background-image: url(../static/icons/trash.svg); }
 #button-process   { background-image: url(../static/icons/arrow-right.svg);
-                  background-color: hsl(240, 100%, 70%); }
+                    background-color: hsl(240, 100%, 70%); }
 #button-add-files:hover, #button-add-dir:hover, #button-clear:hover, #button-process:hover {
   opacity: 0.6;
 }
 #button-add-files[disabled], #button-add-dir[disabled], #button-clear[disabled], #button-process[disabled] {
   cursor: not-allowed;
   opacity: 0.4;
+}
+#input-files:disabled, #input-dir:disabled {
+  cursor: not-allowed;
 }
 
 #input-files, #input-dir {
