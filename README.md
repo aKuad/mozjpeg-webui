@@ -15,13 +15,15 @@ JPEG optimizing web app
 
 ## Useage
 
-Click "Add files" to select files. (or drag&drop files here)
+"Add files" or "Add a directory" to select files. (or drag&drop files here)
 
-![Demo - Add files](imgs/demo-1.webp)
+![Demo - Add files](imgs/demo-add-files.webp)
 
-Click "Process" to execute optimizing.
+![Demo - Add a directory](imgs/demo-add-adir.webp)
 
-![Demo - Process](imgs/demo-2.webp)
+"Process" to execute optimizing.
+
+![Demo - Process](imgs/demo-process.webp)
 
 File saving dialog will open, and save processed file.
 
@@ -76,7 +78,7 @@ python3 main_3-9.py
 
 ## About difference between 3.8 - 3.9
 
-There are difference of type annotation.
+This is a difference of type annotation.
 
 ```py
 # On 3.8 or previous

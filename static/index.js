@@ -11,7 +11,12 @@ window.addEventListener("load", () => {
   /**
    * Button - Add files
    */
-  document.querySelector("#files-in").addEventListener("change", async event => {
+  document.querySelector("#input-files").addEventListener("change", files_input);
+  document.querySelector("#input-dir"  ).addEventListener("change", files_input);
+  /**
+   * @param {Event} event On-change event
+   */
+  async function files_input(event) {
     // If file selecting cancelled, do nothing
     if(event.target.files.length === 0) { return; }
 
@@ -59,7 +64,7 @@ window.addEventListener("load", () => {
     if(err_mes_array.length !== 0) {
       CornerMessage.view(err_mes_array.join("\n"), CornerMessage.style.danger);
     }
-  });
+  }
 
 
   /**
@@ -112,8 +117,10 @@ window.addEventListener("load", () => {
  */
 function controls_lock(filesList) {
   filesList.remove_lock();
-  document.querySelector("#files-in").disabled = true;
-  document.querySelector("#button-add").setAttribute("disabled", "");
+  document.querySelector("#input-files").disabled = true;
+  document.querySelector("#input-dir"  ).disabled = true;
+  document.querySelector("#button-add-files").setAttribute("disabled", "");
+  document.querySelector("#button-add-dir").setAttribute("disabled", "");
   document.querySelector("#button-clear").setAttribute("disabled", "");
   document.querySelector("#button-process").setAttribute("disabled", "");
   document.querySelector("#button-process").setAttribute("onprocess", "");
@@ -125,8 +132,10 @@ function controls_lock(filesList) {
  */
 function controls_unlock(filesList) {
   filesList.remove_unlock();
-  document.querySelector("#files-in").disabled = false;
-  document.querySelector("#button-add").removeAttribute("disabled");
+  document.querySelector("#input-files").disabled = false;
+  document.querySelector("#input-dir"  ).disabled = false;
+  document.querySelector("#button-add-files").removeAttribute("disabled");
+  document.querySelector("#button-add-dir").removeAttribute("disabled");
   document.querySelector("#button-clear").removeAttribute("disabled");
   toggle_process_available(filesList);  // Unlock, but when available
   document.querySelector("#button-process").removeAttribute("onprocess");

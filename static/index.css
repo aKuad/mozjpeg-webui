@@ -72,7 +72,7 @@ body {
   --button-icon-size: 1.4em;
 }
 
-#button-add, #button-clear, #button-process {
+#button-add-files, #button-add-dir, #button-clear, #button-process {
   position: relative;
   display: inline-block;
   margin: 5px;
@@ -94,19 +94,20 @@ body {
   opacity: 1;
   transition: opacity 0.2s linear;
 }
-#button-add     { background-image: url(../static/icons/add-file.svg); }
-#button-clear   { background-image: url(../static/icons/trash.svg); }
-#button-process { background-image: url(../static/icons/arrow-right.svg);
+#button-add-files { background-image: url(../static/icons/add-file.svg); }
+#button-add-dir   { background-image: url(../static/icons/add-dir.svg); }
+#button-clear     { background-image: url(../static/icons/trash.svg); }
+#button-process   { background-image: url(../static/icons/arrow-right.svg);
                   background-color: hsl(240, 100%, 70%); }
-#button-add:hover, #button-clear:hover, #button-process:hover {
+#button-add-files:hover, #button-add-dir:hover, #button-clear:hover, #button-process:hover {
   opacity: 0.6;
 }
-#button-add[disabled], #button-clear[disabled], #button-process[disabled] {
+#button-add-files[disabled], #button-add-dir[disabled], #button-clear[disabled], #button-process[disabled] {
   cursor: not-allowed;
   opacity: 0.4;
 }
 
-#files-in {
+#input-files, #input-dir {
   position: absolute;
   opacity: 0;
   top: 0;
