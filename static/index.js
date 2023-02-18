@@ -18,7 +18,8 @@ window.addEventListener("load", () => {
    */
   async function files_input(event) {
     // If file selecting cancelled, do nothing
-    if(event.target.files.length === 0) { return; }
+    if(event.target.files.length         === 0 &&
+       event.target.webkitEntries.length === 0) { return; }
 
     // Get all inputted files
     const files_all = await InputFileReader.read(event.target);
@@ -28,9 +29,17 @@ window.addEventListener("load", () => {
       return;
     }
 
-    // Filter by mime is jpeg
-    const files_jpeg = files_all.filter(e => e.type === "image/jpeg");
-    const files_nojpeg = files_all.filter(e => e.type !== "image/jpeg");
+    // Filter by file extension is jpeg
+    const files_jpeg = [];
+    const files_nojpeg = [];
+    files_all.map(e => {
+      const ext = e.name.slice(-4).toLowerCase(); // Extract last 4 chars
+      if([".jpg", "jpeg"].includes(ext)) {        // Is it ".jpg" or "jpeg"
+        files_jpeg.push(e);
+      } else {
+        files_nojpeg.push(e);
+      }
+    });
 
     // If non jpeg files detected, set error message
     const err_mes_array = [];
