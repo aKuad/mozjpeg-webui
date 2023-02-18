@@ -109,7 +109,7 @@ window.addEventListener("load", () => {
       const res_blob = await res.blob();
       filesList.remove_items_all();
       CornerMessage.view("Success to process.", CornerMessage.style.info);
-      export_as_download(res_blob);
+      export_as_download(res_blob, gen_file_name());
     } else {
       // On failed, view error message
       const res_json = await res.json();
@@ -160,4 +160,20 @@ function toggle_process_available(filesList) {
   } else {
     document.querySelector("#button-process").removeAttribute("disabled");
   }
+}
+
+
+/**
+ * @returns {string} Generated file name string
+ */
+function gen_file_name() {
+  const date_now = new Date();
+  const year = `${date_now.getFullYear()}`;
+  const month = `0${date_now.getMonth()}`.slice(-2);
+  const day   = `0${date_now.getDay()}`.slice(-2);
+  const hour = `0${date_now.getHours()}`.slice(-2);
+  const minute = `0${date_now.getMinutes()}`.slice(-2);
+  const second = `0${date_now.getSeconds()}`.slice(-2);
+  
+  return `mozjpeg-${year}${month}${day}${hour}${minute}${second}`;
 }
