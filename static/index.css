@@ -107,7 +107,7 @@ body {
   opacity: 0.4;
 }
 #input-files:disabled, #input-dir:disabled {
-  cursor: not-allowed;
+  display: none;  /* By hiding element, apply 'cursor: not-allowed;' */
 }
 
 #input-files, #input-dir {
