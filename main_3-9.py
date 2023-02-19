@@ -80,4 +80,4 @@ async def jpegs_opt(files: list[UploadFile] = File(...)):
 
 
 if __name__ == '__main__':
-  run("main_3-8:app", reload=True)
+  run("main_3-9:app", reload=True)
