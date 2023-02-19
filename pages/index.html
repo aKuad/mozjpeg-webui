@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/static/index.css">
     <script src="/static/RemovableList/RemovableList.js"></script>
     <script src="/static/CornerMessage/CornerMessage.js"></script>
-    <script src="/static/files_from_entry.js"></script>
+    <script src="/static/InputFileReader.js"></script>
     <script src="/static/export_as_download.js"></script>
     <script src="/static/index.js"></script>
   </head>
@@ -18,7 +18,8 @@
       <div id="field-header">Mozjpeg Web-UI</div>
 
       <div id="field-buttons">
-        <a id="button-add">Add files<input type="file" id="files-in" multiple></a>
+        <a id="button-add-files">Add files<input type="file" id="input-files" multiple></a>
+        <a id="button-add-dir">Add a directory<input type="file" id="input-dir" webkitdirectory></a>
         <a id="button-clear">Clear files</a>
         <a id="button-process" disabled>Process</a>
       </div>

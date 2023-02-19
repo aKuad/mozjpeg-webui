@@ -11,44 +11,49 @@ window.addEventListener("load", () => {
   /**
    * Button - Add files
    */
-  document.querySelector("#files-in").addEventListener("change", async event => {
+  document.querySelector("#input-files").addEventListener("change", files_input);
+  document.querySelector("#input-dir"  ).addEventListener("change", files_input);
+  /**
+   * @param {Event} event On-change event
+   */
+  async function files_input(event) {
     // If file selecting cancelled, do nothing
-    if(event.target.files.length === 0) { return; }
+    if(event.target.files.length         === 0 &&
+       event.target.webkitEntries.length === 0) { return; }
 
     // Get all inputted files
-    const files_all = [];
-    if(event.target.webkitEntries.length !== 0) {
-      for(const entry of event.target.webkitEntries) {
-        files_all.push(...await files_from_entry(entry));
-      }
-    } else {
-      files_all.push(...event.target.files);
-    }
-
+    const files_all = await InputFileReader.read(event.target);
     if(files_all.length === 0) {
       // If no files (e.g. Empty directory), view error message
       CornerMessage.view("No files detected.", CornerMessage.style.warn);
       return;
     }
 
-    // Filter by mime is jpeg
-    const files_jpeg = files_all.filter(e => e.type === "image/jpeg");
-    const files_nojpeg = files_all.filter(e => e.type !== "image/jpeg");
+    // Filter by file extension is jpeg
+    const files_jpeg = [];
+    const files_nojpeg = [];
+    files_all.map(e => {
+      const ext = e.name.slice(-4).toLowerCase(); // Extract last 4 chars
+      if([".jpg", "jpeg"].includes(ext)) {        // Is it ".jpg" or "jpeg"
+        files_jpeg.push(e);
+      } else {
+        files_nojpeg.push(e);
+      }
+    });
 
     // If non jpeg files detected, set error message
     const err_mes_array = [];
     if(files_nojpeg.length > 0) {
       err_mes_array.push("Non jpeg input:");
       if(files_nojpeg.length === 1) {
-        // .replace(/^\//, "") ... /file.jpg -> file.jpg
-        err_mes_array.push(files_nojpeg[0].name.replace(/^\//, ""));
+        err_mes_array.push(files_nojpeg[0].name);
       } else {
-        err_mes_array.push(files_nojpeg[0].name.replace(/^\//, "") + " (+" + (files_nojpeg.length - 1).toString() + ")");
+        err_mes_array.push(files_nojpeg[0].name + ` (+${ files_nojpeg.length-1 })`);
       }
     }
 
     // Add files to file list
-    const items = files_jpeg.map(e => new Object({content: e, index: e.name.replace(/^\//, "")}));
+    const items = files_jpeg.map(e => new Object({content: e, index: e.name}));
     const items_result = filesList.add_items_no_overwrite(...items);
     toggle_process_available(filesList);
 
@@ -58,9 +63,9 @@ window.addEventListener("load", () => {
       err_mes_array.push("Some file(s) name duplicated:");
       const failed_first = files_jpeg[items_result.indexOf(false)];
       if(failed_count === 1) {
-        err_mes_array.push(failed_first.name.replace(/^\//, ""));
+        err_mes_array.push(failed_first.name);
       } else {
-        err_mes_array.push(failed_first.name.replace(/^\//, "") + " (+" + (failed_count - 1).toString() + ")");
+        err_mes_array.push(failed_first.name + ` (+${ failed_count-1 })`);
       }
     }
 
@@ -68,7 +73,7 @@ window.addEventListener("load", () => {
     if(err_mes_array.length !== 0) {
       CornerMessage.view(err_mes_array.join("\n"), CornerMessage.style.danger);
     }
-  });
+  }
 
 
   /**
@@ -104,7 +109,7 @@ window.addEventListener("load", () => {
       const res_blob = await res.blob();
       filesList.remove_items_all();
       CornerMessage.view("Success to process.", CornerMessage.style.info);
-      export_as_download(res_blob);
+      export_as_download(res_blob, gen_file_name());
     } else {
       // On failed, view error message
       const res_json = await res.json();
@@ -121,8 +126,10 @@ window.addEventListener("load", () => {
  */
 function controls_lock(filesList) {
   filesList.remove_lock();
-  document.querySelector("#files-in").disabled = true;
-  document.querySelector("#button-add").setAttribute("disabled", "");
+  document.querySelector("#input-files").disabled = true;
+  document.querySelector("#input-dir"  ).disabled = true;
+  document.querySelector("#button-add-files").setAttribute("disabled", "");
+  document.querySelector("#button-add-dir").setAttribute("disabled", "");
   document.querySelector("#button-clear").setAttribute("disabled", "");
   document.querySelector("#button-process").setAttribute("disabled", "");
   document.querySelector("#button-process").setAttribute("onprocess", "");
@@ -134,8 +141,10 @@ function controls_lock(filesList) {
  */
 function controls_unlock(filesList) {
   filesList.remove_unlock();
-  document.querySelector("#files-in").disabled = false;
-  document.querySelector("#button-add").removeAttribute("disabled");
+  document.querySelector("#input-files").disabled = false;
+  document.querySelector("#input-dir"  ).disabled = false;
+  document.querySelector("#button-add-files").removeAttribute("disabled");
+  document.querySelector("#button-add-dir").removeAttribute("disabled");
   document.querySelector("#button-clear").removeAttribute("disabled");
   toggle_process_available(filesList);  // Unlock, but when available
   document.querySelector("#button-process").removeAttribute("onprocess");
@@ -151,4 +160,20 @@ function toggle_process_available(filesList) {
   } else {
     document.querySelector("#button-process").removeAttribute("disabled");
   }
+}
+
+
+/**
+ * @returns {string} Generated file name string
+ */
+function gen_file_name() {
+  const date_now = new Date();
+  const year = `${date_now.getFullYear()}`;
+  const month = `0${date_now.getMonth()}`.slice(-2);
+  const day   = `0${date_now.getDay()}`.slice(-2);
+  const hour = `0${date_now.getHours()}`.slice(-2);
+  const minute = `0${date_now.getMinutes()}`.slice(-2);
+  const second = `0${date_now.getSeconds()}`.slice(-2);
+  
+  return `mozjpeg-${year}${month}${day}${hour}${minute}${second}`;
 }

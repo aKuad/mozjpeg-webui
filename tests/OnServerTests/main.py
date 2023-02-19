@@ -27,12 +27,12 @@ app.mount("/static", StaticFiles(directory="../../static"), name="static")
 templates = Jinja2Templates(directory="./")
 
 
-@app.get("/files_from_entry")
-def files_from_entry(request: Request):
+@app.get("/InputFileReader")
+def InputFileReader(request: Request):
   """
-  URL: http://localhost:8000/files_from_entry
+  URL: http://localhost:8000/InputFileReader
   """
-  return templates.TemplateResponse("Tests_files_from_entry.html", {"request": request})
+  return templates.TemplateResponse("Tests_InputFileReader.html", {"request": request})
 
 
 @app.get("/RemovableList")
