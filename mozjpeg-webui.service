@@ -1,0 +1,7 @@
+[Unit]
+Description=mozjpeg web application
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/mozjpeg-webui/.venv/bin/python /opt/mozjpeg-webui/{main_src}
