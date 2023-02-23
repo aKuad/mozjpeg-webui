@@ -184,7 +184,7 @@
    * @returns {number} Count of items in list
    */
   count_items() {
-    return this.#list_container.children.length;
+    return this.#list_container.childElementCount;
   }
 
 
