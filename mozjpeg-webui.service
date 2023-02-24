@@ -6,3 +6,6 @@ After=network.target
 Type=simple
 WorkingDirectory=/opt/mozjpeg-webui/
 ExecStart=/opt/mozjpeg-webui/.venv/bin/python /opt/mozjpeg-webui/main_3-9.py
+
+[Install]
+WantedBy=multi-user.target
