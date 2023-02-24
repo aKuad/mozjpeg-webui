@@ -21,7 +21,7 @@ class InputFileReader {
     }
 
     // Is argument input element
-    if(!InputFileReader.#is_input_element(elem)) {
+    if(!(elem instanceof HTMLInputElement)) {
       throw new TypeError("Argument is non input element.");
     }
 
@@ -80,24 +80,5 @@ class InputFileReader {
   static #file_obj_rename(file, new_name) {
     // Re-creating file object, because name field is read-only
     return new File([file], new_name, {type: file.type, lastModified: file.lastModified});
-  }
-
-
-  /**
-   * Check is specified object input element
-   *
-   * @param {*} obj Object to check
-   * @returns {boolean} obj is input element: true, other cases: false
-   */
-  static #is_input_element(obj) {
-    // Is non-object or null
-    if(typeof obj !== "object") { return false; }
-    if(       obj === null    ) { return false; }
-
-    // Is input element
-    if(obj.webkitEntries === undefined) { return false; }
-    if(obj.files         === undefined) { return false; }
-
-    return true;
   }
 }
