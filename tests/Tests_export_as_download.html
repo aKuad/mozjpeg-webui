@@ -12,9 +12,7 @@
        *   * Can export a text file with name
        *   * Can export a custom file
        *   * Throw error when non Blob or File object specified
-       *     * Expected error message: "Other than Blob or File object can't export."
        *   * Throw error when no arguments specified
-       *     * Expected error message: "At least 1 argument must be specified, but only 0 passed."
        *
        * Test steps:
        *   1. Open this HTML in browser
@@ -45,6 +43,21 @@
         console.log("--- CHECK - Is downloading dialog has open? Input file returned as downloading?");
       }
 
+      function ErrCheck_NoArguments() {
+        console.log("-- ErrCheck_NoArguments");
+        try {
+          export_as_download();
+          console.log("--- NG - Error hasn't throwed");
+        } catch(e) {
+          if(e.toString() === "Error: No arguments.") {
+            console.log("--- OK");
+          } else {
+            console.log(e);
+            console.log("--- NG - Un expected error throwed");
+          }
+        }
+      }
+
       function ErrCheck_NonBlobInputs() {
         const test_cases = [{"type": "null", "obj": null},
                             {"type": "number", "obj": 1},
@@ -67,21 +80,6 @@
         });
       }
 
-      function ErrCheck_NoArgument() {
-        console.log("-- ErrCheck_NoArgument");
-        try {
-          export_as_download();
-          console.log("--- NG - Error hasn't throwed");
-        } catch(e) {
-          if(e.toString() === "Error: At least 1 argument must be specified, but only 0 passed.") {
-            console.log("--- OK");
-          } else {
-            console.log(e);
-            console.log("--- NG - Un expected error throwed");
-          }
-        }
-      }
-
       window.addEventListener("load", () => {
         document.querySelector("#Test_ExportCustomFile").addEventListener("change", Test_ExportCustomFile);
       });
@@ -95,7 +93,7 @@
     Test_ExportCustomFile:
     <input type="file" id="Test_ExportCustomFile">
     <hr>
+    <input type="button" value="ErrCheck_NoArgument" onclick="ErrCheck_NoArguments()">
     <input type="button" value="ErrCheck_NonBlobInput" onclick="ErrCheck_NonBlobInputs()">
-    <input type="button" value="ErrCheck_NoArgument" onclick="ErrCheck_NoArgument()">
   </body>
 </html>

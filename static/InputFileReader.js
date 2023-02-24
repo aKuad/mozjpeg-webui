@@ -11,18 +11,16 @@ class InputFileReader {
    * @param {HTMLInputElement} elem `input.file` element to read files
    * @returns {Array<File>} Loaded file objects
    *
-   * @throws {TypeError} No arguments specified.
-   * @throws {TypeError} Argument is non input element.
+   * @throws {TypeError} No arguments
+   * @throws {TypeError} Argument is not HTMLInputElement
    */
   static async read(elem) {
-    // Is argument specified
+    // Argumen type check
     if(elem === undefined) {
-      throw new TypeError("No arguments specified.");
+      throw new TypeError("No arguments.");
     }
-
-    // Is argument input element
     if(!(elem instanceof HTMLInputElement)) {
-      throw new TypeError("Argument is non input element.");
+      throw new TypeError(`Argument must be an HTMLInputElement, not ${typeof elem}.`);
     }
 
     // When webkitEntries available

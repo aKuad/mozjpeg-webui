@@ -4,7 +4,7 @@
  * @param {Blob | File} blob Data body to export
  * @param {string} name Default file name to export
  *
- * @throws {Error} Not enough arguments
+ * @throws {Error} No arguments
  * @throws {Error} `blob` type must be `Blob` or `File`
  *
  * @author aKuad
@@ -12,7 +12,7 @@
 function export_as_download(blob, name = "file") {
   // Check is argument specified
   if(blob === undefined) {
-    throw new Error("At least 1 argument must be specified, but only 0 passed.");
+    throw new Error("No arguments.");
   }
 
   // Check input is Blob or File object
