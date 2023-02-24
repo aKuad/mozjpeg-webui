@@ -32,13 +32,11 @@
        *   * Can hide item removing button
        *   * Can re-display item removing button
        *   * Can execute specified callback when removing button clicked
+       *   * Throw error when no arguments specified
        *   * Throw error when non array specified to add item
-       *     * Expected error message: "Non array object specified as argument."
        *   * Throw error when no arguments specified to add item
-       *     * Expected error message: "At least 1 argument must be specified, but only 0 passed."
        *   * Throw error when invalid elements included array specified
-       *     * Valid element is: An object has `content` (:custom object) and `index` (:string, not empty) value
-       *     * Expected error message: "Incorrect elements detected in argument."
+       *     * Valid element is: An object has `content` (custom object) and `index` (string, not empty) value
        *
        * Test steps:
        *   1. Execute `main.py` (in same directory) with python3 interpriter
@@ -123,6 +121,43 @@
         console.log("--- CHECK - Is cross button re-displayed?");
       }
 
+      function ErrCheck_NoConstructorArguments() {
+        console.log("-- ErrCheck_NoConstructorArguments");
+        try {
+          new RemovableList();
+          console.log("--- NG - Error hasn't throwed");
+        } catch(e) {
+          if(e.toString() === "TypeError: No arguments.") {
+            console.log("--- OK");
+          } else {
+            console.log(e);
+            console.log("--- NG - Un expected error throwed");
+          }
+        }
+      }
+      
+      function ErrCheck_NonHTMLElementConstructorArgument() {
+        const test_cases = [{"type": "null", "obj": null},
+                            {"type": "number", "obj": 1},
+                            {"type": "string", "obj": "hello"},
+                            {"type": "function", "obj": () => {}},
+                            {"type": "custom_object", "obj": {}}];
+        for(const test_case of test_cases) {
+          console.log("-- ErrCheck_NonHTMLElementConstructorArgument - " + test_case.type)
+          try {
+            new RemovableList(test_case.obj);
+            console.log("--- NG - Error hasn't throwed");
+          } catch(e) {
+            if(e.toString() === `TypeError: Argument 'list_container' must be an HTMLElement, not ${typeof test_case.obj}.`) {
+              console.log("--- OK");
+            } else {
+              console.log(e);
+              console.log("--- NG - Un expected error throwed");
+            }
+          }
+        }
+      }
+
       function ErrCheck_InvalidObjectArrayInput() {
         const test_cases = [{case: "null",          obj: null,                                errmes: "Incorrect elements detected - null elements"},
                             {case: "No 'index'",    obj: {content: "any_content"},            errmes: "Incorrect elements detected - non string or undefined 'index'"},
@@ -174,6 +209,8 @@
     <input type="button" value="Test_RemoveLock" onclick="Test_RemoveLock()">
     <input type="button" value="Test_RemoveUnlock" onclick="Test_RemoveUnlock()">
     <hr>
+    <input type="button" value="ErrCheck_NoConstructorArguments" onclick="ErrCheck_NoConstructorArguments()">
+    <input type="button" value="ErrCheck_NonHTMLElementConstructorArgument" onclick="ErrCheck_NonHTMLElementConstructorArgument()">
     <input type="button" value="ErrCheck_InvalidObjectArrayInput" onclick="ErrCheck_InvalidObjectArrayInput()">
     <hr>
     <div id="list-container"></div>
