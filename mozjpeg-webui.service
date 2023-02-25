@@ -1,0 +1,11 @@
+[Unit]
+Description=mozjpeg web application
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/mozjpeg-webui/
+ExecStart=/opt/mozjpeg-webui/.venv/bin/python /opt/mozjpeg-webui/main_3-9.py
+
+[Install]
+WantedBy=multi-user.target
