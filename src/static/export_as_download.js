@@ -4,7 +4,7 @@
  * @param {Blob | File} blob Data body to export
  * @param {string} name Default file name to export
  *
- * @throws {Error} Not enough arguments
+ * @throws {Error} No arguments
  * @throws {Error} `blob` type must be `Blob` or `File`
  *
  * @author aKuad
@@ -12,11 +12,11 @@
 function export_as_download(blob, name = "file") {
   // Check is argument specified
   if(blob === undefined) {
-    throw new Error("At least 1 argument must be specified, but only 0 passed.");
+    throw new Error("No arguments.");
   }
 
   // Check input is Blob or File object
-  if(!is_blob_or_file(blob)) {
+  if(!(blob instanceof Blob) && !(blob instanceof File)) {
     throw new Error("Other than Blob or File object can't export.");
   }
 
@@ -32,28 +32,4 @@ function export_as_download(blob, name = "file") {
   // Delete created element and URL
   delete elem;
   URL.revokeObjectURL(url);
-}
-
-
-/**
- * Return is input object Blob or File object
- *
- * @param {*} obj Object to check
- * @returns When Blob/File object: true, other cases: false
- */
-function is_blob_or_file(obj) {
-  // Check is object and not null
-  if((typeof(obj) !== "object") || (obj === null)) {
-    return false;
-  }
-
-  // Check is toString method available
-  if(typeof(obj.toString) !== "function") {
-    return false;
-  }
-
-  // Check is in true cases
-  const true_cases = ["[object Blob]", "[object File]"];
-  const obj_string = obj.toString();
-  return true_cases.includes(obj_string);
 }

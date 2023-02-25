@@ -20,8 +20,24 @@
    * @constructor
    * @param {HTMLElement} list_container A HTML element to view list
    * @param {onremove_callback} onremove_callback Will call when remove button clicked
+   *
+   * @throws {TypeError} No arguments
+   * @throws {TypeError} Non HTMLElement `list_container`
+   * @throws {TypeError} Non function `onremove_callback`
    */
   constructor(list_container, onremove_callback = null) {
+    // Arguments type checking
+    if(list_container === undefined) {
+      throw new TypeError("No arguments.");
+    }
+    if(!(list_container instanceof HTMLElement)) {
+      throw new TypeError(`Argument 'list_container' must be an HTMLElement, not ${typeof list_container}.`);
+    }
+    if(onremove_callback !== null && typeof onremove_callback !== "function") {
+      throw new TypeError(`Argument 'onremove_callback' must be a function, not ${typeof onremove_callback}.`);
+    }
+
+    // Arguments store to member variables
     this.#list_container = list_container;
     this.#list_container.classList.add("RemovableList-container");
     this.#onremove_callback = onremove_callback;
@@ -184,7 +200,7 @@
    * @returns {number} Count of items in list
    */
   count_items() {
-    return this.#list_container.children.length;
+    return this.#list_container.childElementCount;
   }
 
 
@@ -260,7 +276,7 @@
    *
    * @param {Array<Object>} objs Array object to check
    *
-   * @throws {Error} Not enough arguments
+   * @throws {TypeError} No arguments
    * @throws {Error} Non array object specified as argument.
    * @throws {Error} Incorrect elements detected - null elements
    * @throws {Error} Incorrect elements detected - non string 'index'
@@ -270,7 +286,7 @@
   static #check_appendable_object_error(objs) {
     // Is argument specified
     if(objs === undefined) {
-      throw new Error("At least 1 argument must be specified, but only 0 passed.");
+      throw new TypeError("No arguments.");
     }
 
     if(objs.map(obj => obj === null).includes(true)) {

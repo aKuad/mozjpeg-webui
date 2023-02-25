@@ -15,12 +15,10 @@
        *   * Can view red message box
        *   * Can close message box clicking X button
        *   * Can close message box from code
+       *   * Throw error when no arguments specified
        *   * Throw error when non string specified as message
-       *     * Expected error message: "Incorrect argument type, 'mes' must be string."
        *   * Throw error when empty string specified as message
-       *     * Expected error message: "Empty string message."
        *   * Throw error when unknown style specified
-       *     * Expected error message: "Unknown style specified."
        *
        * Test steps:
        *   1. Open this HTML in browser
@@ -60,6 +58,21 @@
         console.log("--- CHECK - Was message box hide?");
       }
 
+      async function ErrCheck_NoArguments() {
+        console.log("-- ErrCheck_NoArguments");
+        try {
+          await CornerMessage.view();
+          console.log("--- NG - Error hasn't throwed");
+        } catch (e) {
+          if(e.toString() === "TypeError: No arguments.") {
+            console.log("--- OK");
+          } else {
+            console.log(e);
+            console.log("--- NG - Un expected error throwed.");
+          }
+        }
+      }
+
       async function ErrCheck_MessageNonString() {
         const test_cases = [{type: "null", obj: null},
                             {type: "number", obj: 1},
@@ -72,7 +85,7 @@
             await CornerMessage.view(test_case.obj);
             console.log("--- NG - Error hasn't throwed");
           } catch(e) {
-            if(e.toString() === "Error: Incorrect argument type, 'mes' must be string.") {
+            if(e.toString() === `TypeError: Argument 'mes' must be a string, not ${typeof test_case.obj}.`) {
               console.log("--- OK");
             } else {
               console.log(e);
@@ -88,7 +101,7 @@
           await CornerMessage.view("");
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          if(e.toString() === "Error: Empty string message.") {
+          if(e.toString() === "RangeError: Empty string message.") {
             console.log("--- OK");
           } else {
             console.log(e);
@@ -98,11 +111,12 @@
       }
 
       async function ErrCheck_InvalidStyle() {
+        console.log("-- ErrCheck_InvalidStyle");
         try {
           await CornerMessage.view("any mes", "invalid style");
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          if(e.toString() === "Error: Unknown style specified.") {
+          if(e.toString() === "RangeError: Unknown style specified.") {
             console.log("--- OK");
           } else {
             console.log(e);
@@ -120,6 +134,7 @@
     <input type="button" value="Test_ViewDanger" onclick="Test_ViewDanger()">
     <input type="button" value="Test_CloseFromScript" onclick="Test_CloseFromScript()">
     <hr>
+    <input type="button" value="ErrCheck_NoArguments" onclick="ErrCheck_NoArguments()">
     <input type="button" value="ErrCheck_MessageNonString" onclick="ErrCheck_MessageNonString()">
     <input type="button" value="ErrCheck_EmptyMessage" onclick="ErrCheck_EmptyMessage()">
     <input type="button" value="ErrCheck_InvalidStyle" onclick="ErrCheck_InvalidStyle()">
