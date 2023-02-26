@@ -5,7 +5,7 @@
  *
  * @author aKuad
  */
- class RemovableList {
+class RemovableList {
   /** @type {HTMLElement} */
   #list_container;
 
@@ -31,10 +31,12 @@
       throw new TypeError("No arguments.");
     }
     if(!(list_container instanceof HTMLElement)) {
-      throw new TypeError(`Argument 'list_container' must be an HTMLElement, not ${typeof list_container}.`);
+      const list_container_type = list_container === null ? "null" : typeof list_container === "object" ? list_container.constructor.name : typeof list_container;
+      throw new TypeError(`Argument 'list_container' must be a HTMLElement, not ${list_container_type}.`);
     }
     if(onremove_callback !== null && typeof onremove_callback !== "function") {
-      throw new TypeError(`Argument 'onremove_callback' must be a function, not ${typeof onremove_callback}.`);
+      const onremove_callback_type = typeof onremove_callback === "object" ? onremove_callback.constructor.name : typeof onremove_callback;
+      throw new TypeError(`Argument 'onremove_callback' must be a function, not ${onremove_callback_type}.`);
     }
 
     // Arguments store to member variables
@@ -57,14 +59,12 @@
   /**
    * Try adding items to list without overwriting
    *
-   * @param {...Object} objs Custom object and index text contained objects to append
-   * @property {*}      objs.content Object to append in new item
-   * @property {string} objs.index Text to view in list
+   * @param {...RemovableListItem} objs Item objects to append
    * @returns {Array<boolean>} Each objects were - success to add: true, failed: false
    */
   add_items_no_overwrite(...objs) {
-    // Check is argument correct
-    RemovableList.#check_appendable_object_error(objs);
+    // Argument check
+    RemovableList.#check_non_item_element(objs);
 
     // Process all elements
     const list_items = Array.from(this.#list_container.children);
@@ -96,13 +96,11 @@
   /**
    * Add items to list with resolving index text duplication
    *
-   * @param {...Object} objs Custom object and index text contained objects to append
-   * @property {*}      objs.content Object to append in new item
-   * @property {string} objs.index Text to view in list
+   * @param {...RemovableListItem} objs Item objects to append
    */
   add_items_keep_each(...objs) {
-    // Check is argument correct
-    RemovableList.#check_appendable_object_error(objs);
+    // Argument check
+    RemovableList.#check_non_item_element(objs);
 
     // Process all elements
     const list_items = Array.from(this.#list_container.children);
@@ -132,13 +130,11 @@
   /**
    * Add items with overwriting when index was duplicated
    *
-   * @param {...Object} objs Custom object and index text contained objects to append
-   * @property {*}      objs.content Object to append in new item
-   * @property {string} objs.index Text to view in list
+   * @param {...RemovableListItem} objs Item objects to append
    */
   add_items_overwrite(...objs) {
-    // Check is argument correct
-    RemovableList.#check_appendable_object_error(objs);
+    // Argument check
+    RemovableList.#check_non_item_element(objs);
 
     // Process all elements
     const list_items = Array.from(this.#list_container.children);
@@ -183,9 +179,7 @@
   /**
    * Export all items appended in list
    *
-   * @returns {Array<Object>}
-   * @property {*}      Array[].content Appended object in item
-   * @property {string} Array[].index Text viewing in list
+   * @returns {Array<RemovableListItem>}
    */
   export_items_all() {
     return Array.from(this.#list_container.children, e => {
@@ -272,37 +266,51 @@
 
 
   /**
-   * Check array's all elements has string `index` and any object
+   * Detect non RemovableListItem object types from an array
    *
-   * @param {Array<Object>} objs Array object to check
+   * @param {Array<*>} objs Array object to check
    *
-   * @throws {TypeError} No arguments
-   * @throws {Error} Non array object specified as argument.
-   * @throws {Error} Incorrect elements detected - null elements
-   * @throws {Error} Incorrect elements detected - non string 'index'
-   * @throws {Error} Incorrect elements detected - empty string 'index'
-   * @throws {Error} Incorrect elements detected - undefined 'content'
+   * @throws {TypeError} Non RemovableListItem detected
    */
-  static #check_appendable_object_error(objs) {
-    // Is argument specified
-    if(objs === undefined) {
+  static #check_non_item_element(objs) {
+    const objs_invalid = objs.filter(e => e instanceof RemovableListItem === false);
+    if(objs_invalid.length === 0) { return; }
+
+    let objs_invalid_types = objs_invalid.map(e => {
+      if(e === null)            { return "null"; }
+      if(typeof e === "object") { return e.constructor.name; }
+      return typeof e;
+    });
+    // 'new Set()' for remove duplicates
+    objs_invalid_types = Array.from(new Set(objs_invalid_types));
+
+    throw new TypeError(`Arguments must be RemovableListItem, detected ${objs_invalid_types.join(", ")}.`);
+  }
+}
+
+
+/**
+ * Item object, which can append to list
+ *
+ * @property {string} index String to view in list
+ * @property {*} content A custom object to append
+ */
+class RemovableListItem {
+  constructor(index, content) {
+    // Arguments type checking ('content' allowed everything, including undefined)
+    if(index === undefined) {
       throw new TypeError("No arguments.");
     }
-
-    if(objs.map(obj => obj === null).includes(true)) {
-      throw new Error("Incorrect elements detected - null elements");
+    if(typeof index !== "string") {
+      const index_type = index === null ? "null" : typeof index === "object" ? index.constructor.name : typeof index;
+      throw new TypeError(`Argument 'index' must be a string, not ${index_type}.`);
+    }
+    if(index === "") {
+      throw new RangeError("'index' can't be an empty string.");
     }
 
-    if(objs.map(obj => typeof(obj.index) !== "string").includes(true)) {
-      throw new Error("Incorrect elements detected - non string or undefined 'index'");
-    }
-
-    if(objs.map(obj => obj.index === "").includes(true)) {
-      throw new Error("Incorrect elements detected - empty string 'index'");
-    }
-
-    if(objs.map(obj => obj.content === undefined).includes(true)) {
-      throw new Error("Incorrect elements detected - undefined 'content'");
-    }
+    // Store
+    this.index = index;
+    this.content = content;
   }
 }
