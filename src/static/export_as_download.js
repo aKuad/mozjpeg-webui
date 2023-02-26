@@ -16,7 +16,7 @@ function export_as_download(blob, name = "file") {
   }
   if(!(blob instanceof Blob) && !(blob instanceof File)) {
     const blob_type = blob === null ? "null" : typeof blob === "object" ? blob.constructor.name : typeof blob;
-    throw new TypeError(`Argument 'blob' must be an Blob or File, not ${blob_type}.`);
+    throw new TypeError(`Argument 'blob' must be a Blob or File, not ${blob_type}.`);
   }
 
   // Create link element (linked to object downloading)
