@@ -46,7 +46,7 @@
       function ErrCheck_InvalidArgument() {
         ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
 
-        const test_cases = [null, 1, "any", () => {}, {}];
+        const test_cases = [null, 1, true, "any", () => {}, {}];
         for(const test_case of test_cases) {
           const test_case_type = Part_ObjectType(test_case);
           ErrCheck_InvalidArgument_Part(test_case, `TypeError: Argument 'blob' must be an Blob or File, not ${test_case_type}.`);
