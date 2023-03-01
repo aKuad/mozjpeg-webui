@@ -182,9 +182,7 @@ class RemovableList {
    * @returns {Array<RemovableListItem>}
    */
   export_items_all() {
-    return Array.from(this.#list_container.children, e => {
-      return {content: e.content, index: e.innerText};
-    });
+    return Array.from(this.#list_container.children, e => new RemovableListItem(e.innerText, e.content));
   }
 
 
