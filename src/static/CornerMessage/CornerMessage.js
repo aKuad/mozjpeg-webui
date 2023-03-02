@@ -35,10 +35,11 @@ class CornerMessage {
       throw new TypeError("No arguments.")
     }
     if(typeof(mes) !== "string") {
-      throw new TypeError(`Argument 'mes' must be a string, not ${typeof mes}.`);
+      const mes_type = mes === null ? "null" : typeof mes === "object" ? mes.constructor.name : typeof mes;
+      throw new TypeError(`Argument 'mes' must be a string, not ${mes_type}.`);
     }
     if(mes === "") {
-      throw new RangeError("Empty string message.");
+      throw new RangeError("'mes' can't be an empty string.");
     }
     if(!CornerMessage.#style_values.includes(style)) {
       // Is correct style specified

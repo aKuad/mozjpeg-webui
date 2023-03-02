@@ -12,15 +12,16 @@ class InputFileReader {
    * @returns {Array<File>} Loaded file objects
    *
    * @throws {TypeError} No arguments
-   * @throws {TypeError} Argument is not HTMLInputElement
+   * @throws {TypeError} Argument is not `HTMLInputElement`
    */
   static async read(elem) {
-    // Argumen type check
+    // Argument check
     if(elem === undefined) {
       throw new TypeError("No arguments.");
     }
     if(!(elem instanceof HTMLInputElement)) {
-      throw new TypeError(`Argument must be an HTMLInputElement, not ${typeof elem}.`);
+      const elem_type = elem === null ? "null" : typeof elem === "object" ? elem.constructor.name : typeof elem
+      throw new TypeError(`Argument must be a HTMLInputElement, not ${elem_type}.`);
     }
 
     // When webkitEntries available

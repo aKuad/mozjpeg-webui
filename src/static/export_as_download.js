@@ -10,14 +10,13 @@
  * @author aKuad
  */
 function export_as_download(blob, name = "file") {
-  // Check is argument specified
+  // Argument check
   if(blob === undefined) {
-    throw new Error("No arguments.");
+    throw new TypeError("No arguments.");
   }
-
-  // Check input is Blob or File object
   if(!(blob instanceof Blob) && !(blob instanceof File)) {
-    throw new Error("Other than Blob or File object can't export.");
+    const blob_type = blob === null ? "null" : typeof blob === "object" ? blob.constructor.name : typeof blob;
+    throw new TypeError(`Argument 'blob' must be a Blob or File, not ${blob_type}.`);
   }
 
   // Create link element (linked to object downloading)

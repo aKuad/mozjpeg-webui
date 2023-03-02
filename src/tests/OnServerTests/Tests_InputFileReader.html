@@ -17,8 +17,8 @@
        *   * Can get file objects from an input.file element
        *     * By selecting multiple files
        *     * By selecting a directory
-       *   * Throw error when no arguments specified
-       *   * Throw error when non entry object specified
+       *   * Throw error when no arguments passed
+       *   * Throw error when non HTMLInputElement passed
        *
        * Test steps:
        *   1. Execute `main.py` (in same directory) with python3 interpriter
@@ -38,41 +38,34 @@
         console.log("--- CHECK - Are all files detected?");
       }
 
-      async function ErrCheck_NoArgument() {
-        console.log("-- ErrCheck_NoArgument");
+      async function ErrCheck_InvalidArgument() {
+        await ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
+
+        const test_cases = [null, 1, true, "any", () => {}, {}];
+        for(const test_case of test_cases) {
+          const test_case_type = Part_ObjectType(test_case);
+          await ErrCheck_InvalidArgument_Part(test_case, `TypeError: Argument must be an HTMLInputElement, not ${test_case_type}.`);
+        }
+      }
+
+      async function ErrCheck_InvalidArgument_Part(test_obj, expected_message) {
+        const test_type = Part_ObjectType(test_obj);
+        console.log(`-- ErrCheck_InvalidArgument - ${test_type}`);
         try {
-          await InputFileReader.read();
+          await InputFileReader.read(test_obj);
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          if(e.toString() === "TypeError: No arguments.") {
+          if(e.toString() === expected_message) {
             console.log("--- OK");
           } else {
             console.log(e);
-            console.log("--- NG - Un expected error throwed");
+            console.log(`--- NG - Un expected error throwed, expected: ${expected_message}`);
           }
         }
       }
 
-      async function ErrCheck_NonInputElementInputs() {
-        const test_cases = [{"type": "null", "obj": null},
-                            {"type": "number", "obj": 1},
-                            {"type": "string", "obj": "hello"},
-                            {"type": "function", "obj": () => {}},
-                            {"type": "custom_object", "obj": {}}];
-        for(const test_case of test_cases) {
-          console.log("-- ErrCheck_NonInputElementInputs - " + test_case.type)
-          try {
-            await InputFileReader.read(test_case.obj);
-            console.log("--- NG - Error hasn't throwed");
-          } catch(e) {
-            if(e.toString() === `TypeError: Argument must be an HTMLInputElement, not ${typeof test_case.obj}.`) {
-              console.log("--- OK");
-            } else {
-              console.log(e);
-              console.log("--- NG - Un expected error throwed");
-            }
-          }
-        }
+      function Part_ObjectType(obj) {
+        return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
 
       window.addEventListener("load", () => {
@@ -87,7 +80,6 @@
     <br>
     Test_ReadingFiles (directory): <input type="file" id="Test_ReadingFiles_directory" webkitdirectory>
     <hr>
-    <input type="button" value="ErrCheck_NoArgument" onclick="ErrCheck_NoArgument()">
-    <input type="button" value="ErrCheck_NonInputElementInputs" onclick="ErrCheck_NonInputElementInputs()">
+    <input type="button" value="ErrCheck_InvalidArgument" onclick="ErrCheck_InvalidArgument()">
   </body>
 </html>

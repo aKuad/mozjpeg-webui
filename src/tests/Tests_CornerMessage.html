@@ -15,10 +15,10 @@
        *   * Can view red message box
        *   * Can close message box clicking X button
        *   * Can close message box from code
-       *   * Throw error when no arguments specified
-       *   * Throw error when non string specified as message
-       *   * Throw error when empty string specified as message
-       *   * Throw error when unknown style specified
+       *   * Throw error when no arguments passed
+       *   * Throw error when empty string passed to 'mes'
+       *   * Throw error when non string passed to 'mes'
+       *   * Throw error when undefined style passed
        *
        * Test steps:
        *   1. Open this HTML in browser
@@ -58,56 +58,36 @@
         console.log("--- CHECK - Was message box hide?");
       }
 
-      async function ErrCheck_NoArguments() {
-        console.log("-- ErrCheck_NoArguments");
-        try {
-          await CornerMessage.view();
-          console.log("--- NG - Error hasn't throwed");
-        } catch (e) {
-          if(e.toString() === "TypeError: No arguments.") {
-            console.log("--- OK");
-          } else {
-            console.log(e);
-            console.log("--- NG - Un expected error throwed.");
-          }
-        }
-      }
+      async function ErrCheck_InvalidArgument() {
+        await ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
+        await ErrCheck_InvalidArgument_Part("", "RangeError: 'mes' can't be an empty string.");
 
-      async function ErrCheck_MessageNonString() {
-        const test_cases = [{type: "null", obj: null},
-                            {type: "number", obj: 1},
-                            {type: "boolean", obj: true},
-                            {type: "object", obj: {}},
-                            {type: "function", obj: () => {}}];
+        // Tests for others
+        const test_cases = [null, 1, true, () => {}, {}];
         for(const test_case of test_cases) {
-          console.log("-- ErrCheck_MessageNonString - " + test_case.type);
-          try {
-            await CornerMessage.view(test_case.obj);
-            console.log("--- NG - Error hasn't throwed");
-          } catch(e) {
-            if(e.toString() === `TypeError: Argument 'mes' must be a string, not ${typeof test_case.obj}.`) {
-              console.log("--- OK");
-            } else {
-              console.log(e);
-              console.log("--- NG - Un expected error throwed");
-            }
-          }
+          const test_case_type = Part_ObjectType(test_case);
+          await ErrCheck_InvalidArgument_Part(test_case, `TypeError: Argument 'mes' must be a string, not ${test_case_type}.`);
         }
       }
 
-      async function ErrCheck_EmptyMessage() {
-        console.log("-- ErrCheck_EmptyMessage");
+      async function ErrCheck_InvalidArgument_Part(test_obj, expected_message) {
+        const test_type = Part_ObjectType(test_obj);
+        console.log(`-- ErrCheck_InvalidArgument -  ${test_type}`);
         try {
-          await CornerMessage.view("");
+          await CornerMessage.view(test_obj);
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          if(e.toString() === "RangeError: Empty string message.") {
+          if(e.toString() === expected_message) {
             console.log("--- OK");
           } else {
             console.log(e);
-            console.log("--- NG - Un expected error throwed");
+            console.log(`--- NG - Un expected error throwed, expected: ${expected_message}`);
           }
         }
+      }
+
+      function Part_ObjectType(obj) {
+        return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
 
       async function ErrCheck_InvalidStyle() {
@@ -134,9 +114,7 @@
     <input type="button" value="Test_ViewDanger" onclick="Test_ViewDanger()">
     <input type="button" value="Test_CloseFromScript" onclick="Test_CloseFromScript()">
     <hr>
-    <input type="button" value="ErrCheck_NoArguments" onclick="ErrCheck_NoArguments()">
-    <input type="button" value="ErrCheck_MessageNonString" onclick="ErrCheck_MessageNonString()">
-    <input type="button" value="ErrCheck_EmptyMessage" onclick="ErrCheck_EmptyMessage()">
+    <input type="button" value="ErrCheck_InvalidArgument" onclick="ErrCheck_InvalidArgument()">
     <input type="button" value="ErrCheck_InvalidStyle" onclick="ErrCheck_InvalidStyle()">
   </body>
 </html>
