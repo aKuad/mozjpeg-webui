@@ -9,7 +9,7 @@ JPEG optimizing web app
 
 ## Features
 
-* Written with only plain HTML/CSS/JavaScript frontend
+* Plain HTML/CSS/JavaScript frontend
 * Traditional style, and simple
 * Multiple files/directories selection
 
@@ -41,6 +41,7 @@ sudo apt install cmake nasm
 ## Throwgh git
 git clone https://github.com/mozilla/mozjpeg.git
 cd mozjpeg
+git checkout v4.1.1
 ### === or ===
 ## Throwgh wget
 wget -O - https://github.com/mozilla/mozjpeg/archive/refs/tags/v4.1.1.tar.gz | tar -xzv -C ./
@@ -48,10 +49,10 @@ cd mozjpeg-4.1.1
 
 # Build and install mozjpeg
 cmake -G"Unix Makefiles" -DPNG_SUPPORTED=0 ./
-sudo make install/local
+sudo make install
 ```
 
-Any problem to build? Please see [official reference](https://github.com/mozilla/mozjpeg/blob/master/BUILDING.md).
+Any problems of build? Please see [official reference](https://github.com/mozilla/mozjpeg/blob/master/BUILDING.md).
 
 ### Install required python packages
 
@@ -70,10 +71,42 @@ pip install fastapi uvicorn jinja2 aiofiles python-multipart
 python3 -V
 
 # For python 3.8.x or previous
+cd src/
 python3 main_3-8.py
 
 # For python 3.9 or later
+cd src/
 python3 main_3-9.py
+```
+
+### Access from browser
+
+Now app available on: `http://localhost:8000`
+
+## Deployments (for systemd)
+
+Please done 'Deployments - Build and install mozjpeg' section.
+
+### Run setup script
+
+> **Note**
+>
+> Python virtual environment will be created automatically.
+
+```sh
+# Root permission required
+sudo ./systemd-setup.sh
+```
+
+### Switch by systemctl
+
+`mozjpeg-webui` service will be available on systemd.
+
+```sh
+systemctl start mozjpeg-webui   # Start
+systemctl stop mozjpeg-webui    # Stop
+systemctl enable mozjpeg-webui  # Set auto start
+systemctl disable mozjpeg-webui # Unset auto start
 ```
 
 ## About difference between 3.8 - 3.9
