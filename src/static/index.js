@@ -53,7 +53,7 @@ window.addEventListener("load", () => {
     }
 
     // Add files to file list
-    const items = files_jpeg.map(e => new Object({content: e, index: e.name}));
+    const items = files_jpeg.map(e => new RemovableListItem(e.name, e));
     const items_result = filesList.add_items_no_overwrite(...items);
     toggle_process_available(filesList);
 

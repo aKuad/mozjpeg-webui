@@ -31,12 +31,10 @@
        *   * Can remove all items from list
        *   * Can hide item removing button
        *   * Can re-display item removing button
-       *   * Can execute specified callback when removing button clicked
-       *   * Throw error when no arguments specified
-       *   * Throw error when non array specified to add item
-       *   * Throw error when no arguments specified to add item
-       *   * Throw error when invalid elements included array specified
-       *     * Valid element is: An object has `content` (custom object) and `index` (string, not empty) value
+       *   * Can execute passed callback when removing button clicked
+       *   * Throw error when no arguments passed to constructor
+       *   * Throw error when non HTMLElement passed to constructor
+       *   * Throw error when non RemovableListItem elements passed to item adding method
        *
        * Test steps:
        *   1. Execute `main.py` (in same directory) with python3 interpriter
@@ -51,15 +49,13 @@
 
       function Test_ItemAddingNoOverwrite() {
         console.log("-- Test_ItemAddingNoOverwrite");
-        const append_obj = Part_CreateAppendObj();
-        console.log(list.add_items_no_overwrite(append_obj));
+        console.log(list.add_items_no_overwrite(Part_CreateAppendObj()));
         console.log("--- CHECK - Was item added? or ignored when same index specified?");
       }
 
       function Test_ItemAddAutoRename() {
         console.log("-- Test_ItemAddAutoRename");
-        const append_obj = Part_CreateAppendObj();
-        list.add_items_keep_each(append_obj);
+        list.add_items_keep_each(Part_CreateAppendObj());
         console.log("--- CHECK - Was item added with index name_n");
       }
 
@@ -68,22 +64,21 @@
         console.log("[Before modification]");
         console.log(list.export_items_all());
         console.log("[After mofification]");
-        const append_obj = Part_CreateAppendObj();
-        list.add_items_overwrite(append_obj);
+        list.add_items_overwrite(Part_CreateAppendObj());
         console.log(list.export_items_all());
         console.log("--- CHECK - Was item content updated?");
       }
 
       function Part_CreateAppendObj() {
-        return {content: document.querySelector("#value-content").files[0],
-                index: document.querySelector("#value-index").value}
+        return new RemovableListItem(document.querySelector("#value-index").value,
+                                     document.querySelector("#value-content").files[0]);
       }
 
       function Test_ItemsAddMultipleRandom() {
         console.log("-- Test_ItemsAddMultipleRandom");
         const append_objs = [];
         for(let i = 0; i < 1000; i++) {
-          append_objs.push({content: Math.random().toString(), index: Math.random().toString()});
+          append_objs.push(new RemovableListItem(Math.random().toString(), Math.random().toString()));
         }
         list.add_items_keep_each(...append_objs);
         console.log("--- CHECK - Were 1000 items added?");
@@ -91,15 +86,13 @@
 
       function Test_ItemsExporting() {
         console.log("-- Test_ItemsExporting");
-        const items = list.export_items_all();
-        console.log(items);
+        console.log(list.export_items_all());
         console.log("--- CHECK - Were all items content & index printed?");
       }
 
       function Test_ItemsCounting() {
         console.log("-- Test_ItemsCounting");
-        const items_count = list.count_items();
-        console.log(items_count);
+        console.log(list.count_items());
         console.log("--- CHECK - Was items count printed?");
       }
 
@@ -121,62 +114,85 @@
         console.log("--- CHECK - Is cross button re-displayed?");
       }
 
-      function ErrCheck_NoConstructorArguments() {
-        console.log("-- ErrCheck_NoConstructorArguments");
+      function ErrCheck_InvalidArgument_Constructor() {
+        ErrCheck_InvalidArgument_Constructor_Part(undefined, "TypeError: No arguments.");
+
+        const test_cases = [null, 1, true, "any", () => {}, {}];;
+        for(const test_case of test_cases) {
+          const test_case_type = Part_ObjectType(test_case);
+          ErrCheck_InvalidArgument_Constructor_Part(test_case, `TypeError: Argument 'list_container' must be a HTMLElement, not ${test_case_type}.`);
+        }
+      }
+
+      function ErrCheck_InvalidArgument_Constructor_Part(test_obj, expected_message) {
+        const test_obj_type = Part_ObjectType(test_obj);
+        console.log(`-- ErrCheck_InvalidArgument_Constructor - ${test_obj_type}`);
         try {
-          new RemovableList();
+          new RemovableList(test_obj);
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
-          if(e.toString() === "TypeError: No arguments.") {
+          if(e.toString() === expected_message) {
             console.log("--- OK");
           } else {
             console.log(e);
-            console.log("--- NG - Un expected error throwed");
-          }
-        }
-      }
-      
-      function ErrCheck_NonHTMLElementConstructorArgument() {
-        const test_cases = [{"type": "null", "obj": null},
-                            {"type": "number", "obj": 1},
-                            {"type": "string", "obj": "hello"},
-                            {"type": "function", "obj": () => {}},
-                            {"type": "custom_object", "obj": {}}];
-        for(const test_case of test_cases) {
-          console.log("-- ErrCheck_NonHTMLElementConstructorArgument - " + test_case.type)
-          try {
-            new RemovableList(test_case.obj);
-            console.log("--- NG - Error hasn't throwed");
-          } catch(e) {
-            if(e.toString() === `TypeError: Argument 'list_container' must be an HTMLElement, not ${typeof test_case.obj}.`) {
-              console.log("--- OK");
-            } else {
-              console.log(e);
-              console.log("--- NG - Un expected error throwed");
-            }
+            console.log(`--- NG - Un expected error throwed, expected: ${expected_message}`);
           }
         }
       }
 
-      function ErrCheck_InvalidObjectArrayInput() {
-        const test_cases = [{case: "null",          obj: null,                                errmes: "Incorrect elements detected - null elements"},
-                            {case: "No 'index'",    obj: {content: "any_content"},            errmes: "Incorrect elements detected - non string or undefined 'index'"},
-                            {case: "Empty 'index'", obj: {content: "any_content", index: ""}, errmes: "Incorrect elements detected - empty string 'index'"},
-                            {case: "No 'content'",  obj: {index: "any_index"},                errmes: "Incorrect elements detected - undefined 'content'"}];
+      function ErrCheck_InvalidArgument_AddingMethod() {
+        const test_cases = [undefined, null, 1, true, "any", () => {}, {}];
         for(const test_case of test_cases) {
-          console.log("-- ErrCheck_InvalidObjectArrayInput - " + test_case.case);
-          try {
-            list.add_items_overwrite(test_case.obj);
-            console.log("--- NG - Error hasn't throwed");
-          } catch(e) {
-            if(e.toString() === ("Error: " + test_case.errmes)) {
-              console.log("--- OK");
-            } else {
-              console.log(e);
-              console.log("--- NG - Un expected error throwed");
-            }
+          const test_case_type = Part_ObjectType(test_case);
+          ErrCheck_InvalidArgument_AddingMethod_Part(test_case, `TypeError: Arguments must be RemovableListItem, detected ${test_case_type}.`);
+        }
+      }
+
+      function ErrCheck_InvalidArgument_AddingMethod_Part(test_obj, expected_message) {
+        const test_obj_type = Part_ObjectType(test_obj);
+        console.log(`-- ErrCheck_InvalidArgument_AddingMethod - ${test_obj_type}`);
+        try {
+          list.add_items_no_overwrite(test_obj);
+          console.log("--- NG - Error hasn't throwed");
+        } catch(e) {
+          if(e.toString() === expected_message) {
+            console.log("--- OK");
+          } else {
+            console.log(e);
+            console.log(`--- NG - Un expected error throwed, expected: ${expected_message}`);
           }
         }
+      }
+
+      function ErrCheck_InvalidArgument_ItemObj() {
+        ErrCheck_InvalidArgument_ItemObj_Part(undefined, "TypeError: No arguments.");
+        ErrCheck_InvalidArgument_ItemObj_Part("", "RangeError: 'index' can't be an empty string.");
+
+        const test_cases = [null, 1, true, () => {}, {}];
+        for(const test_case of test_cases) {
+          const test_case_type = Part_ObjectType(test_case);
+          ErrCheck_InvalidArgument_ItemObj_Part(test_case, `TypeError: Argument 'index' must be a string, not ${test_case_type}.`);
+        }
+      }
+
+      function ErrCheck_InvalidArgument_ItemObj_Part(test_obj, expected_message) {
+        const test_obj_type = Part_ObjectType(test_obj);
+        console.log(`-- ErrCheck_InvalidArgument_ItemObj - ${test_obj_type}`);
+        try {
+          new RemovableListItem(test_obj);
+          console.log("--- NG - Error hasn't throwed");
+        } catch(e) {
+          if(e.toString() === expected_message) {
+            console.log("--- OK");
+          } else {
+            console.log(e);
+            console.log(`--- NG - Un expected error throwed, expected: ${expected_message}`);
+          }
+        }
+      }
+
+      function Part_ObjectType(obj) {
+        return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
 
       function Test_OnRemoveCallback() {
@@ -187,7 +203,7 @@
       window.addEventListener("load", () => {
         list = new RemovableList(document.querySelector("#list-container"));
         list_call = new RemovableList(document.querySelector("#list-container-call"), Test_OnRemoveCallback);
-        list_call.add_items_no_overwrite({content: "content", index: "On remove callback check"});
+        list_call.add_items_no_overwrite(new RemovableListItem("On remove callback check", "content"));
       });
     </script>
   </head>
@@ -209,9 +225,9 @@
     <input type="button" value="Test_RemoveLock" onclick="Test_RemoveLock()">
     <input type="button" value="Test_RemoveUnlock" onclick="Test_RemoveUnlock()">
     <hr>
-    <input type="button" value="ErrCheck_NoConstructorArguments" onclick="ErrCheck_NoConstructorArguments()">
-    <input type="button" value="ErrCheck_NonHTMLElementConstructorArgument" onclick="ErrCheck_NonHTMLElementConstructorArgument()">
-    <input type="button" value="ErrCheck_InvalidObjectArrayInput" onclick="ErrCheck_InvalidObjectArrayInput()">
+    <input type="button" value="ErrCheck_InvalidArgument_Constructor" onclick="ErrCheck_InvalidArgument_Constructor()">
+    <input type="button" value="ErrCheck_InvalidArgument_AddingMethod" onclick="ErrCheck_InvalidArgument_AddingMethod()">
+    <input type="button" value="ErrCheck_InvalidArgument_ItemObj" onclick="ErrCheck_InvalidArgument_ItemObj()">
     <hr>
     <div id="list-container"></div>
     <div id="list-container-call"></div>
