@@ -27,6 +27,13 @@ JPEG optimizing web app
 
 File saving dialog will open, and save processed file.
 
+## Requirements
+
+* Python3 (2 or lower is unsupported)
+* Python pip
+* Python venv (for systemd)
+* systemd (for systemd)
+
 ## Deployments
 
 This is a procedure for linux (Debian/Ubuntu) system.
@@ -117,12 +124,12 @@ This is a difference of type annotation.
 # On 3.8 or previous
 from typing import List
 
-def func(arg: List[str])
+def func(arg: List[str]):
 ```
 
 ```py
 # On 3.9 or later
-def func(arg: list[str])
+def func(arg: list[str]):
 ## It supported as builtin,
 ##   and `typing.List` will be deprecated in future releases
 ```
