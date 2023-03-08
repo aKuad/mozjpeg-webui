@@ -24,24 +24,26 @@ class CornerMessage {
    * @param {string} mes String to view
    * @param {string} style Message box color `info (Blue)`, `warn (Yellow)`, `danger (Red)`
    *
-   * @throws {Error} Non string `mes`
-   * @throws {Error} Empty string `mes`
-   * @throws {Error} Incorrect argument `style`
+   * @throws {TypeError} No arguments
+   * @throws {TypeError} Non string `mes`
+   * @throws {RangeError} Empty string `mes`
+   * @throws {RangeError} Incorrect argument `style`
    */
   static async view(mes, style = CornerMessage.style.info) {
-    // Check is message string
+    // Arguments checki
+    if(mes === undefined) {
+      throw new TypeError("No arguments.")
+    }
     if(typeof(mes) !== "string") {
-      throw new Error("Incorrect argument type, 'mes' must be string.");
+      const mes_type = mes === null ? "null" : typeof mes === "object" ? mes.constructor.name : typeof mes;
+      throw new TypeError(`Argument 'mes' must be a string, not ${mes_type}.`);
     }
-
-    // Check is message not empty
     if(mes === "") {
-      throw new Error("Empty string message.");
+      throw new RangeError("'mes' can't be an empty string.");
     }
-
-    // Check is correct style specified
     if(!CornerMessage.#style_values.includes(style)) {
-      throw new Error("Unknown style specified.");
+      // Is correct style specified
+      throw new RangeError("Unknown style specified.");
     }
 
     // If previous message viewing, close
@@ -49,6 +51,7 @@ class CornerMessage {
       await CornerMessage.close();
     }
 
+    // Create element
     const container = document.createElement("div");
     container.id = "CornerMessage-container";
     container.classList.add(style);
@@ -64,6 +67,7 @@ class CornerMessage {
     cross.addEventListener("click", () => CornerMessage.close() );
     container.appendChild(cross);
 
+    // View element
     document.body.appendChild(container);
     await new Promise(r => setTimeout(r, 50));  // strangely, it makes stable viewing
     container.classList.add("CornerMessage-container-view");

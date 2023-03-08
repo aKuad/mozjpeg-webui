@@ -11,18 +11,17 @@ class InputFileReader {
    * @param {HTMLInputElement} elem `input.file` element to read files
    * @returns {Array<File>} Loaded file objects
    *
-   * @throws {TypeError} No arguments specified.
-   * @throws {TypeError} Argument is non input element.
+   * @throws {TypeError} No arguments
+   * @throws {TypeError} Argument is not `HTMLInputElement`
    */
   static async read(elem) {
-    // Is argument specified
+    // Argument check
     if(elem === undefined) {
-      throw new TypeError("No arguments specified.");
+      throw new TypeError("No arguments.");
     }
-
-    // Is argument input element
-    if(!InputFileReader.#is_input_element(elem)) {
-      throw new TypeError("Argument is non input element.");
+    if(!(elem instanceof HTMLInputElement)) {
+      const elem_type = elem === null ? "null" : typeof elem === "object" ? elem.constructor.name : typeof elem
+      throw new TypeError(`Argument must be a HTMLInputElement, not ${elem_type}.`);
     }
 
     // When webkitEntries available
@@ -80,24 +79,5 @@ class InputFileReader {
   static #file_obj_rename(file, new_name) {
     // Re-creating file object, because name field is read-only
     return new File([file], new_name, {type: file.type, lastModified: file.lastModified});
-  }
-
-
-  /**
-   * Check is specified object input element
-   *
-   * @param {*} obj Object to check
-   * @returns {boolean} obj is input element: true, other cases: false
-   */
-  static #is_input_element(obj) {
-    // Is non-object or null
-    if(typeof obj !== "object") { return false; }
-    if(       obj === null    ) { return false; }
-
-    // Is input element
-    if(obj.webkitEntries === undefined) { return false; }
-    if(obj.files         === undefined) { return false; }
-
-    return true;
   }
 }
