@@ -31,12 +31,11 @@ File saving dialog will open, and save processed file.
 
 * Python3 (2 or lower is unsupported)
 * Python pip
+* mozjpeg
 * Python venv (for systemd)
 * systemd (for systemd)
 
-## Deployments
-
-This is a procedure for linux (Debian/Ubuntu) system.
+## Deployments (for Debian/Ubuntu)
 
 ### Build and install mozjpeg
 
@@ -68,7 +67,7 @@ Any problems of build? Please see [official reference](https://github.com/mozill
 > If you need, work in virtual environment.
 
 ```sh
-pip install fastapi uvicorn jinja2 aiofiles python-multipart
+pip install fastapi uvicorn jinja2 python-multipart
 ```
 
 ### Run main
@@ -88,11 +87,11 @@ python3 main_3-9.py
 
 ### Access from browser
 
-Now app available on: `http://localhost:8000`
+Now app will be available on: `http://localhost:8000`
 
 ## Deployments (for systemd)
 
-Please done 'Deployments - Build and install mozjpeg' section.
+Please done [Build and install mozjpeg](#build-and-install-mozjpeg) before.
 
 ### Run setup script
 
