@@ -21,6 +21,9 @@ window.addEventListener("load", () => {
     if(event.target.files.length         === 0 &&
        event.target.webkitEntries.length === 0) { return; }
 
+    // Prevent parallel process
+    controls_lock(filesList);
+
     // Get all inputted files
     const files_all = await InputFileReader.read(event.target);
     if(files_all.length === 0) {
@@ -73,6 +76,8 @@ window.addEventListener("load", () => {
     if(err_mes_array.length !== 0) {
       CornerMessage.view(err_mes_array.join("\n"), CornerMessage.style.danger);
     }
+
+    controls_unlock(filesList);
   }
 
 
