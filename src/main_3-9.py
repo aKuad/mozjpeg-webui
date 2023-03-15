@@ -76,7 +76,7 @@ async def jpegs_opt(files: list[UploadFile] = File(...)):
       return Response(zipfilemake.export_zip(), media_type="application/zip")
   except ValueError:
     # On optimizing error occured
-    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid jpeg input")
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid jpeg input (may be broken)")
 
 
 if __name__ == '__main__':
