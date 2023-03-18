@@ -21,6 +21,9 @@ window.addEventListener("load", () => {
     if(event.target.files.length         === 0 &&
        event.target.webkitEntries.length === 0) { return; }
 
+    // Prevent parallel process
+    controls_lock(filesList);
+
     // Get all inputted files
     const files_all = await InputFileReader.read(event.target);
     if(files_all.length === 0) {
@@ -55,7 +58,6 @@ window.addEventListener("load", () => {
     // Add files to file list
     const items = files_jpeg.map(e => new RemovableListItem(e.name, e));
     const items_result = filesList.add_items_no_overwrite(...items);
-    toggle_process_available(filesList);
 
     // If same name files detected, set error message
     const failed_count = items_result.filter(e => e === false).length;
@@ -73,6 +75,8 @@ window.addEventListener("load", () => {
     if(err_mes_array.length !== 0) {
       CornerMessage.view(err_mes_array.join("\n"), CornerMessage.style.danger);
     }
+
+    controls_unlock(filesList);
   }
 
 
