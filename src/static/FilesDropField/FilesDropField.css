@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.FilesDropField-base {
+  position: relative;
+}
+
+.FilesDropField-attachment, .FilesDropField-ondragview, .FilesDropField-detector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.FilesDropField-attachment {
+  transition: opacity 0.1s linear;
+  opacity: 1;
+}
+.FilesDropField-attachment-hide {
+  opacity: 0;
+}
+
+.FilesDropField-detector {
+  opacity: 0;
+}
