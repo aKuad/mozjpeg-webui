@@ -1,5 +1,5 @@
 # coding: UTF-8
-"""Tests for ``main_3-8.py``
+"""Tests for ``main_3-8.py`` and ``main_3-9.py``
 
 Test cases:
   * Can return optimized JPEG from single JPEG
@@ -12,7 +12,7 @@ Test cases:
 Test steps:
   1. Create jpeg files ``img1.jpg``, ``img2.jpg``, ``img3.jpg``
   2. Create any files (non jpeg) ``invalid.txt`` ``invalid.jpg``
-  3. Execute ``main_3-8.py``
+  3. Execute ``main_3-8.py`` or ``main_3-9.py``
   4. Execute this in other console
   5. Check console outputs
   6. Check generated ``res.jpg`` ``res.zip`` can open
