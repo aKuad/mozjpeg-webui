@@ -92,7 +92,7 @@ def ErrCheck_InvalidJpeg():
     return
 
   res_dict = json_loads(res.content.decode("utf-8"))
-  if res_dict["detail"] == "Invalid jpeg input":
+  if res_dict["detail"] == "Invalid jpeg input (may be broken)":
     print("--- OK")
   else:
     print(res.content)
