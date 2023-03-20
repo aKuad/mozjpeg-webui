@@ -10,7 +10,7 @@ Test cases:
   * Return error when ``files`` field missing post
 
 Test steps:
-  1. Create jpeg files ``img.jpg``, ``img1.jpg``, ``img2.jpg``, ``img3.jpg``
+  1. Create jpeg files ``img1.jpg``, ``img2.jpg``, ``img3.jpg``
   2. Create any files (non jpeg) ``invalid.txt`` ``invalid.jpg``
   3. Execute ``main_3-8.py``
   4. Execute this in other console
@@ -31,7 +31,7 @@ API_URL = "http://localhost:8000/api/jpegs-opt"
 
 def Test_SingleProcess():
   print("-- Test_SingleProcess")
-  files = [("files", ("img.jpg", open("img.jpg", "rb"), "image/jpeg"))]
+  files = [("files", ("img1.jpg", open("img1.jpg", "rb"), "image/jpeg"))]
   res = requests.post(API_URL, files=files)
 
   if int(res.status_code / 100) == 5:
@@ -101,7 +101,7 @@ def ErrCheck_InvalidJpeg():
 
 def ErrCheck_NoNameFile():
   print("-- ErrCheck_NoNameFile")
-  files = [("files", ("", open("img.jpg", "rb"), "image/jpeg"))]
+  files = [("files", ("", open("img1.jpg", "rb"), "image/jpeg"))]
   res = requests.post(API_URL, files=files)
 
   if int(res.status_code / 100) != 4:
