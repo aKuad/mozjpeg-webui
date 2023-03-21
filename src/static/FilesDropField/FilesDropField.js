@@ -7,9 +7,9 @@ class FilesDropField {
   /**
    * Attach the script to a HTML element
    *
-   * @param {HTMLElement} attach_field
-   * @param {HTMLElement | null} ondrag_view
-   * @returns {HTMLInputElement}
+   * @param {HTMLElement} attach_field A HTML element to attach script
+   * @param {HTMLElement | null} ondrag_view A HTML element to display on dragover
+   * @returns {HTMLInputElement} A HTML element for detecting files input
    */
   static attach(attach_field, ondrag_view = null) {
     // Arguments check
@@ -54,9 +54,11 @@ class FilesDropField {
 
 
   /**
-   * @param {HTMLInputElement} detector Object
-   * @param {HTMLElement | null} ondrag_view
-   * @returns {HTMLDivElement}
+   * Create a HTML element to attach
+   *
+   * @param {HTMLInputElement} detector A HTML element for detecting files input
+   * @param {HTMLElement | null} ondrag_view A HTML element to display on dragover
+   * @returns {HTMLDivElement} Created attachment element
    */
   static #create_attachment(detector, ondrag_view = null) {
     const attachment = document.createElement('div');
