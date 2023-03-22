@@ -25,13 +25,6 @@ templates = Jinja2Templates(directory="pages")
 @app.get("/")
 def index(request: Request):
   """View app page
-
-  Args:
-    request (Request): Request data for jinja2 template response
-
-  Returns:
-    _TemplateResponse: Rendered HTML
-
   """
   return templates.TemplateResponse("index.html", {"request": request})
 
@@ -46,7 +39,7 @@ async def jpegs_opt(files: List[UploadFile] = File(...)):
   Returns:
     Response: On single file: Optimized JPEG binary,
               On multiple files: Optimized JPEGs packed in a zip,
-              On error: JSON string with detail in ``mes``
+              On error: JSON string with detail
 
   Note:
     File items must be:
@@ -78,7 +71,7 @@ async def jpegs_opt(files: List[UploadFile] = File(...)):
       return Response(zipfilemake.export_zip(), media_type="application/zip")
   except ValueError:
     # On optimizing error occured
-    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid jpeg input")
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid jpeg input (may be broken)")
 
 
 if __name__ == '__main__':
