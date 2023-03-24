@@ -19,6 +19,7 @@
        * Test cases:
        *   * Can detect dropped files
        *   * Can display custom element during dragover
+       *   * Can lock input
        *   * Throw error when no arguments passed
        *   * Throw error when non HTML element passed as argument
        *
@@ -32,6 +33,22 @@
        * @author aKuad
        */
 
+      function Test_InputLock() {
+        console.log("-- Test_InputLock");
+        field.drop_lock();
+        field_withdisp.drop_lock();
+        console.log("--- CHECK - Is input been unavailable?");
+      }
+
+
+      function Test_InputUnlock() {
+        console.log("-- Test_InputUnlock");
+        field.drop_unlock();
+        field_withdisp.drop_unlock();
+        console.log("--- CHECK - Is input been available?");
+      }
+
+
       function ErrCheck_InvalidArgument() {
         ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
 
@@ -42,11 +59,12 @@
         }
       }
 
+
       function ErrCheck_InvalidArgument_Part(test_obj, expected_message) {
         const test_type = Part_ObjectType(test_obj);
         console.log(`-- ErrCheck_InvalidArgument - ${test_type}`);
         try {
-          FilesDropField.attach(test_obj);
+          new FilesDropField(test_obj);
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
           if(e.toString() === expected_message) {
@@ -58,9 +76,11 @@
         }
       }
 
+
       function Part_ObjectType(obj) {
         return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
+
 
       function Part_InputFilesPrint(e) {
         console.log(e.target.files);
@@ -68,13 +88,16 @@
         console.log("--- CHECK - Were all files detected?");
       }
 
+
       window.addEventListener("load", () => {
         const ondrag_view = document.querySelector("#Part_OndragView");
         ondrag_view.remove();
         ondrag_view.style.display = "";
 
-        const detector = FilesDropField.attach(document.querySelector("#Test_DropField"));
-        const detector_withdisp = FilesDropField.attach(document.querySelector("#Test_DropField_WithDisp"), ondrag_view);
+        field = new FilesDropField(document.querySelector("#Test_DropField"));
+        field_withdisp = new FilesDropField(document.querySelector("#Test_DropField_WithDisp"), ondrag_view);
+        const detector = field.detector;
+        const detector_withdisp = field_withdisp.detector;
 
         detector.addEventListener("change", Part_InputFilesPrint);
         detector_withdisp.addEventListener("change", Part_InputFilesPrint);
@@ -85,6 +108,9 @@
   <body>
     <div id="Test_DropField">Drop field</div>
     <div id="Test_DropField_WithDisp">Drop field with dragover display</div>
+    <hr>
+    <input type="button" value="Test_InputLock" onclick="Test_InputLock()">
+    <input type="button" value="Test_InputUnlock" onclick="Test_InputUnlock()">
     <hr>
     <input type="button" value="ErrCheck_InvalidArgument" onclick="ErrCheck_InvalidArgument()">
 

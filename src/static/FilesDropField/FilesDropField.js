@@ -4,14 +4,25 @@
  * @author aKuad
  */
 class FilesDropField {
+  /** @type {HTMLElement} */
+  #attach_field;
+
+  /** @type {HTMLDivElement} */
+  #attachment;
+
+  /** @type {HTMLInputElement} */
+  #detector;
+
+
   /**
    * Attach the script to a HTML element
    *
+   * @constructor
    * @param {HTMLElement} attach_field A HTML element to attach script
    * @param {HTMLElement | null} ondrag_view A HTML element to display on dragover
    * @returns {HTMLInputElement} A HTML element for detecting files input
    */
-  static attach(attach_field, ondrag_view = null) {
+  constructor(attach_field, ondrag_view = null) {
     // Arguments check
     if(attach_field === undefined) {
       throw new TypeError("No arguments.");
@@ -26,36 +37,43 @@ class FilesDropField {
     }
 
     // Elements setup
-    attach_field.classList.add("FilesDropField-base");
-    const detector = document.createElement("input");
-    const attachment = FilesDropField.#create_attachment(detector, ondrag_view);
+    this.#attach_field = attach_field;
+    this.#attach_field.classList.add("FilesDropField-base");
+    this.#detector = FilesDropField.#create_detector();
+    this.#attachment = FilesDropField.#create_attachment(this.#detector, ondrag_view);
 
     // Viewing event
-    async function disp_field() {
-      attach_field.appendChild(attachment);
-      await new Promise(r => setTimeout(r, 50));  // strangely, it makes stable viewing
-      attachment.classList.remove("FilesDropField-attachment-hide");
-      await new Promise(r => setTimeout(r, 100));
-    }
-    attach_field.addEventListener("dragenter", disp_field);
+    this.#attach_field.addEventListener("dragenter", this.#field_disp);
 
     // Hiding events
-    async function hide_field() {
-      attachment.classList.add("FilesDropField-attachment-hide");
-      await new Promise(r => setTimeout(r, 150));
-      attachment.remove();
-    }
-    detector.addEventListener("dragleave", hide_field);
-    detector.addEventListener("drop", hide_field);
+    this.#detector.addEventListener("dragleave", this.#field_hide);
+    this.#detector.addEventListener("drop", this.#field_hide);
+  }
 
-    // Return input element for detecting files
+
+  /**
+   * Return input element for detecting files
+   *
+   * @returns {HTMLInputElement} A HTML element for detecting files input
+   */
+  get detector() {
+    return this.#detector;
+  }
+
+
+  /**
+   * @returns {HTMLInputElement} A HTML element for detecting files input
+   */
+  static #create_detector() {
+    const detector = document.createElement("input");
+    detector.type = "file";
+    detector.multiple = true;
+    detector.classList.add("FilesDropField-detector");
     return detector;
   }
 
 
   /**
-   * Create a HTML element to attach
-   *
    * @param {HTMLInputElement} detector A HTML element for detecting files input
    * @param {HTMLElement | null} ondrag_view A HTML element to display on dragover
    * @returns {HTMLDivElement} Created attachment element
@@ -68,12 +86,49 @@ class FilesDropField {
       ondrag_view.classList.add("FilesDropField-ondragview");
       attachment.appendChild(ondrag_view);
     }
-
-    detector.type = "file";
-    detector.multiple = true;
-    detector.classList.add("FilesDropField-detector");
     attachment.appendChild(detector);
 
     return attachment;
+  }
+
+
+  /**
+   * Field hiding process
+   *
+   * @listens dragenter
+   */
+  #field_disp = async () => {
+    this.#attach_field.appendChild(this.#attachment);
+    await new Promise(r => setTimeout(r, 50));  // strangely, it makes stable viewing
+    this.#attachment.classList.remove("FilesDropField-attachment-hide");
+  }
+
+
+  /**
+   * Field displaying process
+   *
+   * @listens dragleave
+   * @listens drop
+   */
+  #field_hide = async () => {
+    this.#attachment.classList.add("FilesDropField-attachment-hide");
+    await new Promise(r => setTimeout(r, 150));
+    this.#attachment.remove();
+  }
+
+
+  /**
+   * Stop on-dragenter event
+   */
+  drop_lock() {
+    this.#attach_field.removeEventListener("dragenter", this.#field_disp);
+  }
+
+
+  /**
+   * Restart on-dragenter event
+   */
+  drop_unlock() {
+    this.#attach_field.addEventListener("dragenter", this.#field_disp);
   }
 }
