@@ -47,31 +47,25 @@ class CornerMessage {
     }
 
     // If previous message viewing, close
-    if(document.querySelector("#CornerMessage-container")) {
+    if(document.querySelector("#CornerMessage-mesbox")) {
       await CornerMessage.close();
     }
 
-    // Create element
-    const container = document.createElement("div");
-    container.id = "CornerMessage-container";
-    container.classList.add(style);
-    container.classList.add("CornerMessage-container-hide");
-
+    // Setup elements
     const mesbox = document.createElement("div");
     mesbox.id = "CornerMessage-mesbox";
+    mesbox.classList.add(style);
     mesbox.innerText = mes;
-    container.appendChild(mesbox);
 
     const cross = document.createElement("div");
     cross.id = "CornerMessage-cross";
-    cross.addEventListener("click", () => CornerMessage.close() );
-    container.appendChild(cross);
+    cross.addEventListener("click", CornerMessage.close);
+    mesbox.appendChild(cross);
 
     // View element
-    document.body.appendChild(container);
+    document.body.appendChild(mesbox);
     await new Promise(r => setTimeout(r, 50));  // strangely, it makes stable viewing
-    container.classList.add("CornerMessage-container-view");
-    container.classList.remove("CornerMessage-container-hide");
+    mesbox.classList.add("CornerMessage-mesbox-view");
   }
 
 
@@ -81,10 +75,9 @@ class CornerMessage {
    * @async
    */
   static async close() {
-    const container = document.querySelector("#CornerMessage-container");
-    container.classList.add("CornerMessage-container-hide");
-    container.classList.remove("CornerMessage-container-view");
+    const mesbox = document.querySelector("#CornerMessage-mesbox");
+    mesbox.classList.remove("CornerMessage-mesbox-view");
     await new Promise(r => setTimeout(r, 200));   // Wait for the message hide
-    container.remove();
+    mesbox.remove();
   }
 }

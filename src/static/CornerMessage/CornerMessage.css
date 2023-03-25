@@ -6,27 +6,32 @@
   --CornerMessage-text-padding: 1em;
   --CornerMessage-text-height: 1.4em;
   --CornerMessage-text-line: 3;
-  --CornerMessage-container-margin: 1em;
+  --CornerMessage-mesbox-margin: 1em;
 }
 
-#CornerMessage-container {
+
+#CornerMessage-mesbox {
+  margin: 0;
   position: fixed;
-  right: var(--CornerMessage-container-margin);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  border-radius: 1em;
-  box-sizing: border-box;
-  max-width: calc(100% - var(--CornerMessage-container-margin) * 2);
-  word-break: break-all;
+  right: var(--CornerMessage-mesbox-margin);
+  /* (message text line) + (message padding) + (additional) -> hide to bottom */
+  bottom: calc(-1 * (var(--CornerMessage-text-height) * var(--CornerMessage-text-line) + var(--CornerMessage-text-padding) * 2 + 1em));
   transition: bottom 0.2s ease-in-out;
+
+  box-sizing: border-box;
+  max-width: calc(100% - var(--CornerMessage-mesbox-margin) * 2);
+  border-radius: 1em;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+  padding: var(--CornerMessage-text-padding);
+  padding-right: calc(var(--CornerMessage-cross-hit) + var(--CornerMessage-text-padding) * 2);
+  line-height: var(--CornerMessage-text-height);
+  word-break: break-all;
+}
+.CornerMessage-mesbox-view {
+  bottom: var(--CornerMessage-mesbox-margin) !important; /* For overwrite #CornerMessage-mesbox */
 }
 
-.CornerMessage-container-hide{
-  /* text space + message padding + additional */
-  bottom: calc(-1 * (var(--CornerMessage-text-height) * var(--CornerMessage-text-line) + var(--CornerMessage-text-padding) * 2 + 1em));
-}
-.CornerMessage-container-view {
-  bottom: var(--CornerMessage-container-margin);
-}
 
 .CornerMessage-style-info {
   background-color: hsl(240, 50%, 90%);
@@ -38,12 +43,6 @@
   background-color: hsl(0, 50%, 90%);
 }
 
-#CornerMessage-mesbox {
-  margin: 0;
-  padding: var(--CornerMessage-text-padding);
-  padding-right: calc(var(--CornerMessage-cross-hit) + var(--CornerMessage-text-padding) * 2);
-  line-height: var(--CornerMessage-text-height);
-}
 
 #CornerMessage-cross {
   position: absolute;
@@ -51,6 +50,7 @@
   height: var(--CornerMessage-cross-hit);
   top: calc(var(--CornerMessage-text-padding) + (var(--CornerMessage-text-height) - var(--CornerMessage-cross-hit)) / 2);
   right: var(--CornerMessage-text-padding);
+
   cursor: pointer;
   opacity: 0.6;
   transition: opacity 0.2s;
@@ -65,6 +65,7 @@
   top: calc(var(--CornerMessage-cross-hit) / 2 - 1px);
   /* (move left edge) + (move to center) */
   left: calc((-1 * var(--CornerMessage-cross-view) * 1.4 / 2) + (var(--CornerMessage-cross-hit) / 2));
+
   border-bottom: 2px solid #000;
   content: "";
 }
