@@ -76,8 +76,14 @@ class CornerMessage {
    */
   static async close() {
     const mesbox = document.querySelector("#CornerMessage-mesbox");
-    mesbox.classList.remove("CornerMessage-mesbox-view");
-    await new Promise(r => setTimeout(r, 200));   // Wait for the message hide
-    mesbox.remove();
+
+    // If message exists (means viewing)
+    if(mesbox) {
+      mesbox.classList.remove("CornerMessage-mesbox-view");
+      await new Promise(r => setTimeout(r, 200));   // Wait for the message hide
+      mesbox.remove();
+    } else {
+      console.error("Corner message is not viewing");
+    }
   }
 }
