@@ -21,6 +21,10 @@ class FilesDropField {
    * @param {HTMLElement} attach_field A HTML element to attach script
    * @param {HTMLElement | null} ondrag_view A HTML element to display on dragover
    * @returns {HTMLInputElement} A HTML element for detecting files input
+   *
+   * @throws {TypeError} No arguments
+   * @throws {TypeError} Argument `attach_field` is not `HTMLElement`
+   * @throws {TypeError} Argument `ondrag_view` (optional) is not `HTMLElement`
    */
   constructor(attach_field, ondrag_view = null) {
     // Arguments check
