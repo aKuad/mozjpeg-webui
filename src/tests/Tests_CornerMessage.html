@@ -35,11 +35,13 @@
         console.log("--- CHECK - Is blue message box viewing?");
       }
 
+
       function Test_ViewInfo() {
         console.log("-- Test_ViewInfo");
         CornerMessage.view("Info message", CornerMessage.style.info);
         console.log("--- CHECK - Is blue message box viewing?");
       }
+
 
       function Test_ViewWarn() {
         console.log("-- Test_ViewWarn");
@@ -47,17 +49,20 @@
         console.log("--- CHECK - Is yellow message box viewing?");
       }
 
+
       function Test_ViewDanger() {
         console.log("-- Test_ViewDanger");
         CornerMessage.view("Danger message", CornerMessage.style.danger);
         console.log("--- CHECK - Is red message box viewing?");
       }
 
+
       function Test_CloseFromScript() {
         console.log("-- Test_CloseFromScript");
         CornerMessage.close();
         console.log("--- CHECK - Was message box hide? or 'not viewing' error printed?");
       }
+
 
       async function ErrCheck_InvalidArgument() {
         await ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
@@ -90,6 +95,7 @@
       function Part_ObjectType(obj) {
         return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
+
 
       async function ErrCheck_InvalidStyle() {
         console.log("-- ErrCheck_InvalidStyle");

@@ -38,6 +38,7 @@
         console.log("--- CHECK - Are all files detected?");
       }
 
+
       async function ErrCheck_InvalidArgument() {
         await ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
 
@@ -47,6 +48,7 @@
           await ErrCheck_InvalidArgument_Part(test_case, `TypeError: Argument must be an HTMLInputElement, not ${test_case_type}.`);
         }
       }
+
 
       async function ErrCheck_InvalidArgument_Part(test_obj, expected_message) {
         const test_type = Part_ObjectType(test_obj);
@@ -67,6 +69,7 @@
       function Part_ObjectType(obj) {
         return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
+
 
       window.addEventListener("load", () => {
         document.querySelector("#Test_ReadingFiles_multiple").addEventListener("change", Test_ReadingFiles);

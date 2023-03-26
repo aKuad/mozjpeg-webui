@@ -30,11 +30,13 @@
         console.log("--- CHECK - Is downloading diagram has open? The text file wrote 'hello'?");
       }
 
+
       function Test_ExportTextFileWithName() {
         console.log("-- Test_ExportTextFileWithName");
         export_as_download(new Blob(["hello"], {"type": "text/plain"}), "name.txt");
         console.log("--- CHECK - Is downloading diagram has open with default 'name.txt'? The text file wrote 'hello'?");
       }
+
 
       function Test_ExportCustomFile(e) {
         console.log("-- Test_ExportCustomFile");
@@ -43,6 +45,7 @@
         }
         console.log("--- CHECK - Is downloading dialog has open? Input file returned as downloading?");
       }
+
 
       function ErrCheck_InvalidArgument() {
         ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
@@ -70,9 +73,11 @@
         }
       }
 
+
       function Part_ObjectType(obj) {
         return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
+
 
       window.addEventListener("load", () => {
         document.querySelector("#Test_ExportCustomFile").addEventListener("change", Test_ExportCustomFile);
