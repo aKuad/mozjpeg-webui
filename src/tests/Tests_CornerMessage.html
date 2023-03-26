@@ -68,9 +68,7 @@
         await ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
         await ErrCheck_InvalidArgument_Part("", "RangeError: 'mes' can't be an empty string.");
 
-        // Tests for others
-        const test_cases = [null, 1, true, () => {}, {}];
-        for(const test_case of test_cases) {
+        for(const test_case of [null, 1, true, () => {}, {}]) {
           const test_case_type = Part_ObjectType(test_case);
           await ErrCheck_InvalidArgument_Part(test_case, `TypeError: Argument 'mes' must be a string, not ${test_case_type}.`);
         }

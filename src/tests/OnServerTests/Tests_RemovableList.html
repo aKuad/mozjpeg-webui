@@ -127,8 +127,7 @@
       function ErrCheck_InvalidArgument_Constructor() {
         ErrCheck_InvalidArgument_Constructor_Part(undefined, "TypeError: No arguments.");
 
-        const test_cases = [null, 1, true, "any", () => {}, {}];;
-        for(const test_case of test_cases) {
+        for(const test_case of [null, 1, true, "any", () => {}, {}]) {
           const test_case_type = Part_ObjectType(test_case);
           ErrCheck_InvalidArgument_Constructor_Part(test_case, `TypeError: Argument 'list_container' must be a HTMLElement, not ${test_case_type}.`);
         }
@@ -153,8 +152,7 @@
 
 
       function ErrCheck_InvalidArgument_AddingMethod() {
-        const test_cases = [undefined, null, 1, true, "any", () => {}, {}];
-        for(const test_case of test_cases) {
+        for(const test_case of [undefined, null, 1, true, "any", () => {}, {}]) {
           const test_case_type = Part_ObjectType(test_case);
           ErrCheck_InvalidArgument_AddingMethod_Part(test_case, `TypeError: Arguments must be RemovableListItem, detected ${test_case_type}.`);
         }
@@ -182,8 +180,7 @@
         ErrCheck_InvalidArgument_ItemObj_Part(undefined, "TypeError: No arguments.");
         ErrCheck_InvalidArgument_ItemObj_Part("", "RangeError: 'index' can't be an empty string.");
 
-        const test_cases = [null, 1, true, () => {}, {}];
-        for(const test_case of test_cases) {
+        for(const test_case of [null, 1, true, () => {}, {}]) {
           const test_case_type = Part_ObjectType(test_case);
           ErrCheck_InvalidArgument_ItemObj_Part(test_case, `TypeError: Argument 'index' must be a string, not ${test_case_type}.`);
         }
