@@ -5,7 +5,16 @@
  */
 
 window.addEventListener("load", () => {
+  /* Item list setup */
   const filesList = new RemovableList(document.querySelector("#field-fileslist"), () => toggle_process_available(filesList));
+
+
+  /* Drag&Drop input setup */
+  const dropField_view = document.querySelector("#dragview");
+  dropField_view.remove();
+  dropField_view.style.display = "";
+  const dropField = new FilesDropField(document.querySelector("#field-fileslist"), dropField_view);
+  const dropField_detector = dropField.detector;
 
 
   /**
@@ -13,6 +22,7 @@ window.addEventListener("load", () => {
    */
   document.querySelector("#input-files").addEventListener("change", files_input);
   document.querySelector("#input-dir"  ).addEventListener("change", files_input);
+  dropField_detector.addEventListener("change", files_input);
   /**
    * @param {Event} event On-change event
    */
@@ -22,7 +32,7 @@ window.addEventListener("load", () => {
        event.target.webkitEntries.length === 0) { return; }
 
     // Prevent parallel process
-    controls_lock(filesList);
+    controls_lock(filesList, dropField);
 
     // Get all inputted files
     const files_all = await InputFileReader.read(event.target);
@@ -76,7 +86,7 @@ window.addEventListener("load", () => {
       CornerMessage.view(err_mes_array.join("\n"), CornerMessage.style.danger);
     }
 
-    controls_unlock(filesList);
+    controls_unlock(filesList, dropField);
   }
 
 
@@ -99,7 +109,7 @@ window.addEventListener("load", () => {
     // If control locked, do nothing
     if(e.target.hasAttribute("disabled")) { return; }
 
-    controls_lock(filesList);
+    controls_lock(filesList, dropField);
 
     // Post items to process
     const post_body = new FormData();
@@ -120,16 +130,18 @@ window.addEventListener("load", () => {
       CornerMessage.view("Failed to process:\n" + res_json.detail, CornerMessage.style.danger);
     }
 
-    controls_unlock(filesList);
+    controls_unlock(filesList, dropField);
   });
 });
 
 
 /**
  * @param {RemovableList} filesList Files list to control
+ * @param {FilesDropField} dropField
  */
-function controls_lock(filesList) {
+function controls_lock(filesList, dropField) {
   filesList.remove_lock();
+  dropField.drop_lock();
   document.querySelector("#input-files").disabled = true;
   document.querySelector("#input-dir"  ).disabled = true;
   document.querySelector("#button-add-files").setAttribute("disabled", "");
@@ -142,9 +154,11 @@ function controls_lock(filesList) {
 
 /**
  * @param {RemovableList} filesList Files list to control
+ * @param {FilesDropField} dropField
  */
-function controls_unlock(filesList) {
+function controls_unlock(filesList, dropField) {
   filesList.remove_unlock();
+  dropField.drop_unlock();
   document.querySelector("#input-files").disabled = false;
   document.querySelector("#input-dir"  ).disabled = false;
   document.querySelector("#button-add-files").removeAttribute("disabled");
