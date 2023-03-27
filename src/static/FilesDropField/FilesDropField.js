@@ -1,6 +1,8 @@
 /**
  * Detecting files drop on custom HTML element
  *
+ * `FilesDropField.css` requires to link as stylesheet
+ *
  * @author aKuad
  */
 class FilesDropField {
