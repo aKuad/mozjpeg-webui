@@ -7,28 +7,34 @@
   --RemovableList-text-height: 1.2em;
 }
 
+
 .RemovableList-container {
   padding: 0.5em;
 }
 
+
 .RemovableList-item {
-  position: relative;
-  word-break: break-all;
-  line-height: var(--RemovableList-text-height);
+  position: relative; /* For .RemovableList-cross */
+
   padding: var(--RemovableList-text-padding);
   padding-right: calc(var(--RemovableList-text-padding) * 2 + var(--RemovableList-cross-hit));
   border-bottom: 1px solid hsl(0, 0%, 50%);
+
+  word-break: break-all;
+  line-height: var(--RemovableList-text-height);
 }
 .RemovableList-item:last-child {
   border-bottom: none;
 }
 
+
 .RemovableList-cross {
   position: absolute;
-  width: var(--RemovableList-cross-hit);
-  height: var(--RemovableList-cross-hit);
   top: calc(var(--RemovableList-text-padding) + (var(--RemovableList-text-height) - var(--RemovableList-cross-hit)) / 2);
   right: var(--RemovableList-text-padding);
+  width: var(--RemovableList-cross-hit);
+  height: var(--RemovableList-cross-hit);
+
   cursor: pointer;
   opacity: 1;
   transition: opacity 0.2s;
@@ -37,13 +43,15 @@
   opacity: 0.4;
 }
 .RemovableList-cross::before, .RemovableList-cross::after {
-  display: block;
   position: absolute;
-  border-bottom: 2px solid hsl(0, 0%, 40%);
-  width: calc(var(--RemovableList-cross-view) * 1.4);   /* 1.4 as sqrt(2) */
   top: calc(var(--RemovableList-cross-hit) / 2 - 1px);
   /* (move left edge) + (move to center) */
   left: calc((-1 * var(--RemovableList-cross-view) * 1.4 / 2) + (var(--RemovableList-cross-hit) / 2));
+
+  display: block;
+  width: calc(var(--RemovableList-cross-view) * 1.4);   /* 1.4 as sqrt(2) */
+  border-bottom: 2px solid hsl(0, 0%, 40%);
+
   content: "";
 }
 .RemovableList-cross::before {
