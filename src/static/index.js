@@ -137,7 +137,7 @@ window.addEventListener("load", () => {
 
 /**
  * @param {RemovableList} filesList Files list to control
- * @param {FilesDropField} dropField
+ * @param {FilesDropField} dropField Drop detector to control
  */
 function controls_lock(filesList, dropField) {
   filesList.remove_lock();
@@ -154,7 +154,7 @@ function controls_lock(filesList, dropField) {
 
 /**
  * @param {RemovableList} filesList Files list to control
- * @param {FilesDropField} dropField
+ * @param {FilesDropField} dropField Drop detector to control
  */
 function controls_unlock(filesList, dropField) {
   filesList.remove_unlock();
