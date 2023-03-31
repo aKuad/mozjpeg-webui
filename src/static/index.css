@@ -47,6 +47,7 @@ body {
   margin: 20px auto;
   border: 3px solid hsl(0, 0%, 30%);
   border-radius: 10px;
+  overflow: hidden;
   overflow-y: scroll;
 
   font-size: 1rem;
@@ -61,7 +62,30 @@ body {
   display: block;
   color: hsl(0, 0%, 40%);
   font-style: italic;
-  content: "No items";
+  content: "or drag&drop here to input";
+}
+
+
+/* Drag&Drop input view */
+#dragview {
+  /* For display in center */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  background-color: hsla(240, 100%, 70%, 0.8);
+}
+#dragview-icon {
+  display: block;
+  width: 4em;
+  max-width: 100%;
+  margin-bottom: 1em;
+
+  transform: rotate(90deg);
+}
+#dragview-text {
+  color: #fff;
 }
 
 

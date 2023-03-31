@@ -5,7 +5,7 @@
 
 JPEG optimizing web app
 
-![Screen shot](/imgs/screen.webp)
+![Demo](/imgs/demo-full.gif)
 
 ## Features
 
@@ -15,7 +15,7 @@ JPEG optimizing web app
 
 ## Useage
 
-"Add files" or "Add a directory" to select files. (or drag&drop files here)
+"Add files" or "Add a directory" to select files. Also can add by drag&drop files to file list.
 
 ![Demo - Add files](imgs/demo-add-files.webp)
 
