@@ -38,11 +38,12 @@
        *
        * Test steps:
        *   1. Execute `main.py` (in same directory) with python3 interpriter
-       *   2. Access to `http://localhost:8000/RemovableList` in browser
+       *   2. Access to `http://localhost:8000/RemovableList` with browser
        *   3. Open JavaScript console
        *   4. Input an any text to `Index to add`
-       *   5. Input an any file for `Content to add`
-       *   6. Click page's test buttons and check console output
+       *   5. Input an any file to `Content to add`
+       *   6. Click test buttons
+       *   7. Check console output and follow checking instructions
        *
        * @author aKuad
        */
@@ -53,11 +54,13 @@
         console.log("--- CHECK - Was item added? or ignored when same index specified?");
       }
 
+
       function Test_ItemAddAutoRename() {
         console.log("-- Test_ItemAddAutoRename");
         list.add_items_keep_each(Part_CreateAppendObj());
         console.log("--- CHECK - Was item added with index name_n");
       }
+
 
       function Test_ItemAddOverwrite() {
         console.log("-- Test_ItemAddOverwrite");
@@ -74,6 +77,7 @@
                                      document.querySelector("#value-content").files[0]);
       }
 
+
       function Test_ItemsAddMultipleRandom() {
         console.log("-- Test_ItemsAddMultipleRandom");
         const append_objs = [];
@@ -84,11 +88,13 @@
         console.log("--- CHECK - Were 1000 items added?");
       }
 
+
       function Test_ItemsExporting() {
         console.log("-- Test_ItemsExporting");
         console.log(list.export_items_all());
         console.log("--- CHECK - Were all items content & index printed?");
       }
+
 
       function Test_ItemsCounting() {
         console.log("-- Test_ItemsCounting");
@@ -96,11 +102,13 @@
         console.log("--- CHECK - Was items count printed?");
       }
 
+
       function Test_ClearList() {
         console.log("-- Test_ClearList");
         list.remove_items_all();
         console.log("--- CHECK - Were all items deleted?");
       }
+
 
       function Test_RemoveLock() {
         console.log("-- Test_RemoveLock");
@@ -108,21 +116,23 @@
         console.log("--- CHECK - Is cross button hidden?");
       }
 
+
       function Test_RemoveUnlock() {
         console.log("-- Test_RemoveUnlock");
         list.remove_unlock();
         console.log("--- CHECK - Is cross button re-displayed?");
       }
 
+
       function ErrCheck_InvalidArgument_Constructor() {
         ErrCheck_InvalidArgument_Constructor_Part(undefined, "TypeError: No arguments.");
 
-        const test_cases = [null, 1, true, "any", () => {}, {}];;
-        for(const test_case of test_cases) {
+        for(const test_case of [null, 1, true, "any", () => {}, {}]) {
           const test_case_type = Part_ObjectType(test_case);
           ErrCheck_InvalidArgument_Constructor_Part(test_case, `TypeError: Argument 'list_container' must be a HTMLElement, not ${test_case_type}.`);
         }
       }
+
 
       function ErrCheck_InvalidArgument_Constructor_Part(test_obj, expected_message) {
         const test_obj_type = Part_ObjectType(test_obj);
@@ -140,13 +150,14 @@
         }
       }
 
+
       function ErrCheck_InvalidArgument_AddingMethod() {
-        const test_cases = [undefined, null, 1, true, "any", () => {}, {}];
-        for(const test_case of test_cases) {
+        for(const test_case of [undefined, null, 1, true, "any", () => {}, {}]) {
           const test_case_type = Part_ObjectType(test_case);
           ErrCheck_InvalidArgument_AddingMethod_Part(test_case, `TypeError: Arguments must be RemovableListItem, detected ${test_case_type}.`);
         }
       }
+
 
       function ErrCheck_InvalidArgument_AddingMethod_Part(test_obj, expected_message) {
         const test_obj_type = Part_ObjectType(test_obj);
@@ -164,16 +175,17 @@
         }
       }
 
+
       function ErrCheck_InvalidArgument_ItemObj() {
         ErrCheck_InvalidArgument_ItemObj_Part(undefined, "TypeError: No arguments.");
         ErrCheck_InvalidArgument_ItemObj_Part("", "RangeError: 'index' can't be an empty string.");
 
-        const test_cases = [null, 1, true, () => {}, {}];
-        for(const test_case of test_cases) {
+        for(const test_case of [null, 1, true, () => {}, {}]) {
           const test_case_type = Part_ObjectType(test_case);
           ErrCheck_InvalidArgument_ItemObj_Part(test_case, `TypeError: Argument 'index' must be a string, not ${test_case_type}.`);
         }
       }
+
 
       function ErrCheck_InvalidArgument_ItemObj_Part(test_obj, expected_message) {
         const test_obj_type = Part_ObjectType(test_obj);
@@ -195,10 +207,12 @@
         return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
 
+
       function Test_OnRemoveCallback() {
         console.log("-- Test_OnRemoveCallback");
         console.log("--- OK");
       }
+
 
       window.addEventListener("load", () => {
         list = new RemovableList(document.querySelector("#list-container"));

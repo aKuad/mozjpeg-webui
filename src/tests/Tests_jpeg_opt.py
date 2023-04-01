@@ -10,9 +10,8 @@ Test cases:
 Test steps:
   1. Set current to this ``tests`` directory
   2. Create any JPEG file as ``img.jpg`` ``img1.jpg`` ``img2.jpg`` ``img3.jpg``
-  3. Execute it with python3 interpreter
-  4. Check are generated JPEG file ``out.jpg`` ``outx.jpg`` size has been smaller
-  5. Check are generated JPEG file ``out.jpg`` ``outx.jpg`` can open by other software
+  3. Execute this program
+  4. Check console output and follow checking instructions
 
 Author:
   aKuad

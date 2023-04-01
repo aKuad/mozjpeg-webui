@@ -20,7 +20,7 @@ class InputFileReader {
       throw new TypeError("No arguments.");
     }
     if(!(elem instanceof HTMLInputElement)) {
-      const elem_type = elem === null ? "null" : typeof elem === "object" ? elem.constructor.name : typeof elem
+      const elem_type = elem === null ? "null" : typeof elem === "object" ? elem.constructor.name : typeof elem;
       throw new TypeError(`Argument must be a HTMLInputElement, not ${elem_type}.`);
     }
 

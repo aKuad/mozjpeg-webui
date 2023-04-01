@@ -22,11 +22,11 @@
        *
        * Test steps:
        *   1. Execute `main.py` (in same directory) with python3 interpriter
-       *   2. Access to `http://localhost:8000/files_from_entry` in browser
+       *   2. Access to `http://localhost:8000/files_from_entry` with browser
        *   3. Open JavaScript console
-       *   4. Click page's test buttons and check console output
-       *   5. Input any file(s) for `Test_ReadingFiles` and check console output
-       *      * By click&select, or drag&drop
+       *   5. Input any file(s) for `Test_ReadingFiles` (by click&select or drag&drop)
+       *   4. Click test buttons
+       *   6. Check console output and follow checking instructions
        *
        * @author aKuad
        */
@@ -38,15 +38,16 @@
         console.log("--- CHECK - Are all files detected?");
       }
 
+
       async function ErrCheck_InvalidArgument() {
         await ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
 
-        const test_cases = [null, 1, true, "any", () => {}, {}];
-        for(const test_case of test_cases) {
+        for(const test_case of [null, 1, true, "any", () => {}, {}]) {
           const test_case_type = Part_ObjectType(test_case);
-          await ErrCheck_InvalidArgument_Part(test_case, `TypeError: Argument must be an HTMLInputElement, not ${test_case_type}.`);
+          await ErrCheck_InvalidArgument_Part(test_case, `TypeError: Argument must be a HTMLInputElement, not ${test_case_type}.`);
         }
       }
+
 
       async function ErrCheck_InvalidArgument_Part(test_obj, expected_message) {
         const test_type = Part_ObjectType(test_obj);
@@ -67,6 +68,7 @@
       function Part_ObjectType(obj) {
         return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
+
 
       window.addEventListener("load", () => {
         document.querySelector("#Test_ReadingFiles_multiple").addEventListener("change", Test_ReadingFiles);
