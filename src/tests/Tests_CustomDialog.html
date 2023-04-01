@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/CustomDialog/CustomDialog.css">
+    <script src="../static/CustomDialog/CustomDialog.js"></script>
+    <script>
+      /**
+       * Tests for `CustomDialog.js` module
+       *
+       * Test cases:
+       *   * Can view dialog with custom message
+       *   * Can view dialog with custom message and buttons
+       *   * Throw error when no arguments passed
+       *   * Throw error when empty string message passed to `message`
+       *
+       * Test steps:
+       *   1. Open this HTML in browser
+       *   2. Open JavaScript console
+       *   3. Click page's test buttons and check console output
+       *
+       * @author aKuad
+       */
+
+      async function Test_OnlyMessage() {
+        console.log("-- Test_OnlyMessage");
+        await CustomDialog.view("Test_OnlyMessage");
+        console.log("--- CHECK - Was dialog opend&closed?");
+      }
+
+
+      async function Test_CustomButtons() {
+        console.log("-- Test_CustomButtons");
+        console.log(await CustomDialog.view("Test_CustomButtons", "Button1", "Button2", "Button3"));
+        console.log("--- CHECK - Clicked button's text detected?");
+      }
+
+
+      async function EdgeTest_NonStringMessage() {
+        for(const test_case of [null, 1, true, () => {}, {}]) {
+          await EdgeTest_NonStringMessage_Part(test_case);
+        }
+      }
+
+      async function EdgeTest_NonStringMessage_Part(test_obj) {
+        const test_type = Part_ObjectType(test_obj);
+        console.log(`-- EdgeTest_NonStringMessage - ${test_type}`);
+        try {
+          await CustomDialog.view(test_obj, test_obj, test_obj);
+          console.log("--- OK");
+        } catch(e) {
+          console.log(e);
+          console.log("--- NG - Error has throwed");
+        }
+      }
+
+
+      async function ErrCheck_InvalidArgument() {
+        await ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
+        await ErrCheck_InvalidArgument_Part("", "RangeError: 'message' can't be an empty string.");
+      }
+
+      async function ErrCheck_InvalidArgument_Part(test_obj, expected_message) {
+        const test_type = Part_ObjectType(test_obj);
+        console.log(`-- ErrCheck_InvalidArgument - ${test_type}`);
+        try {
+          await CustomDialog.view(test_obj);
+          console.log("--- NG - Error hasn't throwed");
+        } catch(e) {
+          if(e.toString() === expected_message) {
+            console.log("--- OK");
+          } else {
+            console.log(e);
+            console.log(`--- NG - Un expected error throwed, expected: ${expected_message}`);
+          }
+        }
+      }
+
+      function Part_ObjectType(obj) {
+        return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
+      }
+    </script>
+  </head>
+
+  <body>
+    <button onclick="Test_OnlyMessage()">Test_OnlyMessage</button>
+    <button onclick="Test_CustomButtons()">Test_CustomButtons</button>
+    <hr>
+    <button onclick="EdgeTest_NonStringMessage()">EdgeTest_NonStringMessage</button>
+    <hr>
+    <button onclick="ErrCheck_InvalidArgument()">ErrCheck_EmptyMessage</button>
+  </body>
+</html>
