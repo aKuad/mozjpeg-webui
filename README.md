@@ -74,16 +74,7 @@ pip install fastapi uvicorn jinja2 aiofiles python-multipart
 ### Run main
 
 ```sh
-# You can check your python3 version by:
-python3 -V
-
-# For python 3.8.x or previous
-cd src/
-python3 main_3-8.py
-
-# For python 3.9 or later
-cd src/
-python3 main_3-9.py
+python3 main.py
 ```
 
 ### Access from browser
@@ -115,34 +106,6 @@ systemctl stop mozjpeg-webui    # Stop
 systemctl enable mozjpeg-webui  # Set auto start
 systemctl disable mozjpeg-webui # Unset auto start
 ```
-
-## About difference between 3.8 - 3.9
-
-This is a difference of type annotation.
-
-```py
-# On 3.8 or previous
-from typing import List
-
-def func(arg: List[str]):
-```
-
-```py
-# On 3.9 or later
-def func(arg: list[str]):
-## It supported as builtin,
-##   and `typing.List` will be deprecated in future releases
-```
-
-In fast api, data type cheking works with type annotation.
-And an api `/api/jpegs-opt` using it.
-
-```py
-@app.post("/api/jpegs-opt")
-async def jpegs_opt(files: list[UploadFile] = File(...)):
-```
-
-So annotation support is necessary, and main source divided `main_3-8.py` and `main_3-9.py`.
 
 ## License
 
