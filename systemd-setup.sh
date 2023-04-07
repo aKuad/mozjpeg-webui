@@ -60,22 +60,12 @@ if [ "$?"!= 0 ]; then
 fi
 $SRC_DIR/.venv/bin/pip install -r assets/requirements.txt
 
-## Extract python minor version
-py_ver=`python3 -V 2>/dev/null`
-py_ver=${py_ver%.*}
-py_ver=${py_ver##*.}
-
 ## Copy sources
 cp -r src/pages $SRC_DIR
 cp -r src/static $SRC_DIR
 cp -r src/util $SRC_DIR
-if [ "$py_ver" -lt 9 ]; then
-  cp src/main_3-8.py $SRC_DIR
-  cat assets/mozjpeg-webui.service | sed -e "s/main_3-9.py/main_3-8.py/" > $SERVICE_DIR/mozjpeg-webui.service
-else
-  cp src/main_3-9.py $SRC_DIR
-  cp assets/mozjpeg-webui.service $SERVICE_DIR/
-fi
+cp src/main.py $SRC_DIR
+cp assets/mozjpeg-webui.service $SERVICE_DIR/
 
 ## Setup systemd
 systemctl daemon-reload

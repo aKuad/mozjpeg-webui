@@ -5,7 +5,11 @@ About requirements and details, see ``README.md``
 
 """
 
-from typing import List
+from sys import version_info
+if version_info.minor < 9:
+  from typing import List
+else:
+  List = list
 
 from fastapi import FastAPI, Request, status, File, UploadFile, HTTPException
 from fastapi.responses import Response
@@ -75,4 +79,4 @@ async def jpegs_opt(files: List[UploadFile] = File(...)):
 
 
 if __name__ == '__main__':
-  run("main_3-8:app", reload=True)
+  run("main:app", reload=True)
