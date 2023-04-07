@@ -54,36 +54,32 @@ window.addEventListener("load", () => {
       }
     });
 
-    // If non jpeg files detected, set error message
-    const err_mes_array = [];
-    if(files_nojpeg.length > 0) {
-      err_mes_array.push("Non jpeg input:");
-      if(files_nojpeg.length === 1) {
-        err_mes_array.push(files_nojpeg[0].name);
-      } else {
-        err_mes_array.push(files_nojpeg[0].name + ` (+${ files_nojpeg.length-1 })`);
-      }
+    // If non jpeg files detected, display error message
+    if(files_nojpeg.length !== 0) {
+      const files_nojpeg_name = files_nojpeg.map(f => f.name);
+      CornerMessage.view(`Non jpeg input:\n${ array_omit_string(files_nojpeg_name) }`, CornerMessage.style.danger);
     }
 
     // Add files to file list
     const items = files_jpeg.map(e => new RemovableListItem(e.name, e));
     const items_result = filesList.add_items_no_overwrite(...items);
-
-    // If same name files detected, set error message
-    const failed_count = items_result.filter(e => e === false).length;
-    if(failed_count > 0) {
-      err_mes_array.push("Some file(s) name duplicated:");
-      const failed_first = files_jpeg[items_result.indexOf(false)];
-      if(failed_count === 1) {
-        err_mes_array.push(failed_first.name);
-      } else {
-        err_mes_array.push(failed_first.name + ` (+${ failed_count-1 })`);
+    const items_failed = [];
+    for(let i = 0; i < items.length; i++) {
+      if(!items_result[i]) {
+        items_failed.push(items[i]);
       }
     }
 
-    // View error message, when exist
-    if(err_mes_array.length !== 0) {
-      CornerMessage.view(err_mes_array.join("\n"), CornerMessage.style.danger);
+    // If same name files detected, set error message
+    if(items_failed.length !== 0) {
+      const items_failed_name = items_failed.map(e => e.index);
+      const user_select = await CustomDialog.view(`Some file(s) name duplicated:\n\n${ array_omit_string(items_failed_name) }`, "Skip", "Keep each", "Replace");
+      if(user_select === "Keep each") {
+        filesList.add_items_keep_each(...items_failed);
+      } else if(user_select === "Replace") {
+        filesList.add_items_overwrite(...items_failed);
+      }
+      // When "Skip" selected, do nothing
     }
 
     controls_unlock(filesList, dropField);
@@ -177,6 +173,21 @@ function toggle_process_available(filesList) {
     document.querySelector("#button-process").setAttribute("disabled", "");
   } else {
     document.querySelector("#button-process").removeAttribute("disabled");
+  }
+}
+
+
+/**
+ * @param {Array} ary Array to generate omit string
+ * @returns {string} Omitted string
+ */
+function array_omit_string(ary) {
+  if(ary.length === 0) {
+    return "";
+  } else if(ary.length === 1) {
+    return `${ ary[0] }`;
+  } else {
+    return `${ ary[0] } (+${ ary.length-1 })`;
   }
 }
 

@@ -30,7 +30,7 @@ class CornerMessage {
    * @throws {RangeError} Incorrect argument `style`
    */
   static async view(mes, style = CornerMessage.style.info) {
-    // Arguments checki
+    // Arguments check
     if(mes === undefined) {
       throw new TypeError("No arguments.")
     }
