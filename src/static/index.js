@@ -5,24 +5,36 @@
  */
 
 window.addEventListener("load", () => {
-  /* Item list setup */
+  /* Elements setup */
+  // Files list
   const filesList = new RemovableList(document.querySelector("#field-fileslist"), () => toggle_process_available(filesList));
 
+  // Button - Add files
+  const input_files = document.createElement("input");
+  input_files.type = "file";
+  input_files.multiple = true;
+  document.querySelector("#button-add-files").addEventListener("click", input_files.click);
 
-  /* Drag&Drop input setup */
+  // Button - Add a directory
+  const input_dir = document.createElement("input");
+  input_dir.type = "file";
+  input_dir.webkitdirectory = true;
+  document.querySelector("#button-add-dir").addEventListener("change", input_dir.click);
+
+  // Files drop field
   const dropField_view = document.querySelector("#dragview");
   dropField_view.remove();
   dropField_view.style.display = "";
   const dropField = new FilesDropField(document.querySelector("#field-fileslist"), dropField_view);
-  const dropField_detector = dropField.detector;
+  const input_drop = dropField.detector;
 
 
   /**
    * Button - Add files
    */
-  document.querySelector("#input-files").addEventListener("change", files_input);
-  document.querySelector("#input-dir"  ).addEventListener("change", files_input);
-  dropField_detector.addEventListener("change", files_input);
+  input_files.addEventListener("change", files_input);
+  input_dir.addEventListener("change", files_input);
+  input_drop.addEventListener("change", files_input);
   /**
    * @param {Event} event On-change event
    */
@@ -70,7 +82,7 @@ window.addEventListener("load", () => {
       }
     }
 
-    // If same name files detected, set error message
+    // If same name files detected, ask continue process to user
     if(items_failed.length !== 0) {
       const items_failed_name = items_failed.map(e => e.index);
       const user_select = await CustomDialog.view(`Some file(s) name duplicated:\n\n${ array_omit_string(items_failed_name) }`, "Skip", "Keep each", "Replace");
@@ -89,10 +101,7 @@ window.addEventListener("load", () => {
   /**
    * Button - Clear files
    */
-  document.querySelector("#button-clear").addEventListener("click", e => {
-    // If control locked, do nothing
-    if(e.target.hasAttribute("disabled")) { return; }
-
+  document.querySelector("#button-clear").addEventListener("click", () => {
     filesList.remove_items_all();
     toggle_process_available(filesList);
   });
@@ -101,10 +110,8 @@ window.addEventListener("load", () => {
   /**
    * Button - Process
    */
-  document.querySelector("#button-process").addEventListener("click", async e => {
-    // If control locked, do nothing
-    if(e.target.hasAttribute("disabled")) { return; }
-
+  document.querySelector("#button-process").addEventListener("click", async () => {
+    // Prevent parallel process
     controls_lock(filesList, dropField);
 
     // Post items to process
@@ -138,12 +145,10 @@ window.addEventListener("load", () => {
 function controls_lock(filesList, dropField) {
   filesList.remove_lock();
   dropField.drop_lock();
-  document.querySelector("#input-files").disabled = true;
-  document.querySelector("#input-dir"  ).disabled = true;
-  document.querySelector("#button-add-files").setAttribute("disabled", "");
-  document.querySelector("#button-add-dir").setAttribute("disabled", "");
-  document.querySelector("#button-clear").setAttribute("disabled", "");
-  document.querySelector("#button-process").setAttribute("disabled", "");
+  document.querySelector("#button-add-files").disabled = true;
+  document.querySelector("#button-add-dir").disabled = true;
+  document.querySelector("#button-clear").disabled = true;
+  document.querySelector("#button-process").disabled = true;
   document.querySelector("#button-process").setAttribute("onprocess", "");
 }
 
@@ -155,12 +160,10 @@ function controls_lock(filesList, dropField) {
 function controls_unlock(filesList, dropField) {
   filesList.remove_unlock();
   dropField.drop_unlock();
-  document.querySelector("#input-files").disabled = false;
-  document.querySelector("#input-dir"  ).disabled = false;
-  document.querySelector("#button-add-files").removeAttribute("disabled");
-  document.querySelector("#button-add-dir").removeAttribute("disabled");
-  document.querySelector("#button-clear").removeAttribute("disabled");
-  toggle_process_available(filesList);  // Unlock, but when available
+  document.querySelector("#button-add-files").disabled = false;
+  document.querySelector("#button-add-dir").disabled = false;
+  document.querySelector("#button-clear").disabled = false;
+  toggle_process_available(filesList);  // Unlock when available
   document.querySelector("#button-process").removeAttribute("onprocess");
 }
 
@@ -170,9 +173,9 @@ function controls_unlock(filesList, dropField) {
  */
 function toggle_process_available(filesList) {
   if(filesList.count_items() === 0) {
-    document.querySelector("#button-process").setAttribute("disabled", "");
+    document.querySelector("#button-process").disabled = true;
   } else {
-    document.querySelector("#button-process").removeAttribute("disabled");
+    document.querySelector("#button-process").disabled = false;
   }
 }
 
@@ -203,6 +206,6 @@ function gen_file_name() {
   const hour = `0${date_now.getHours()}`.slice(-2);
   const minute = `0${date_now.getMinutes()}`.slice(-2);
   const second = `0${date_now.getSeconds()}`.slice(-2);
-  
+
   return `mozjpeg-${year}${month}${day}${hour}${minute}${second}`;
 }
