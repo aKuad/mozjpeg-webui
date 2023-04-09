@@ -117,10 +117,14 @@ class RemovableList {
    * @param {string} index Text to view in list
    */
   #add_items_keep_each_core(list_items, content, index) {
+    const index_split = index.split(".");
+    const index_ext = index_split.length === 1 ? "" : "." + index_split.pop();
+    const index_body = index_split.join(".");
+
     let suffix = "";
     let suffix_num = 0;
     while(true) {
-      if(this.#add_items_no_overwrite_core(list_items, content, index + suffix)) { return; }
+      if(this.#add_items_no_overwrite_core(list_items, content, index_body + suffix + index_ext)) { return; }
       suffix_num++;
       suffix = "_" + suffix_num.toString();
     }
