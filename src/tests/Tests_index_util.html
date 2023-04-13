@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="../static/index_util.js"></script>
+    <script>
+      /**
+       * Tests for `index_util.js` module
+       *
+       * Test cases:
+       *   See each test functions
+       *
+       * Test steps:
+       *   1. Open this HTML with browser
+       *   2. Open JavaScript console
+       *   3. Click test buttons
+       *   4. Check console output
+       *
+       * @author aKuad
+       */
+
+      function Test_array_omit_string_single() {
+        console.log("-- Test_array_omit_string_single");
+        const actual = array_omit_string(["elem1"]);
+        const expected = "elem1";
+        if(actual === expected) {
+          console.log("--- OK");
+        } else {
+          console.log(`--- NG - Unexpected value:\nActual: ${actual}\nExpected: ${expected}`);
+        }
+      }
+
+
+      function Test_array_omit_string_multi() {
+        console.log("-- Test_array_omit_string_multi");
+        const actual = array_omit_string(["elem1", "elem2", "elem3"]);
+        const expected = "elem1 (+2)";
+        if(actual === expected) {
+          console.log("--- OK");
+        } else {
+          console.log(`--- NG - Unexpected value:\nActual: ${actual}\nExpected: ${expected}`);
+        }
+      }
+
+
+      function Test_gen_file_name() {
+        console.log("-- Test_gen_file_name");
+        const generated_name = gen_file_name();
+        console.log(generated_name);
+        if(generated_name.length === 22) {  // Check by character count
+          console.log("--- OK - Character count matched");
+        } else {
+          console.log("--- NG - Length is not match.");
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <button onclick="Test_array_omit_string_single()">Test_array_omit_string_single</button>
+    <button onclick="Test_array_omit_string_multi()">Test_array_omit_string_multi</button>
+    <hr>
+    <button onclick="Test_gen_file_name()">Test_gen_file_name</button>
+  </body>
+</html>
