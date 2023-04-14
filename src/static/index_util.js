@@ -31,3 +31,29 @@ function gen_file_name() {
 
   return `mozjpeg-${year}${month}${day}${hour}${minute}${second}`;
 }
+
+
+/**
+ * Divide filename extension matched or not
+ *
+ * @param {Array<File>} files 
+ * @param {Array<string>} expected_exts 
+ * @returns {Array<Array<string>}
+ */
+function names_ext_filter(files, expected_exts) {
+  const files_ok = [];
+  const files_ng = [];
+
+  files.forEach(file => {
+    const file_split = file.name.split(".");
+    const file_ext = file_split.length === 1 ? "" : file_split.pop();
+
+    if(expected_exts.includes(file_ext)) {
+      files_ok.push(file);
+    } else {
+      files_ng.push(file);
+    }
+  });
+
+  return [files_ok, files_ng];
+}
