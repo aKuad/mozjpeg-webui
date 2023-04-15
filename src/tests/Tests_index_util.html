@@ -21,7 +21,7 @@
 
       /**
        * `array_omit_string` function
-       * 
+       *
        * Test cases:
        *   * Can display one element when 1 element contains
        *   * Can display first one element and element count-1 when over 2 elements contains
@@ -51,7 +51,7 @@
 
       /**
        * `gen_file_name` function
-       * 
+       *
        * Test cases:
        *   * Can return a string like 'mozjpeg-20230102030405'
        *     * String been 'mozjpeg-' + 14 length number
@@ -67,6 +67,46 @@
           console.log("--- NG - Length is not match.");
         }
       }
+
+
+      /**
+       * `names_ext_filter` function
+       *
+       * Test cases:
+       */
+      function Test_names_ext_filter() {
+        console.log("-- Test_names_ext_filter");
+        const files = Part_gen_test_files();
+        const[files_ok, files_ng] = names_ext_filter(files, ["jpg", "jpeg"]);
+        if(Part_array_all_includes(files.slice(0, 4), files_ok) &&
+           Part_array_all_includes(files.slice(4, 8), files_ng)) {
+          console.log("--- OK");
+        } else {
+          console.log("--- NG");
+          console.log("OK Actual:", files_ok);
+          console.log("OK Expected:", files.slice(0, 4));
+          console.log("NG Actual:", files_ng);
+          console.log("NG Expected:", files.slice(4, 8));
+        }
+      }
+
+      function Part_gen_test_files() {
+        return [new File([], "ok.jpg"),       // OK - Normal (1)
+                new File([], "ok.jpeg"),      // OK - Normal (2)
+                new File([], "ok.JPG"),       // OK - Upper case
+                new File([], "ok.any.jpg"),   // OK - Multi periods
+                new File([], ""),             // NG - No name
+                new File([], "ng"),           // NG - No extension
+                new File([], "ng.txt"),       // NG - Unexpected extension
+                new File([], "ng.any.txt")];  // NG - Multi periods
+      }
+
+      function Part_array_all_includes(ary_base, search_elements) {
+        for(const elem of search_elements) {
+          if(!ary_base.includes(elem)) { return false; }
+        }
+        return true;
+      }
     </script>
   </head>
 
@@ -75,5 +115,7 @@
     <button onclick="Test_array_omit_string_multi()">Test_array_omit_string_multi</button>
     <hr>
     <button onclick="Test_gen_file_name()">Test_gen_file_name</button>
+    <hr>
+    <button onclick="Test_names_ext_filter()">Test_names_ext_filter</button>
   </body>
 </html>
