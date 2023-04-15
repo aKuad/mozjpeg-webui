@@ -15,10 +15,11 @@
        *   * Throw error when non Blob or File passed
        *
        * Test steps:
-       *   1. Open this HTML in browser
+       *   1. Open this HTML with browser
        *   2. Open JavaScript console
-       *   3. Click page's test buttons and check console output
        *   4. Input an any file for `Test_ExportCustomFile`
+       *   3. Click page's test buttons
+       *   5. Check console output and follow checking instructions
        *
        * @author aKuad
        */
@@ -29,11 +30,13 @@
         console.log("--- CHECK - Is downloading diagram has open? The text file wrote 'hello'?");
       }
 
+
       function Test_ExportTextFileWithName() {
         console.log("-- Test_ExportTextFileWithName");
         export_as_download(new Blob(["hello"], {"type": "text/plain"}), "name.txt");
         console.log("--- CHECK - Is downloading diagram has open with default 'name.txt'? The text file wrote 'hello'?");
       }
+
 
       function Test_ExportCustomFile(e) {
         console.log("-- Test_ExportCustomFile");
@@ -43,13 +46,13 @@
         console.log("--- CHECK - Is downloading dialog has open? Input file returned as downloading?");
       }
 
+
       function ErrCheck_InvalidArgument() {
         ErrCheck_InvalidArgument_Part(undefined, "TypeError: No arguments.");
 
-        const test_cases = [null, 1, true, "any", () => {}, {}];
-        for(const test_case of test_cases) {
+        for(const test_case of [null, 1, true, "any", () => {}, {}]) {
           const test_case_type = Part_ObjectType(test_case);
-          ErrCheck_InvalidArgument_Part(test_case, `TypeError: Argument 'blob' must be an Blob or File, not ${test_case_type}.`);
+          ErrCheck_InvalidArgument_Part(test_case, `TypeError: Argument 'blob' must be a Blob or File, not ${test_case_type}.`);
         }
       }
 
@@ -69,9 +72,11 @@
         }
       }
 
+
       function Part_ObjectType(obj) {
         return obj === null ? "null" : typeof obj === "object" ? obj.constructor.name : typeof obj;
       }
+
 
       window.addEventListener("load", () => {
         document.querySelector("#Test_ExportCustomFile").addEventListener("change", Test_ExportCustomFile);

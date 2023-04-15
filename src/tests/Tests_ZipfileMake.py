@@ -16,8 +16,8 @@ Test cases:
 
 Test steps:
   1. Set current to this ``tests`` directory
-  2. Execute ``Tests_ZipfileMake.py`` with python3 interpreter
-  3. Check generated zip files can open by other software
+  2. Execute this program
+  3. Check console output and follow checking instructions
 
 Author:
   aKuad

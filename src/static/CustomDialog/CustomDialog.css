@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+#CustomDialog-back {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: hsla(0, 0%, 0%, 0.8);
+
+  /* For display in center */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transition: opacity linear 0.2s;
+}
+.CustomDialog-disp {
+  opacity: 1 !important;
+}
+
+
+#CustomDialog-field-message {
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 10px 10px 0 0;
+  margin: 0;
+  padding: 2em;
+}
+
+
+#CustomDialog-field-buttons {
+  text-align: center;
+  padding: 0.2em;
+
+  background-color: hsl(0, 0%, 80%);
+  border-radius: 0 0 10px 10px;
+}
+.CustomDialog-button {
+  display: inline-block;
+  background-color: hsl(0, 0%, 30%);
+  border-radius: 5px;
+  border: none;
+  outline: none;
+
+  color: #fff;
+  margin: 0.5em;
+  padding: 1em;
+  font-size: 1em;
+
+  opacity: 1;
+  transition: opacity 0.2s linear;
+}
+.CustomDialog-button:hover {
+  opacity: 0.6;
+}

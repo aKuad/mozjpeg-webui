@@ -4,8 +4,8 @@
  * @param {Blob | File} blob Data body to export
  * @param {string} name Default file name to export
  *
- * @throws {Error} No arguments
- * @throws {Error} `blob` type must be `Blob` or `File`
+ * @throws {TypeError} No arguments
+ * @throws {TypeError} `blob` type must be `Blob` or `File`
  *
  * @author aKuad
  */
@@ -14,7 +14,7 @@ function export_as_download(blob, name = "file") {
   if(blob === undefined) {
     throw new TypeError("No arguments.");
   }
-  if(!(blob instanceof Blob) && !(blob instanceof File)) {
+  if(!(blob instanceof Blob)) {
     const blob_type = blob === null ? "null" : typeof blob === "object" ? blob.constructor.name : typeof blob;
     throw new TypeError(`Argument 'blob' must be a Blob or File, not ${blob_type}.`);
   }
