@@ -22,10 +22,10 @@ function array_omit_string(ary) {
  */
 function gen_file_name() {
   const date_now = new Date();
-  const year = `${date_now.getFullYear()}`;
-  const month = `0${date_now.getMonth()}`.slice(-2);
-  const day   = `0${date_now.getDay()}`.slice(-2);
-  const hour = `0${date_now.getHours()}`.slice(-2);
+  const year   = `${date_now.getFullYear()}`;
+  const month  = `0${date_now.getMonth()}`.slice(-2);
+  const day    = `0${date_now.getDay()}`.slice(-2);
+  const hour   = `0${date_now.getHours()}`.slice(-2);
   const minute = `0${date_now.getMinutes()}`.slice(-2);
   const second = `0${date_now.getSeconds()}`.slice(-2);
 
