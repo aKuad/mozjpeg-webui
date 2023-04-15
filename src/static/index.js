@@ -54,19 +54,8 @@ window.addEventListener("load", () => {
       return;
     }
 
-    // Filter by file extension is jpeg
-    const files_jpeg = [];
-    const files_nojpeg = [];
-    files_all.map(e => {
-      const ext = e.name.slice(-4).toLowerCase(); // Extract last 4 chars
-      if([".jpg", "jpeg"].includes(ext)) {        // Is it ".jpg" or "jpeg"
-        files_jpeg.push(e);
-      } else {
-        files_nojpeg.push(e);
-      }
-    });
-
     // If non jpeg files detected, display error message
+    const [files_jpeg, files_nojpeg] = names_ext_filter(files_all, ["jpg", "jpeg"]);
     if(files_nojpeg.length !== 0) {
       const files_nojpeg_name = files_nojpeg.map(f => f.name);
       CornerMessage.view(`Non jpeg input:\n${ array_omit_string(files_nojpeg_name) }`, CornerMessage.style.danger);
