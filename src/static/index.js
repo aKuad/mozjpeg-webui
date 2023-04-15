@@ -13,13 +13,13 @@ window.addEventListener("load", () => {
   const input_files = document.createElement("input");
   input_files.type = "file";
   input_files.multiple = true;
-  document.querySelector("#button-add-files").addEventListener("click", input_files.click);
+  document.querySelector("#button-add-files").addEventListener("click", () => input_files.click());
 
   // Button - Add a directory
   const input_dir = document.createElement("input");
   input_dir.type = "file";
   input_dir.webkitdirectory = true;
-  document.querySelector("#button-add-dir").addEventListener("change", input_dir.click);
+  document.querySelector("#button-add-dir").addEventListener("click", () => input_dir.click());
 
   // Files drop field
   const dropField_view = document.querySelector("#dragview");
