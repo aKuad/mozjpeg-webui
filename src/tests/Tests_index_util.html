@@ -19,6 +19,13 @@
        * @author aKuad
        */
 
+      /**
+       * `array_omit_string` function
+       * 
+       * Test cases:
+       *   * Can display one element when 1 element contains
+       *   * Can display first one element and element count-1 when over 2 elements contains
+       */
       function Test_array_omit_string_single() {
         console.log("-- Test_array_omit_string_single");
         const actual = array_omit_string(["elem1"]);
@@ -29,7 +36,6 @@
           console.log(`--- NG - Unexpected value:\nActual: ${actual}\nExpected: ${expected}`);
         }
       }
-
 
       function Test_array_omit_string_multi() {
         console.log("-- Test_array_omit_string_multi");
@@ -43,6 +49,14 @@
       }
 
 
+      /**
+       * `gen_file_name` function
+       * 
+       * Test cases:
+       *   * Can return a string like 'mozjpeg-20230102030405'
+       *     * String been 'mozjpeg-' + 14 length number
+       *     * Number part generated from current year, month, day, hour, minute, second
+       */
       function Test_gen_file_name() {
         console.log("-- Test_gen_file_name");
         const generated_name = gen_file_name();
