@@ -36,19 +36,20 @@ function gen_file_name() {
 /**
  * Divide filename extension matched or not
  *
- * @param {Array<File>} files 
- * @param {Array<string>} expected_exts 
- * @returns {Array<Array<string>}
+ * @param {Array<File>} files File array to divide
+ * @param {Array<string>} expected_exts Extensions for dividing
+ * @returns {Array<Array<File>>} [Matched, Unmatched] file objects
  */
 function names_ext_filter(files, expected_exts) {
+  const expected_exts_lower = expected_exts.map(e => e.toLowerCase());
   const files_ok = [];
   const files_ng = [];
 
   files.forEach(file => {
     const file_split = file.name.split(".");
-    const file_ext = file_split.length === 1 ? "" : file_split.pop();
+    const file_ext = file_split.length === 1 ? "" : file_split.pop().toLowerCase();
 
-    if(expected_exts.includes(file_ext)) {
+    if(expected_exts_lower.includes(file_ext)) {
       files_ok.push(file);
     } else {
       files_ng.push(file);
