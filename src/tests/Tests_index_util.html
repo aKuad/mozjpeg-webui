@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="../static/index_util.js"></script>
+    <script>
+      /**
+       * Tests for `index_util.js` module
+       *
+       * Test cases:
+       *   See each test functions
+       *
+       * Test steps:
+       *   1. Open this HTML with browser
+       *   2. Open JavaScript console
+       *   3. Click test buttons
+       *   4. Check console output
+       *
+       * @author aKuad
+       */
+
+      /**
+       * `array_omit_string` function
+       *
+       * Test cases:
+       *   * Can display one element when 1 element contains
+       *   * Can display first one element and element count-1 when over 2 elements contains
+       */
+      function Test_array_omit_string_single() {
+        console.log("-- Test_array_omit_string_single");
+        const actual = array_omit_string(["elem1"]);
+        const expected = "elem1";
+        if(actual === expected) {
+          console.log("--- OK");
+        } else {
+          console.log(`--- NG - Unexpected value:\nActual: ${actual}\nExpected: ${expected}`);
+        }
+      }
+
+      function Test_array_omit_string_multi() {
+        console.log("-- Test_array_omit_string_multi");
+        const actual = array_omit_string(["elem1", "elem2", "elem3"]);
+        const expected = "elem1 (+2)";
+        if(actual === expected) {
+          console.log("--- OK");
+        } else {
+          console.log(`--- NG - Unexpected value:\nActual: ${actual}\nExpected: ${expected}`);
+        }
+      }
+
+
+      /**
+       * `gen_file_name` function
+       *
+       * Test cases:
+       *   * Can return a string like 'mozjpeg-20230102030405'
+       *     * String been 'mozjpeg-' + 14 length number
+       *     * Number part generated from current year, month, day, hour, minute, second
+       */
+      function Test_gen_file_name() {
+        console.log("-- Test_gen_file_name");
+        const generated_name = gen_file_name();
+        console.log(generated_name);
+        if(generated_name.length === 22) {  // Check by character count
+          console.log("--- OK - Character count matched");
+        } else {
+          console.log("--- NG - Length is not match.");
+        }
+      }
+
+
+      /**
+       * `names_ext_filter` function
+       *
+       * Test cases:
+       *   * Can divide and return file objects, by extension matching or not
+       */
+      function Test_names_ext_filter() {
+        console.log("-- Test_names_ext_filter");
+        const files = Part_gen_test_files();
+        const[files_ok, files_ng] = names_ext_filter(files, ["jpg", "jpeg"]);
+        if(Part_array_all_includes(files.slice(0, 4), files_ok) &&
+           Part_array_all_includes(files.slice(4, 8), files_ng)) {
+          console.log("--- OK");
+        } else {
+          console.log("--- NG");
+          console.log("OK Actual:", files_ok);
+          console.log("OK Expected:", files.slice(0, 4));
+          console.log("NG Actual:", files_ng);
+          console.log("NG Expected:", files.slice(4, 8));
+        }
+      }
+
+      function Part_gen_test_files() {
+        return [new File([], "ok.jpg"),       // OK - Normal (1)
+                new File([], "ok.jpeg"),      // OK - Normal (2)
+                new File([], "ok.JPG"),       // OK - Upper case
+                new File([], "ok.any.jpg"),   // OK - Multi periods
+                new File([], ""),             // NG - No name
+                new File([], "ng"),           // NG - No extension
+                new File([], "ng.txt"),       // NG - Unexpected extension
+                new File([], "ng.any.txt")];  // NG - Multi periods
+      }
+
+      function Part_array_all_includes(ary_base, search_elements) {
+        for(const elem of search_elements) {
+          if(!ary_base.includes(elem)) { return false; }
+        }
+        return true;
+      }
+    </script>
+  </head>
+
+  <body>
+    <button onclick="Test_array_omit_string_single()">Test_array_omit_string_single</button>
+    <button onclick="Test_array_omit_string_multi()">Test_array_omit_string_multi</button>
+    <hr>
+    <button onclick="Test_gen_file_name()">Test_gen_file_name</button>
+    <hr>
+    <button onclick="Test_names_ext_filter()">Test_names_ext_filter</button>
+  </body>
+</html>
