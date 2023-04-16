@@ -3,13 +3,12 @@
 
 Test cases:
   * Can optimize a JPEG file
-  * Can optimize multiple JPEG files
   * Raise exception when invalid JPEG input
   * Raise exception when invalid executable specified
 
 Test steps:
   1. Set current to this ``tests`` directory
-  2. Create any JPEG file as ``img.jpg`` ``img1.jpg`` ``img2.jpg`` ``img3.jpg``
+  2. Create any JPEG file as ``img1.jpg``
   3. Execute this program
   4. Check console output and follow checking instructions
 
@@ -22,28 +21,15 @@ Author:
 import sys
 sys.path.append("../")
 
-from util.jpeg_opt import jpeg_opt, jpeg_opt_batch
+from util.jpeg_opt import jpeg_opt
 
 
 def Test_JpegOptimizing():
   print("-- Test_JpegOptimizing")
-  org = Part_BinaryFileRead("img.jpg")
+  org = Part_BinaryFileRead("img1.jpg")
   opt = jpeg_opt(org)
   Part_BinaryFileWrite("out.jpg", opt)
   print("--- CHECK - Can out.jpg open")
-
-
-def Test_JpegOptimizingMultiple():
-  print("-- Test_JpegOptimizingMultiple")
-  org = []
-  org.append(Part_BinaryFileRead("img1.jpg"))
-  org.append(Part_BinaryFileRead("img2.jpg"))
-  org.append(Part_BinaryFileRead("img3.jpg"))
-  opt = jpeg_opt_batch(org)
-  Part_BinaryFileWrite("out1.jpg", opt[0])
-  Part_BinaryFileWrite("out2.jpg", opt[1])
-  Part_BinaryFileWrite("out3.jpg", opt[2])
-  print("--- CHECK - Can 'img1.jpg' 'img2.jpg' 'img3.jpg' open")
 
 
 def ErrCheck_NonJpegInput():
@@ -61,7 +47,7 @@ def ErrCheck_NonJpegInput():
 def ErrCheck_NonExistCommand():
   print("-- ErrCheck_NonExistCommand")
   try:
-    org = Part_BinaryFileRead("img.jpg")
+    org = Part_BinaryFileRead("img1.jpg")
     jpeg_opt(org, "a") # "a" as non exist command
     print("--- NG - Exception hasn't raised")
   except OSError as e:
@@ -83,6 +69,5 @@ def Part_BinaryFileWrite(file_name: str, file_body: bytes):
 
 if __name__ == "__main__":
   Test_JpegOptimizing()
-  Test_JpegOptimizingMultiple()
   ErrCheck_NonJpegInput()
   ErrCheck_NonExistCommand()
