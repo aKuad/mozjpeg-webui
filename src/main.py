@@ -18,7 +18,7 @@ from fastapi.templating import Jinja2Templates
 from uvicorn import run
 
 from util.jpeg_opt import jpeg_opt
-from util.ZipfileMake import ZipfileMake
+from util.jpeg_opt_zipout import jpeg_opt_zipout
 
 
 app = FastAPI()
@@ -41,9 +41,9 @@ async def jpegs_opt(files: List[UploadFile] = File(...)):
     files (list[UploadFile]): File items to optimize
 
   Returns:
-    Response: On single file: Optimized JPEG binary,
-              On multiple files: Optimized JPEGs packed in a zip,
-              On error: JSON string with detail
+    On single file: Optimized JPEG binary,
+    On multiple files: Optimized JPEGs packed in a zip with failed file names in `failed-names` header (if any),
+    On error: JSON string with detail
 
   Note:
     File items must be:
@@ -61,21 +61,22 @@ async def jpegs_opt(files: List[UploadFile] = File(...)):
   if True in are_filename_empty:
     raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Empty filename detected")
 
-  try:
-    if len(files) == 1:
-      # On single JPEG input
+  # On single JPEG input
+  if len(files) == 1:
+    try:
       file_opt = jpeg_opt(await files[0].read(), "/opt/mozjpeg/bin/jpegtran")
       return Response(file_opt, media_type="image/jpeg")
-    else:
-      # On multiple JPEG input
-      zipfilemake = ZipfileMake()
-      for file in files:
-        file_opt = jpeg_opt(await file.read(), "/opt/mozjpeg/bin/jpegtran")
-        zipfilemake.add_file(file.filename, file_opt)
-      return Response(zipfilemake.export_zip(), media_type="application/zip")
-  except ValueError:
-    # On optimizing error occured
-    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid jpeg input (may be broken)")
+    except ValueError:
+      # On optimizing error occured
+      raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid jpeg input (may be broken)")
+
+  # On multiple JPEG input
+  else:
+    try:
+      zipfile, failed_names = jpeg_opt_zipout(files, "/opt/mozjpeg/bin/jpegtran")
+      return Response(zipfile, media_type="application/zip", headers={"failed-names": "\n".join(failed_names)})
+    except ValueError:
+      raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No files could be processed (may be broken)")
 
 
 if __name__ == '__main__':
