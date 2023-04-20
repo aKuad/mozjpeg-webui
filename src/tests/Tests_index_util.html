@@ -118,8 +118,13 @@
        */
       function Test_file_input_reset() {
         console.log("-- Test_file_input_reset");
-        file_input_reset(document.querySelector("#file_input"));
-        console.log("--- CHECK - Is file selecting been none?");
+        const input_elem = document.querySelector("#file_input");
+        file_input_reset(input_elem);
+        if(input_elem.files.length === 0 && input_elem.webkitEntries.length === 0) {
+          console.log("--- OK");
+        } else {
+          console.log("--- NG - File field wasn't be reset.");
+        }
       }
     </script>
   </head>
