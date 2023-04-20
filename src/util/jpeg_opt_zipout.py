@@ -25,6 +25,7 @@ def jpeg_opt_zipout(files: List[UploadFile], executable: str = "jpegtran", optio
     tuple[bytes, list[str]]: Zip file binary conatins optimized JPEG files & File names which failed to process
 
   Raises:
+    OSError: Specified executable or command not found
     ValueError: No files succeeded to optimize
 
   Author:
@@ -38,7 +39,7 @@ def jpeg_opt_zipout(files: List[UploadFile], executable: str = "jpegtran", optio
     try:
       file_opt = jpeg_opt(file.file.read(), executable, options)
       zipfile.add_file(file.filename, file_opt)
-    except:
+    except ValueError:
       failed_names.append(file.filename)
 
   if len(files) != len(failed_names):

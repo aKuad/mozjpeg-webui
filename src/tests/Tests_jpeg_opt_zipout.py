@@ -68,6 +68,19 @@ def ErrCheck_AllInvalid():
     print("--- NG - Un expected exception raised")
 
 
+def ErrCheck_NonExistCommand():
+  print("-- ErrCheck_NonExistCommand")
+  files = [UploadFile(open("img1.jpg", "rb"), filename="img1.jpg")]
+  try:
+    zipout, failed_names = jpeg_opt_zipout(files, "a")  # "a" as non exist command
+    print("--- NG - Exception hasn't raised")
+  except OSError as e:
+    print("--- OK")
+  except BaseException as e:
+    print(e)
+    print("--- NG - Un expected exception raised")
+
+
 def Part_BinaryFileWrite(file_name: str, file_body: bytes):
   with open(file_name, "wb") as f:
     f.write(file_body)
@@ -77,3 +90,4 @@ if __name__ == "__main__":
   Test_NoInvalid()
   Test_PartlyInvalid()
   ErrCheck_AllInvalid()
+  ErrCheck_NonExistCommand()
