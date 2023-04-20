@@ -54,6 +54,9 @@ window.addEventListener("load", () => {
       return;
     }
 
+    // Allow same imput
+    file_input_reset(event.target);
+
     // If non jpeg files detected, display error message
     const [files_jpeg, files_nojpeg] = names_ext_filter(files_all, ["jpg", "jpeg"]);
     if(files_nojpeg.length !== 0) {
