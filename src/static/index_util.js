@@ -58,3 +58,14 @@ function names_ext_filter(files, expected_exts) {
 
   return [files_ok, files_ng];
 }
+
+
+/**
+ * Reset files input, can be call change event for same input
+ *
+ * @param {HTMLInputElement} input_elem File input element to reset
+ */
+function file_input_reset(input_elem) {
+  input_elem.type = "button";
+  input_elem.type = "file";
+}

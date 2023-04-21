@@ -108,6 +108,24 @@
         }
         return true;
       }
+
+
+      /**
+       * `file_input_reset` function
+       *
+       * Test cases:
+       *   * Can set file input to none
+       */
+      function Test_file_input_reset() {
+        console.log("-- Test_file_input_reset");
+        const input_elem = document.querySelector("#file_input");
+        file_input_reset(input_elem);
+        if(input_elem.files.length === 0 && input_elem.webkitEntries.length === 0) {
+          console.log("--- OK");
+        } else {
+          console.log("--- NG - File field wasn't be reset.");
+        }
+      }
     </script>
   </head>
 
@@ -118,5 +136,8 @@
     <button onclick="Test_gen_file_name()">Test_gen_file_name</button>
     <hr>
     <button onclick="Test_names_ext_filter()">Test_names_ext_filter</button>
+    <hr>
+    <button onclick="Test_file_input_reset()">Test_file_input_reset</button>
+    <input type="file" multiple id="file_input">
   </body>
 </html>
