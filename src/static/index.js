@@ -113,16 +113,31 @@ window.addEventListener("load", () => {
     });
     const res = await fetch("/api/jpegs-opt", {body: post_body, method: "POST"});
 
-    if(res.ok) {
-      // On success, export file as downloading
-      const res_blob = await res.blob();
-      filesList.remove_items_all();
-      CornerMessage.view("Success to process.", CornerMessage.style.info);
-      export_as_download(res_blob, gen_file_name());
-    } else {
-      // On failed, view error message
+    if(Math.floor(res.status / 100) === 4) {
+      // On client error, view error message
       const res_json = await res.json();
       CornerMessage.view("Failed to process:\n" + res_json.detail, CornerMessage.style.danger);
+      filesList.remove_items_all();
+
+    } else if(Math.floor(res.status / 100) === 5) {
+      // On internal server error
+      CornerMessage.view("Failed to process:\nInternal server error");
+
+    } else {
+      // On success, export file as downloading
+      const failed_names = res.headers.get("failed-names");
+      console.log(...res.headers);
+      //// Single file -> null (false)
+      //// Multiples file (and no invalid) -> "" (false)
+      //// Multiples file (with invalid) -> "name1\nname2\n..."
+      if(failed_names) {
+        CornerMessage.view(`Some files failed to process:\n${ array_omit_string(failed_names.split("\n")) }`, CornerMessage.style.warn);
+      } else {
+        CornerMessage.view("Success to process.", CornerMessage.style.info);
+      }
+      filesList.remove_items_all();
+      const res_blob = await res.blob();
+      export_as_download(res_blob, gen_file_name());
     }
 
     controls_unlock(filesList, dropField);

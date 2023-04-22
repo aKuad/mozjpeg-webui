@@ -4,6 +4,7 @@
 Test cases:
   * Can return optimized JPEG from single JPEG
   * Can return optimized JPEG files packed ZIP from multiple JPEG
+  * Can return JPEG file names which failed to process in ``failed-names`` header
   * Return error when non JPEG binary input
   * Return error when invalid JPEG binary input
   * Return error when no name (empty string) file input
@@ -62,6 +63,30 @@ def Test_MultipleProcess():
     print("--- CHECK - Can open res.zip and contains 3 jpeg files")
 
 
+def Test_MultipleProcessIncludingInvalid():
+  print("-- Test_MultipleProcessIncludingInvalid")
+  files = [("files", ("img1.jpg", open("img1.jpg", "rb"), "image/jpeg")),
+           ("files", ("img2.jpg", open("img2.jpg", "rb"), "image/jpeg")),
+           ("files", ("invalid.jpg", open("invalid.jpg", "rb"), "image/jpeg"))]
+  res = requests.post(API_URL, files=files)
+
+  if int(res.status_code / 100) == 5:
+    print(res.content)
+    print("--- NG - Server error")
+  elif int(res.status_code / 100) == 4:
+    print(res.content)
+    print("--- NG - Client error")
+  
+  failed_names = res.headers.get("failed-names").split("\n")
+  if len(failed_names) != 1 or failed_names[0] != "invalid.jpg":
+    print("Expected:", ["invalid.jpg"])
+    print("Actual:", failed_names)
+    print("--- NG - Unexpected header")
+  else:
+    Part_BinaryFileWrite("res-inv.zip", res.content)
+    print("--- CHECK - Can open res-inv.zip and contains 2 jpeg files")
+
+
 def ErrCheck_NonJpeg():
   print("-- ErrCheck_NonJpeg")
   files = [("files", ("invalid.txt", open("invalid.txt", "rb"), "text/plain"))]
@@ -92,6 +117,25 @@ def ErrCheck_InvalidJpeg():
 
   res_dict = json_loads(res.content.decode("utf-8"))
   if res_dict["detail"] == "Invalid jpeg input (may be broken)":
+    print("--- OK")
+  else:
+    print(res.content)
+    print("--- NG - Unexpected error occured")
+
+
+def ErrCheck_InvalidJpegMultiple():
+  print("-- ErrCheck_InvalidJpegMultiple")
+  files = [("files", ("invalid1.jpg", open("invalid.jpg", "rb"), "image/jpeg")),
+           ("files", ("invalid2.jpg", open("invalid.jpg", "rb"), "image/jpeg"))]
+  res = requests.post(API_URL, files=files)
+
+  if int(res.status_code / 100) != 4:
+    print(res.content)
+    print("--- NG - Client error wasn's occured")
+    return
+
+  res_dict = json_loads(res.content.decode("utf-8"))
+  if res_dict["detail"] == "No files could be processed (may be broken)":
     print("--- OK")
   else:
     print(res.content)
@@ -141,7 +185,9 @@ def Part_BinaryFileWrite(file_name: str, file_body: bytes):
 if __name__ == "__main__":
   Test_SingleProcess()
   Test_MultipleProcess()
+  Test_MultipleProcessIncludingInvalid()
   ErrCheck_NonJpeg()
   ErrCheck_InvalidJpeg()
+  ErrCheck_InvalidJpegMultiple()
   ErrCheck_NoNameFile()
   ErrCheck_NoBody()
