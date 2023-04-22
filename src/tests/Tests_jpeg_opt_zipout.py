@@ -5,6 +5,7 @@ Test cases:
   * Can output a zipfile, containing optimized JPEG files
   * Can output failed filenames, when invalid files included
   * Raise exception when no files succeeded to optimize
+  * Raise exception when invalid executable specified
 
 Test steps:
   1. Set current to this ``tests`` directory
