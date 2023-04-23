@@ -19,8 +19,6 @@ JPEG optimizing web app
 
 ![Demo - Add files](imgs/demo-add-files.webp)
 
-![Demo - Add a directory](imgs/demo-add-adir.webp)
-
 "Process" to execute optimizing.
 
 ![Demo - Process](imgs/demo-process.webp)
