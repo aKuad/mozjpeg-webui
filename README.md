@@ -66,6 +66,9 @@ Any problems of build? Please see [official reference](https://github.com/mozill
 
 ```sh
 pip install fastapi uvicorn jinja2 python-multipart
+
+# via requirements.txt
+pip install -r assets/requirements.txt
 ```
 
 ### 3. Run main
