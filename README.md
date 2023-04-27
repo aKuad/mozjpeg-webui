@@ -74,6 +74,7 @@ pip install -r assets/requirements.txt
 ### 3. Run main
 
 ```sh
+cd src
 python3 main.py
 ```
 
