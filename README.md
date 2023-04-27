@@ -42,12 +42,12 @@ File saving dialog will open, and save processed file.
 sudo apt install cmake nasm
 
 # Get mozjpeg source
-## Throwgh git
+## Via git
 git clone https://github.com/mozilla/mozjpeg.git
 cd mozjpeg
 git checkout v4.1.1
 ### === or ===
-## Throwgh wget
+## Via wget
 wget -O - https://github.com/mozilla/mozjpeg/archive/refs/tags/v4.1.1.tar.gz | tar -xzv -C ./
 cd mozjpeg-4.1.1
 
