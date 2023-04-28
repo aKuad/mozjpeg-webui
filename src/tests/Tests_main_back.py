@@ -6,7 +6,7 @@ Test cases:
   * Can return optimized JPEG files packed ZIP from multiple JPEG
   * Can return JPEG file names which failed to process in ``failed-names`` header
   * Return error when non JPEG binary input
-  * Return error when invalid JPEG binary input
+  * Return error when invalid JPEG binary (or binaries) input
   * Return error when no name (empty string) file input
 
 Test steps:
