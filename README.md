@@ -35,19 +35,19 @@ File saving dialog will open, and save processed file.
 
 ## Deployments (for Debian/Ubuntu)
 
-### Build and install mozjpeg
+### 1. Build and install mozjpeg
 
 ```sh
 # Install required packages for build
 sudo apt install cmake nasm
 
 # Get mozjpeg source
-## Throwgh git
+## Via git
 git clone https://github.com/mozilla/mozjpeg.git
 cd mozjpeg
 git checkout v4.1.1
 ### === or ===
-## Throwgh wget
+## Via wget
 wget -O - https://github.com/mozilla/mozjpeg/archive/refs/tags/v4.1.1.tar.gz | tar -xzv -C ./
 cd mozjpeg-4.1.1
 
@@ -58,7 +58,7 @@ sudo make install
 
 Any problems of build? Please see [official reference](https://github.com/mozilla/mozjpeg/blob/master/BUILDING.md).
 
-### Install required python packages
+### 2. Install required python packages
 
 > **Note**
 >
@@ -66,11 +66,15 @@ Any problems of build? Please see [official reference](https://github.com/mozill
 
 ```sh
 pip install fastapi uvicorn jinja2 python-multipart
+
+# via requirements.txt
+pip install -r assets/requirements.txt
 ```
 
-### Run main
+### 3. Run main
 
 ```sh
+cd src
 python3 main.py
 ```
 
@@ -82,7 +86,7 @@ Now app will be available on: `http://localhost:8000`
 
 Please done [Build and install mozjpeg](#build-and-install-mozjpeg) before.
 
-### Run setup script
+### 1. Run setup script
 
 > **Note**
 >
@@ -93,7 +97,7 @@ Please done [Build and install mozjpeg](#build-and-install-mozjpeg) before.
 sudo ./systemd-setup.sh
 ```
 
-### Switch by systemctl
+### 2. Switch by systemctl
 
 `mozjpeg-webui` service will be available on systemd.
 
