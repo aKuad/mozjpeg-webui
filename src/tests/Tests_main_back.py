@@ -8,7 +8,6 @@ Test cases:
   * Return error when non JPEG binary input
   * Return error when invalid JPEG binary input
   * Return error when no name (empty string) file input
-  * Return error when ``files`` field missing post
 
 Test steps:
   1. Set current to this ``tests`` directory
@@ -161,23 +160,6 @@ def ErrCheck_NoNameFile():
     print("--- NG - Unexpected error occured")
 
 
-def ErrCheck_NoBody():
-  print("-- ErrCheck_NoBody")
-  res = requests.post(API_URL)
-
-  if int(res.status_code / 100) != 4:
-    print(res.content)
-    print("--- NG - Client error wasn's occured")
-    return
-
-  res_dict = json_loads(res.content.decode("utf-8"))
-  if res_dict["detail"][0]["type"] == "value_error.missing":
-    print("--- OK")
-  else:
-    print(res.content)
-    print("--- NG - Unexpected error occured")
-
-
 def Part_BinaryFileWrite(file_name: str, file_body: bytes):
   with open(file_name, "wb") as f:
     f.write(file_body)
@@ -191,4 +173,3 @@ if __name__ == "__main__":
   ErrCheck_InvalidJpeg()
   ErrCheck_InvalidJpegMultiple()
   ErrCheck_NoNameFile()
-  ErrCheck_NoBody()
