@@ -65,5 +65,10 @@ def jpeg_opt_zipout(files: List[UploadFile], executable: str = "jpegtran", optio
 
 def jpeg_opt_uploadfile(file: UploadFile, executable, options) -> bytes:
   """Glue code of ``jpeg_opt``, for input UploadFile
+
+  Note:
+    It includes file reading process.
+    It makes parallel file reading, and contribute for high throughput.
+
   """
   return jpeg_opt(file.file.read(), executable, options)
