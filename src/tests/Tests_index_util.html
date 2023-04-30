@@ -126,6 +126,25 @@
           console.log("--- NG - File field wasn't be reset.");
         }
       }
+
+
+      /**
+       * `file_rename` function
+       *
+       * Test cases:
+       *   * Can modify `File.name` field
+       */
+      function Test_file_rename() {
+        console.log("-- Test_file_rename");
+        const file = new File(["any-data"], "name-old");
+        const file_re = file_rename(file, "name-new");
+        if(file_re.name === "name-new") {
+          console.log("--- OK");
+        } else {
+          console.log(`Actual: ${ file_re.name }\nExpected: name-new`);
+          console.log("--- NG - Unexpected name");
+        }
+      }
     </script>
   </head>
 
@@ -139,5 +158,7 @@
     <hr>
     <button onclick="Test_file_input_reset()">Test_file_input_reset</button>
     <input type="file" multiple id="file_input">
+    <hr>
+    <button onclick="Test_file_rename()">Test_file_rename</button>
   </body>
 </html>
