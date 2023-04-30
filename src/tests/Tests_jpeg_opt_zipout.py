@@ -55,6 +55,16 @@ def Test_PartlyInvalid():
     print("--- NG - Un expected files failed to process")
 
 
+def Test_HighTuroughput():
+  print("-- Test_HighTuroughput")
+  files = []
+  for i in range(40): # 40 as many (or heavy) files
+    files.append(UploadFile(open("img1.jpg", "rb"), filename=f"img{i}.jpg"))
+  zipout, _ = jpeg_opt_zipout(files)
+  Part_BinaryFileWrite("zipout-throughput.zip", zipout)
+  print("--- CHECK - Was test ended speedy?")
+
+
 def ErrCheck_AllInvalid():
   print("-- ErrCheck_AllInvalid")
   files = [UploadFile(open("invalid.jpg", "rb"), filename="invalid.jpg"),
@@ -90,5 +100,6 @@ def Part_BinaryFileWrite(file_name: str, file_body: bytes):
 if __name__ == "__main__":
   Test_NoInvalid()
   Test_PartlyInvalid()
+  Test_HighTuroughput()
   ErrCheck_AllInvalid()
   ErrCheck_NonExistCommand()
