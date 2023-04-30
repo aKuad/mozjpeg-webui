@@ -26,11 +26,10 @@ class InputFileReader {
 
     // When webkitEntries available
     if(elem.webkitEntries.length > 0) {
-      const files = [];
-      for(const entry of elem.webkitEntries) {
-        files.push(...await InputFileReader.#files_from_entry(entry));
-      }
-      return files;
+      const promises = elem.webkitEntries.map(entry => InputFileReader.#files_from_entry(entry));
+      const results = await Promise.allSettled(promises);
+      const values = results.map(result => result.value);
+      return values.flat();
     }
 
     // When unavailable
@@ -52,11 +51,10 @@ class InputFileReader {
         entry.createReader().readEntries(entries => { resolve(entries); });
       });
       // Child entries -> File objects
-      const files = [];
-      for(const child_entry of child_entries) {
-        files.push(...await InputFileReader.#files_from_entry(child_entry));
-      }
-      return files;
+      const promises = child_entries.map(child_entry => InputFileReader.#files_from_entry(child_entry));
+      const results  = await Promise.allSettled(promises);
+      const values   = results.map(result => result.value);
+      return values.flat();
 
     } else {
       // FileEntry -> File object
