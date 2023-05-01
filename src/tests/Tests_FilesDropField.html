@@ -64,7 +64,7 @@
         const test_type = Part_ObjectType(test_obj);
         console.log(`-- ErrCheck_InvalidArgument - ${test_type}`);
         try {
-          new FilesDropField(test_obj);
+          const _ = new FilesDropField(test_obj);
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
           if(e.toString() === expected_message) {

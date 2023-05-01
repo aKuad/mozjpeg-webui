@@ -70,7 +70,7 @@ def ErrCheck_AllInvalid():
   files = [UploadFile(open("invalid.jpg", "rb"), filename="invalid.jpg"),
            UploadFile(open("invalid.txt", "rb"), filename="invalid.txt")]
   try:
-    zipout, failed_names = jpeg_opt_zipout(files)
+    _, _ = jpeg_opt_zipout(files)
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print("--- OK")
@@ -83,7 +83,7 @@ def ErrCheck_NonExistCommand():
   print("-- ErrCheck_NonExistCommand")
   files = [UploadFile(open("img1.jpg", "rb"), filename="img1.jpg")]
   try:
-    zipout, failed_names = jpeg_opt_zipout(files, "a")  # "a" as non exist command
+    _, _ = jpeg_opt_zipout(files, "a")  # "a" as non exist command
     print("--- NG - Exception hasn't raised")
   except OSError as e:
     print("--- OK")

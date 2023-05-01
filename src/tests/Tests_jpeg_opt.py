@@ -35,7 +35,7 @@ def Test_JpegOptimizing():
 def ErrCheck_NonJpegInput():
   print("-- ErrCheck_NonJpegInput")
   try:
-    jpeg_opt(b"a")  # "a" as non jpeg input
+    _ = jpeg_opt(b"a")  # "a" as non jpeg input
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print("--- OK")
@@ -48,7 +48,7 @@ def ErrCheck_NonExistCommand():
   print("-- ErrCheck_NonExistCommand")
   try:
     org = Part_BinaryFileRead("img1.jpg")
-    jpeg_opt(org, "a") # "a" as non exist command
+    _ = jpeg_opt(org, "a") # "a" as non exist command
     print("--- NG - Exception hasn't raised")
   except OSError as e:
     print("--- OK")
