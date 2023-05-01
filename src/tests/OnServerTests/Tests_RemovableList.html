@@ -138,7 +138,7 @@
         const test_obj_type = Part_ObjectType(test_obj);
         console.log(`-- ErrCheck_InvalidArgument_Constructor - ${test_obj_type}`);
         try {
-          new RemovableList(test_obj);
+          const _ = new RemovableList(test_obj);
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
           if(e.toString() === expected_message) {
@@ -191,7 +191,7 @@
         const test_obj_type = Part_ObjectType(test_obj);
         console.log(`-- ErrCheck_InvalidArgument_ItemObj - ${test_obj_type}`);
         try {
-          new RemovableListItem(test_obj);
+          const _ = new RemovableListItem(test_obj);
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
           if(e.toString() === expected_message) {
@@ -227,21 +227,21 @@
     <br>
     Content to add: <input type="file" id="value-content">
     <hr>
-    <input type="button" value="Test_ItemAddingNoOverwrite" onclick="Test_ItemAddingNoOverwrite()">
-    <input type="button" value="Test_ItemAddAutoRename" onclick="Test_ItemAddAutoRename()">
-    <input type="button" value="Test_ItemAddOverwrite" onclick="Test_ItemAddOverwrite()">
-    <input type="button" value="Test_ItemsAddMultipleRandom" onclick="Test_ItemsAddMultipleRandom()">
+    <button onclick="Test_ItemAddingNoOverwrite()">Test_ItemAddingNoOverwrite</button>
+    <button onclick="Test_ItemAddAutoRename()">Test_ItemAddAutoRename</button>
+    <button onclick="Test_ItemAddOverwrite()">Test_ItemAddOverwrite</button>
+    <button onclick="Test_ItemsAddMultipleRandom()">Test_ItemsAddMultipleRandom</button>
     <hr>
-    <input type="button" value="Test_ItemsExporting" onclick="Test_ItemsExporting()">
-    <input type="button" value="Test_ItemsCounting" onclick="Test_ItemsCounting()">
-    <input type="button" value="Test_ClearList" onclick="Test_ClearList()">
+    <button onclick="Test_ItemsExporting()">Test_ItemsExporting</button>
+    <button onclick="Test_ItemsCounting()">Test_ItemsCounting</button>
+    <button onclick="Test_ClearList()">Test_ClearList</button>
     <hr>
-    <input type="button" value="Test_RemoveLock" onclick="Test_RemoveLock()">
-    <input type="button" value="Test_RemoveUnlock" onclick="Test_RemoveUnlock()">
+    <button onclick="Test_RemoveLock()">Test_RemoveLock</button>
+    <button onclick="Test_RemoveUnlock()">Test_RemoveUnlock</button>
     <hr>
-    <input type="button" value="ErrCheck_InvalidArgument_Constructor" onclick="ErrCheck_InvalidArgument_Constructor()">
-    <input type="button" value="ErrCheck_InvalidArgument_AddingMethod" onclick="ErrCheck_InvalidArgument_AddingMethod()">
-    <input type="button" value="ErrCheck_InvalidArgument_ItemObj" onclick="ErrCheck_InvalidArgument_ItemObj()">
+    <button onclick="ErrCheck_InvalidArgument_Constructor()">ErrCheck_InvalidArgument_Constructor</button>
+    <button onclick="ErrCheck_InvalidArgument_AddingMethod()">ErrCheck_InvalidArgument_AddingMethod</button>
+    <button onclick="ErrCheck_InvalidArgument_ItemObj()">ErrCheck_InvalidArgument_ItemObj</button>
     <hr>
     <div id="list-container"></div>
     <div id="list-container-call"></div>

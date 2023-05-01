@@ -103,7 +103,7 @@ def Test_CreateZip_Lzma():
 def ErrCheck_InvalidCompmode():
   print("-- ErrCheck_InvalidCompmode")
   try:
-    zipfilemake = ZipfileMake("hoge")
+    _ = ZipfileMake("hoge")
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print("--- OK")
@@ -115,7 +115,7 @@ def ErrCheck_InvalidCompmode():
 def ErrCheck_InvalidComplevelDeflated():
   print("-- ErrCheck_InvalidComplevelDeflated")
   try:
-    zipfilemake = ZipfileMake("deflated", 10)
+    _ = ZipfileMake("deflated", 10)
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print("--- OK")
@@ -127,7 +127,7 @@ def ErrCheck_InvalidComplevelDeflated():
 def ErrCheck_InvalidComplevelBzip2():
   print("-- ErrCheck_InvalidComplevelBzip2")
   try:
-    zipfilemake = ZipfileMake("bzip2", 10)
+    _ = ZipfileMake("bzip2", 10)
     print("--- NG - Exception hasn't raised")
   except ValueError as e:
     print("--- OK")

@@ -5,7 +5,7 @@
     <script src="../static/export_as_download.js"></script>
     <script>
       /**
-       * Tests for export_as_download.js module
+       * Tests for `export_as_download.js` module
        *
        * Test cases:
        *   * Can export a text file
@@ -85,12 +85,12 @@
   </head>
 
   <body>
-    <input type="button" value="Test_ExportTextFile" onclick="Test_ExportTextFile()">
-    <input type="button" value="Test_ExportNamedTextFile" onclick="Test_ExportTextFileWithName()">
+    <button onclick="Test_ExportTextFile()">Test_ExportTextFile</button>
+    <button onclick="Test_ExportTextFileWithName()">Test_ExportNamedTextFile</button>
     <hr>
     Test_ExportCustomFile:
     <input type="file" id="Test_ExportCustomFile">
     <hr>
-    <input type="button" value="ErrCheck_InvalidArgument" onclick="ErrCheck_InvalidArgument()">
+    <button onclick="ErrCheck_InvalidArgument()">ErrCheck_InvalidArgument</button>
   </body>
 </html>

@@ -107,6 +107,8 @@ body {
   background-repeat: no-repeat;
   background-size: var(--button-icon-size);
   background-color: hsl(0, 0%, 30%);
+  border: none;
+  outline: none;
   border-radius: 5px;
 
   font-size: var(--button-text-size);
@@ -123,24 +125,16 @@ body {
 #button-clear     { background-image: url(../static/icons/trash.svg); }
 #button-process   { background-image: url(../static/icons/arrow-right.svg);
                     background-color: hsl(240, 100%, 70%); }
+#button-add-files:focus, #button-add-dir:focus, #button-clear:focus, #button-process:focus,
 #button-add-files:hover, #button-add-dir:hover, #button-clear:hover, #button-process:hover {
   opacity: 0.6;
 }
-#button-add-files[disabled], #button-add-dir[disabled], #button-clear[disabled], #button-process[disabled] {
-  cursor: not-allowed;
+#button-add-files:disabled, #button-add-dir:disabled, #button-clear:disabled, #button-process:disabled {
+  cursor: wait;
   opacity: 0.4;
 }
-#input-files:disabled, #input-dir:disabled {
-  display: none;  /* By hiding element, apply 'cursor: not-allowed;' */
-}
-
-#input-files, #input-dir {
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+#button-process:disabled {
+  cursor: not-allowed;  /* When process unavailable*/
 }
 
 
@@ -148,8 +142,9 @@ body {
 #button-process[onprocess] {
   color: rgba(0, 0, 0, 0);
   background-image: none;
-  /* Set padding right/left same */
-  padding: var(--button-text-padding) calc((var(--button-text-padding) * 3 + var(--button-icon-size)) / 2);
+  padding: var(--button-text-padding) calc((var(--button-text-padding) * 3 + var(--button-icon-size)) / 2); /* Set padding right/left same */
+
+  cursor: wait; /* When processing */
 
   /* For viewing in center */
   display: inline-flex;

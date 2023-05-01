@@ -14,7 +14,7 @@
     </style>
     <script>
       /**
-       * Tests for FilesDropField.js module
+       * Tests for `FilesDropField.js` module
        *
        * Test cases:
        *   * Can detect dropped files
@@ -64,7 +64,7 @@
         const test_type = Part_ObjectType(test_obj);
         console.log(`-- ErrCheck_InvalidArgument - ${test_type}`);
         try {
-          new FilesDropField(test_obj);
+          const _ = new FilesDropField(test_obj);
           console.log("--- NG - Error hasn't throwed");
         } catch(e) {
           if(e.toString() === expected_message) {
@@ -109,10 +109,10 @@
     <div id="Test_DropField">Drop field</div>
     <div id="Test_DropField_WithDisp">Drop field with dragover display</div>
     <hr>
-    <input type="button" value="Test_InputLock" onclick="Test_InputLock()">
-    <input type="button" value="Test_InputUnlock" onclick="Test_InputUnlock()">
+    <button onclick="Test_InputLock()">Test_InputLock</button>
+    <button onclick="Test_InputUnlock()">Test_InputUnlock</button>
     <hr>
-    <input type="button" value="ErrCheck_InvalidArgument" onclick="ErrCheck_InvalidArgument()">
+    <button onclick="ErrCheck_InvalidArgument()">ErrCheck_InvalidArgument</button>
 
     <div id="Part_OndragView" style="display: none; background-color: hsl(0, 100%, 80%);">
       Release drag to input
