@@ -109,7 +109,7 @@ window.addEventListener("load", () => {
     // Post items to process
     const post_body = new FormData();
     filesList.export_items_all().forEach(e => {
-      post_body.append("files", e.content);
+      post_body.append("files", file_rename(e.content, e.index));
     });
     const res = await fetch("/api/jpegs-opt", {body: post_body, method: "POST"});
 

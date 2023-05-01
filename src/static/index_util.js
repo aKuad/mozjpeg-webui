@@ -69,3 +69,21 @@ function file_input_reset(input_elem) {
   input_elem.type = "button";
   input_elem.type = "file";
 }
+
+
+/**
+ * Change name field in file object
+ *
+ * @param {File} file File object to rename
+ * @param {string} new_name New name of file
+ * @returns {File} Renamed file object
+ */
+function file_rename(file, new_name) {
+  if(file.name === new_name) {
+    // If renaming unnecessary, do nothing
+    return file;
+  } else {
+    // Re-creating file object, because name field is read-only
+    return new File([file], new_name, {type: file.type, lastModified: file.lastModified});
+  }
+}
