@@ -78,8 +78,6 @@ cd src
 python3 main.py
 ```
 
-### Access from browser
-
 Now app will be available on: `http://localhost:8000`
 
 ## Deployments (for systemd)
