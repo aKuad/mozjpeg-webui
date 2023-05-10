@@ -84,7 +84,7 @@ Now app will be available on: `http://localhost:8000`
 
 ## Deployments (for systemd)
 
-Please done [Build and install mozjpeg](#build-and-install-mozjpeg) before.
+Please done [Build and install mozjpeg](#1-build-and-install-mozjpeg) before.
 
 ### 1. Run setup script
 
