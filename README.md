@@ -42,12 +42,12 @@ File saving dialog will open, and save processed file.
 sudo apt install cmake nasm
 
 # Get mozjpeg source
-## Via git
+## via git
 git clone https://github.com/mozilla/mozjpeg.git
 cd mozjpeg
 git checkout v4.1.1
 ### === or ===
-## Via wget
+## via wget
 wget -O - https://github.com/mozilla/mozjpeg/archive/refs/tags/v4.1.1.tar.gz | tar -xzv -C ./
 cd mozjpeg-4.1.1
 
@@ -78,13 +78,11 @@ cd src
 python3 main.py
 ```
 
-### Access from browser
-
 Now app will be available on: `http://localhost:8000`
 
 ## Deployments (for systemd)
 
-Please done [Build and install mozjpeg](#build-and-install-mozjpeg) before.
+Please done [Build and install mozjpeg](#1-build-and-install-mozjpeg) before.
 
 ### 1. Run setup script
 
