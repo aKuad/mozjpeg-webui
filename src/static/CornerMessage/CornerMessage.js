@@ -6,14 +6,27 @@
  * @author aKuad
  */
 class CornerMessage {
-  // type unspecified, because of code suggesting
+  /**
+   * Available styles set
+   *
+   * @memberof CornerMessage
+   *
+   * @property {string} info Blue dialog as normal message
+   * @property {string} warn Yellow dialog as warning message
+   * @property {string} danger Red dialog as danger message
+   */
   static style = Object.freeze({
     info:   "CornerMessage-style-info",
     warn:   "CornerMessage-style-warn",
     danger: "CornerMessage-style-danger"
   });
 
-  /** @type {Array<string>} */
+
+  /**
+   * Array of values in `CornerMessage.style`
+   *
+   * @memberof CornerMessage
+   */
   static #style_values = Object.values(CornerMessage.style);
 
 
