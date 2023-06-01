@@ -13,7 +13,7 @@ JPEG optimizing web app
 * Traditional style, and simple
 * Multiple files/directories selection
 
-## Useage
+## Usage
 
 "Add files" or "Add a directory" to select files. Also can add by drag&drop files to file list.
 
