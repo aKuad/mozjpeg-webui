@@ -1,4 +1,10 @@
 /**
+ * @file Export any data to user as file downloading
+ *
+ * @author aKuad
+ */
+
+/**
  * Export any data to user as file downloading
  *
  * @param {Blob | File} blob Data body to export
@@ -6,8 +12,6 @@
  *
  * @throws {TypeError} No arguments
  * @throws {TypeError} `blob` type must be `Blob` or `File`
- *
- * @author aKuad
  */
 function export_as_download(blob, name = "file") {
   // Argument check

@@ -1,9 +1,14 @@
 /**
- * View message and custom buttons in center of page
+ * @file View message and custom buttons in center of page
  *
- * `CustomDialog.css` requires to link as stylesheet
+ * (`CustomDialog.css` requires to link as stylesheet)
  *
  * @author aKuad
+ */
+
+/**
+ * View message and custom buttons in center of page
+ * (`CustomDialog.css` requires to link as stylesheet)
  */
 class CustomDialog {
   /**
