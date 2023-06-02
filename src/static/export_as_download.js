@@ -33,6 +33,5 @@ function export_as_download(blob, name = "file") {
   elem.click();
 
   // Delete created element and URL
-  // delete elem;
   URL.revokeObjectURL(url);
 }
