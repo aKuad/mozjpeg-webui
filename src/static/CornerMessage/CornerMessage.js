@@ -1,9 +1,14 @@
 /**
- * View short message in right-bottom corner
+ * @file View short message in right-bottom corner
  *
- * `CornerMessage.css` requires to link as stylesheet
+ * (`CornerMessage.css` requires to link as stylesheet)
  *
  * @author aKuad
+ */
+
+/**
+ * View short message in right-bottom corner
+ * (`CornerMessage.css` requires to link as stylesheet)
  */
 class CornerMessage {
   /**

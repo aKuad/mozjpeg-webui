@@ -1,4 +1,10 @@
 /**
+ * @file Utility functions for `index.js`
+ *
+ * @author aKuad
+ */
+
+/**
  * Convert array to string, first element and count of other elements
  *
  * @param {Array} ary Array to generate omit string

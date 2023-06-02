@@ -1,9 +1,14 @@
 /**
- * User removable list, which can contain custom objects with index text
+ * @file User removable list, which can contain custom objects with index text
  *
- * `RemovableList.css` requires to link as stylesheet, BEFORE INSTANTIATE `RemovableList` CLASS
+ * (`RemovableList.css` requires to link as stylesheet, BEFORE INSTANTIATE `RemovableList` CLASS)
  *
  * @author aKuad
+ */
+
+/**
+ * User removable list, which can contain custom objects with index text
+ * (`RemovableList.css` requires to link as stylesheet, BEFORE INSTANTIATE `RemovableList` CLASS)
  */
 class RemovableList {
   /** @type {HTMLElement} */

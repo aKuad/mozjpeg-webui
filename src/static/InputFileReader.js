@@ -1,7 +1,11 @@
 /**
- * Get files from an `input.file` element, through `webkitEntries` or `files`
+ * @file Get files from an `input.file` element, through `webkitEntries` or `files`
  *
  * @author aKuad
+ */
+
+/**
+ * Get files from an `input.file` element, through `webkitEntries` or `files`
  */
 class InputFileReader {
   /**
