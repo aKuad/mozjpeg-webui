@@ -24,7 +24,6 @@ class FilesDropField {
   /**
    * Attach the script to a HTML element
    *
-   * @constructor
    * @param {HTMLElement} attach_field A HTML element to attach script
    * @param {HTMLElement | null} ondrag_view A HTML element to display on dragover
    * @returns {HTMLInputElement} A HTML element for detecting files input
