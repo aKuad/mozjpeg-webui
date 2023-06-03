@@ -53,7 +53,9 @@ cd mozjpeg-4.1.1
 # Build and install mozjpeg
 mkdir build && cd build
 cmake -G"Unix Makefiles" -DPNG_SUPPORTED=0 ../
-sudo make install
+sudo make -j5 install
+## -jn option is number of jobs to run simultaneously
+## -j<thread_count+1> is recommended
 ```
 
 Any problems of build? Please see [official reference](https://github.com/mozilla/mozjpeg/blob/master/BUILDING.md).
