@@ -51,7 +51,8 @@ wget -O - https://github.com/mozilla/mozjpeg/archive/refs/tags/v4.1.1.tar.gz | t
 cd mozjpeg-4.1.1
 
 # Build and install mozjpeg
-cmake -G"Unix Makefiles" -DPNG_SUPPORTED=0 ./
+mkdir build && cd build
+cmake -G"Unix Makefiles" -DPNG_SUPPORTED=0 ../
 sudo make install
 ```
 
