@@ -43,17 +43,19 @@ sudo apt install cmake nasm
 
 # Get mozjpeg source
 ## via git
-git clone https://github.com/mozilla/mozjpeg.git
+git clone https://github.com/mozilla/mozjpeg.git --depth 1 -b v4.1.1
 cd mozjpeg
-git checkout v4.1.1
 ### === or ===
 ## via wget
 wget -O - https://github.com/mozilla/mozjpeg/archive/refs/tags/v4.1.1.tar.gz | tar -xzv -C ./
 cd mozjpeg-4.1.1
 
 # Build and install mozjpeg
-cmake -G"Unix Makefiles" -DPNG_SUPPORTED=0 ./
-sudo make install
+mkdir build && cd build
+cmake -G"Unix Makefiles" -DPNG_SUPPORTED=0 ../
+sudo make -j5 install
+## -jn option is number of jobs to run simultaneously
+## -j<thread_count+1> is recommended
 ```
 
 Any problems of build? Please see [official reference](https://github.com/mozilla/mozjpeg/blob/master/BUILDING.md).
