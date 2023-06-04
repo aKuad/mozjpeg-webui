@@ -38,7 +38,6 @@ class CornerMessage {
   /**
    * View message box with any message and style
    *
-   * @async
    * @param {string} mes String to view
    * @param {string} style Message box color `info (Blue)`, `warn (Yellow)`, `danger (Red)`
    *
@@ -89,8 +88,6 @@ class CornerMessage {
 
   /**
    * Close message box
-   *
-   * @async
    */
   static async close() {
     const mesbox = document.querySelector("#CornerMessage-mesbox");

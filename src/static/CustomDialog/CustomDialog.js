@@ -12,7 +12,6 @@
  */
 class CustomDialog {
   /**
-   * @async
    * @param {string} message Dialog message (Non string object will be converted)
    * @param  {...string} buttons_text Dialog buttons text (Non string objects will be converted)
    * @returns {Promise<string>} Object to detect clicked button text
