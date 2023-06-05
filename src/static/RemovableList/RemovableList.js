@@ -11,12 +11,25 @@
  * (`RemovableList.css` requires to link as stylesheet, BEFORE INSTANTIATE `RemovableList` CLASS)
  */
 class RemovableList {
-  /** @type {HTMLElement} */
+  /**
+   * Element to contain items and display
+   *
+   * @type {HTMLElement}
+   */
   #list_container;
 
-  /** @type {CSSStyleRule} */
+  /**
+   * CSS rule of cross button (removing button), for control allow item removing by user
+   *
+   * @type {CSSRule | null}
+   */
   #cross_class;
 
+  /**
+   * A function will be called when an item removed by user
+   *
+   * @type {Function}
+   */
   #onremove_callback;
 
 
