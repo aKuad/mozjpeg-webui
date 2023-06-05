@@ -17,13 +17,12 @@ class RemovableList {
   /** @type {CSSStyleRule} */
   #cross_class;
 
-  /** @callback onremove_callback */
   #onremove_callback;
 
 
   /**
    * @param {HTMLElement} list_container A HTML element to view list
-   * @param {onremove_callback} onremove_callback Will call when remove button clicked
+   * @param {Function} onremove_callback Will call when remove button clicked
    *
    * @throws {TypeError} No arguments
    * @throws {TypeError} Non HTMLElement `list_container`
