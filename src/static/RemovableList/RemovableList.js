@@ -314,6 +314,18 @@ class RemovableList {
  * @property {*} content A custom object to append
  */
 class RemovableListItem {
+  /**
+   * String to view in list
+   *
+   * @type {string}
+   */
+  index;
+
+  /**
+   * An object to attach
+   */
+  content;
+
   constructor(index, content) {
     // Arguments type checking ('content' allowed everything, including undefined)
     if(index === undefined) {
