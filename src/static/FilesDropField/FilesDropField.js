@@ -11,13 +11,25 @@
  * (`FilesDropField.css` requires to link as stylesheet)
  */
 class FilesDropField {
-  /** @type {HTMLElement} */
+  /**
+   * Element as drag&drop field
+   *
+   * @type {HTMLElement}
+   */
   #attach_field;
 
-  /** @type {HTMLDivElement} */
+  /**
+   * Element to display on `attach_field` when dragging
+   *
+   * @type {HTMLDivElement}
+   */
   #attachment;
 
-  /** @type {HTMLInputElement} */
+  /**
+   * Input element on `#attachment` to detect files drop
+   *
+   * @type {HTMLInputElement}
+   */
   #detector;
 
 
