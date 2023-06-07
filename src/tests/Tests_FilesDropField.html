@@ -96,8 +96,8 @@
 
         field = new FilesDropField(document.querySelector("#Test_DropField"));
         field_withdisp = new FilesDropField(document.querySelector("#Test_DropField_WithDisp"), ondrag_view);
-        const detector = field.detector;
-        const detector_withdisp = field_withdisp.detector;
+        const detector = field.get_drop_detector();
+        const detector_withdisp = field_withdisp.get_drop_detector();
 
         detector.addEventListener("change", Part_InputFilesPrint);
         detector_withdisp.addEventListener("change", Part_InputFilesPrint);

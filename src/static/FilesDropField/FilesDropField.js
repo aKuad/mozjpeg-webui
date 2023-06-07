@@ -66,7 +66,7 @@ class FilesDropField {
    *
    * @returns {HTMLInputElement} A HTML element for detecting files input
    */
-  get detector() {
+  get_drop_detector() {
     return this.#detector;
   }
 
