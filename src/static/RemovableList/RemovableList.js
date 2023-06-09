@@ -11,19 +11,31 @@
  * (`RemovableList.css` requires to link as stylesheet, BEFORE INSTANTIATE `RemovableList` CLASS)
  */
 class RemovableList {
-  /** @type {HTMLElement} */
+  /**
+   * Element to contain items and display
+   *
+   * @type {HTMLElement}
+   */
   #list_container;
 
-  /** @type {CSSStyleRule} */
+  /**
+   * CSS rule of cross button (removing button), for control allow item removing by user
+   *
+   * @type {CSSRule | null}
+   */
   #cross_class;
 
-  /** @callback onremove_callback */
+  /**
+   * A function will be called when an item removed by user
+   *
+   * @type {Function}
+   */
   #onremove_callback;
 
 
   /**
    * @param {HTMLElement} list_container A HTML element to view list
-   * @param {onremove_callback} onremove_callback Will call when remove button clicked
+   * @param {Function} onremove_callback Will call when remove button clicked
    *
    * @throws {TypeError} No arguments
    * @throws {TypeError} Non HTMLElement `list_container`
@@ -302,6 +314,18 @@ class RemovableList {
  * @property {*} content A custom object to append
  */
 class RemovableListItem {
+  /**
+   * String to view in list
+   *
+   * @type {string}
+   */
+  index;
+
+  /**
+   * An object to attach
+   */
+  content;
+
   constructor(index, content) {
     // Arguments type checking ('content' allowed everything, including undefined)
     if(index === undefined) {
