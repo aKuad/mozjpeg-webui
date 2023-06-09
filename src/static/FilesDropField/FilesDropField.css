@@ -12,11 +12,11 @@
   height: 100%;
 }
 
-.FilesDropField-attachment {
+.FilesDropField-container {
   transition: opacity 0.1s linear;
   opacity: 1;
 }
-.FilesDropField-attachment-hide {
+.FilesDropField-container-hide {
   opacity: 0;
 }
 

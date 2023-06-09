@@ -26,7 +26,7 @@ window.addEventListener("load", () => {
   dropField_view.remove();
   dropField_view.style.display = "";
   const dropField = new FilesDropField(document.querySelector("#field-fileslist"), dropField_view);
-  const input_drop = dropField.detector;
+  const input_drop = dropField.get_drop_detector();
 
 
   /**
