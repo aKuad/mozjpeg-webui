@@ -1,25 +1,41 @@
 /**
- * Detecting files drop on custom HTML element
+ * @file Detecting files drop on custom HTML element
  *
- * `FilesDropField.css` requires to link as stylesheet
+ * (`FilesDropField.css` requires to link as stylesheet)
  *
  * @author aKuad
  */
+
+/**
+ * Detecting files drop on custom HTML element
+ * (`FilesDropField.css` requires to link as stylesheet)
+ */
 class FilesDropField {
-  /** @type {HTMLElement} */
+  /**
+   * Element as drag&drop field
+   *
+   * @type {HTMLElement}
+   */
   #attach_field;
 
-  /** @type {HTMLDivElement} */
-  #attachment;
+  /**
+   * Element to display on `attach_field` when dragging
+   *
+   * @type {HTMLDivElement}
+   */
+  #ondrag_container;
 
-  /** @type {HTMLInputElement} */
-  #detector;
+  /**
+   * Input element on `#ondrag_container` to detect files drop
+   *
+   * @type {HTMLInputElement}
+   */
+  #drop_detector;
 
 
   /**
    * Attach the script to a HTML element
    *
-   * @constructor
    * @param {HTMLElement} attach_field A HTML element to attach script
    * @param {HTMLElement | null} ondrag_view A HTML element to display on dragover
    * @returns {HTMLInputElement} A HTML element for detecting files input
@@ -45,15 +61,15 @@ class FilesDropField {
     // Elements setup
     this.#attach_field = attach_field;
     this.#attach_field.classList.add("FilesDropField-base");
-    this.#detector = FilesDropField.#create_detector();
-    this.#attachment = FilesDropField.#create_attachment(this.#detector, ondrag_view);
+    this.#drop_detector = FilesDropField.#create_drop_detector();
+    this.#ondrag_container = FilesDropField.#create_ondrag_container(this.#drop_detector, ondrag_view);
 
     // Viewing event
     this.#attach_field.addEventListener("dragenter", this.#field_disp);
 
     // Hiding events
-    this.#detector.addEventListener("dragleave", this.#field_hide);
-    this.#detector.addEventListener("drop", this.#field_hide);
+    this.#drop_detector.addEventListener("dragleave", this.#field_hide);
+    this.#drop_detector.addEventListener("drop", this.#field_hide);
   }
 
 
@@ -62,39 +78,39 @@ class FilesDropField {
    *
    * @returns {HTMLInputElement} A HTML element for detecting files input
    */
-  get detector() {
-    return this.#detector;
+  get_drop_detector() {
+    return this.#drop_detector;
   }
 
 
   /**
    * @returns {HTMLInputElement} A HTML element for detecting files input
    */
-  static #create_detector() {
-    const detector = document.createElement("input");
-    detector.type = "file";
-    detector.multiple = true;
-    detector.classList.add("FilesDropField-detector");
-    return detector;
+  static #create_drop_detector() {
+    const drop_detector = document.createElement("input");
+    drop_detector.type = "file";
+    drop_detector.multiple = true;
+    drop_detector.classList.add("FilesDropField-detector");
+    return drop_detector;
   }
 
 
   /**
-   * @param {HTMLInputElement} detector A HTML element for detecting files input
+   * @param {HTMLInputElement} drop_detector A HTML element for detecting files input
    * @param {HTMLElement | null} ondrag_view A HTML element to display on dragover
-   * @returns {HTMLDivElement} Created attachment element
+   * @returns {HTMLDivElement} Created ondrag_container
    */
-  static #create_attachment(detector, ondrag_view = null) {
-    const attachment = document.createElement('div');
-    attachment.classList.add("FilesDropField-attachment", "FilesDropField-attachment-hide");
+  static #create_ondrag_container(drop_detector, ondrag_view = null) {
+    const ondrag_container = document.createElement('div');
+    ondrag_container.classList.add("FilesDropField-container", "FilesDropField-container-hide");
 
     if(ondrag_view !== null) {
       ondrag_view.classList.add("FilesDropField-ondragview");
-      attachment.appendChild(ondrag_view);
+      ondrag_container.appendChild(ondrag_view);
     }
-    attachment.appendChild(detector);
+    ondrag_container.appendChild(drop_detector);
 
-    return attachment;
+    return ondrag_container;
   }
 
 
@@ -104,9 +120,9 @@ class FilesDropField {
    * @listens dragenter
    */
   #field_disp = async () => {
-    this.#attach_field.appendChild(this.#attachment);
+    this.#attach_field.appendChild(this.#ondrag_container);
     await new Promise(r => setTimeout(r, 50));  // strangely, it makes stable viewing
-    this.#attachment.classList.remove("FilesDropField-attachment-hide");
+    this.#ondrag_container.classList.remove("FilesDropField-container-hide");
   }
 
 
@@ -117,9 +133,9 @@ class FilesDropField {
    * @listens drop
    */
   #field_hide = async () => {
-    this.#attachment.classList.add("FilesDropField-attachment-hide");
+    this.#ondrag_container.classList.add("FilesDropField-container-hide");
     await new Promise(r => setTimeout(r, 150));
-    this.#attachment.remove();
+    this.#ondrag_container.remove();
   }
 
 

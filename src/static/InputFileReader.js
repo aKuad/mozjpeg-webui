@@ -1,13 +1,16 @@
 /**
- * Get files from an `input.file` element, through `webkitEntries` or `files`
+ * @file Get files from an `input.file` element, through `webkitEntries` or `files`
  *
  * @author aKuad
+ */
+
+/**
+ * Get files from an `input.file` element, through `webkitEntries` or `files`
  */
 class InputFileReader {
   /**
    * Get files from an `input.file` element
    *
-   * @async
    * @param {HTMLInputElement} elem `input.file` element to read files
    * @returns {Array<File>} Loaded file objects
    *
@@ -40,7 +43,6 @@ class InputFileReader {
   /**
    * Get all file objects from a FileSystemEntry object.
    *
-   * @async
    * @param {FileSystemFileEntry | FileSystemDirectoryEntry} entry File system entry to get all file objects
    * @returns {Promise<Array<File>>} Loaded file objects (with full path)
    */

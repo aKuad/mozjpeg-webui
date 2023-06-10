@@ -1,13 +1,17 @@
 /**
- * View message and custom buttons in center of page
+ * @file View message and custom buttons in center of page
  *
- * `CustomDialog.css` requires to link as stylesheet
+ * (`CustomDialog.css` requires to link as stylesheet)
  *
  * @author aKuad
  */
+
+/**
+ * View message and custom buttons in center of page
+ * (`CustomDialog.css` requires to link as stylesheet)
+ */
 class CustomDialog {
   /**
-   * @async
    * @param {string} message Dialog message (Non string object will be converted)
    * @param  {...string} buttons_text Dialog buttons text (Non string objects will be converted)
    * @returns {Promise<string>} Object to detect clicked button text
