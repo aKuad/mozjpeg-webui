@@ -19,55 +19,42 @@ Author:
 
 # For import top layer module
 import sys
-sys.path.append("../")
+from pathlib import Path
+sys.path.append(Path(__file__).resolve().parent.parent.__str__())
+
+import unittest
 
 from util.jpeg_opt import jpeg_opt
 
-
-def Test_JpegOptimizing():
-  print("-- Test_JpegOptimizing")
-  org = Part_BinaryFileRead("img1.jpg")
-  opt = jpeg_opt(org)
-  Part_BinaryFileWrite("out.jpg", opt)
-  print("--- CHECK - Can out.jpg open")
+SRC_DIR = Path(__file__).absolute().parent.__str__() + "/"
 
 
-def ErrCheck_NonJpegInput():
-  print("-- ErrCheck_NonJpegInput")
-  try:
-    _ = jpeg_opt(b"a")  # "a" as non jpeg input
-    print("--- NG - Exception hasn't raised")
-  except ValueError as e:
-    print("--- OK")
-  except BaseException as e:
-    print(e)
-    print("--- NG - Un expected exception raised")
+class Tests_jpeg_opt(unittest.TestCase):
+  def test_JpegOptimizing(self):
+    org = part_BinaryFileRead(SRC_DIR + "img1.jpg")
+    opt = jpeg_opt(org)
+    part_BinaryFileWrite(SRC_DIR + "out.jpg", opt)
+    print("CHECK REQUIRE - Can out.jpg open ", end="")
 
 
-def ErrCheck_NonExistCommand():
-  print("-- ErrCheck_NonExistCommand")
-  try:
-    org = Part_BinaryFileRead("img1.jpg")
-    _ = jpeg_opt(org, "a") # "a" as non exist command
-    print("--- NG - Exception hasn't raised")
-  except OSError as e:
-    print("--- OK")
-  except BaseException as e:
-    print(e)
-    print("--- NG - Un expected exception raised")
+  def test_err_NonJpegInput(self):
+    self.assertRaises(ValueError, jpeg_opt, b"a") # b"a" as non jpeg input
 
 
-def Part_BinaryFileRead(file_name: str):
+  def test_err_NonExistCommand(self):
+    org = part_BinaryFileRead(SRC_DIR + "img1.jpg")
+    self.assertRaises(OSError, jpeg_opt, org, "a")
+
+
+def part_BinaryFileRead(file_name: str):
   with open(file_name, "rb") as f:
     return f.read()
 
 
-def Part_BinaryFileWrite(file_name: str, file_body: bytes):
+def part_BinaryFileWrite(file_name: str, file_body: bytes):
   with open(file_name, "wb") as f:
     f.write(file_body)
 
 
 if __name__ == "__main__":
-  Test_JpegOptimizing()
-  ErrCheck_NonJpegInput()
-  ErrCheck_NonExistCommand()
+  unittest.main(verbosity=2)
