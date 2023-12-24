@@ -1,4 +1,8 @@
+# Python objects
 __pycache__
+.venv
+
+# Test outputs
 src/tests/*.jpg
 src/tests/*.zip
 src/tests/invalid*
