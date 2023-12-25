@@ -40,7 +40,7 @@ class Tests_jprg_opt_zipout(unittest.TestCase):
     zipout, failed_names = jpeg_opt_zipout(files)
     part_BinaryFileWrite(SRC_DIR + "zipout-noinvalid.zip", zipout)
     self.assertEqual(len(failed_names), 0)
-    print("CHECK REQUIRE - Is 'zipout-noinvalid.zip' contains 3 jpeg files?", end="")
+    print("[CHECK REQUIRE - Is 'zipout-noinvalid.zip' contains 3 jpeg files?] ", end="")
 
 
   def test_PartlyInvalid(self):
@@ -51,7 +51,7 @@ class Tests_jprg_opt_zipout(unittest.TestCase):
     part_BinaryFileWrite(SRC_DIR + "zipout-partly.zip", zipout)
     self.assertEqual(len(failed_names), 1)
     self.assertEqual(failed_names[0], "invalid.jpg")
-    print("CHECK REQUIRE - Is 'zipout-partly.zip' contains 2 jpeg files?", end="")
+    print("[CHECK REQUIRE - Is 'zipout-partly.zip' contains 2 jpeg files?] ", end="")
 
 
   def test_HighTuroughput(self):
@@ -60,7 +60,7 @@ class Tests_jprg_opt_zipout(unittest.TestCase):
       files.append(UploadFile(open(SRC_DIR + "img1.jpg", "rb"), filename=f"img{i}.jpg"))
     zipout, _ = jpeg_opt_zipout(files)
     part_BinaryFileWrite(SRC_DIR + "zipout-throughput.zip", zipout)
-    print("CHECK REQUIRE - Was test ended speedy?")
+    print("[CHECK REQUIRE - Was test ended speedy?] ", end="")
 
 
   def test_err_AllInvalid(self):
