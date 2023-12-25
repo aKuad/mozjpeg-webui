@@ -43,7 +43,7 @@ class Tests_jpeg_opt(unittest.TestCase):
 
   def test_err_NonExistCommand(self):
     org = part_BinaryFileRead(SRC_DIR + "img1.jpg")
-    self.assertRaises(OSError, jpeg_opt, org, "a")
+    self.assertRaises(OSError, jpeg_opt, org, "a")  # "a" as non exist command
 
 
 def part_BinaryFileRead(file_name: str):
