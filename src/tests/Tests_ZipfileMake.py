@@ -26,124 +26,89 @@ Author:
 
 # For import top layer module
 import sys
-sys.path.append("../")
+from pathlib import Path
+sys.path.append(Path(__file__).absolute().parent.parent.__str__())
+
+import unittest
 
 from util.ZipfileMake import ZipfileMake
 
-
-def Test_CreateZip_Default():
-  print("-- Test_CreateZip_Default")
-  zipfilemake = ZipfileMake()
-  zipfilemake.add_file("hello.txt", "world")
-  zipfilemake.add_file("log/hoge.log", "hoge")
-  with open("default.zip", "wb") as f:
-    f.write(zipfilemake.export_zip())
-  print("--- CHECK - Can 'default.zip' open and containe 2 files")
-
-def Test_CreateZip_Stored():
-  print("-- Test_CreateZip_Stored")
-  zipfilemake = ZipfileMake("stored")
-  zipfilemake.add_file("hello.txt", "world")
-  zipfilemake.add_file("log/hoge.log", "hoge")
-  with open("stored.zip", "wb") as f:
-    f.write(zipfilemake.export_zip())
-  print("--- CHECK - Can 'stored.zip' open and containe 2 files")
+SRC_DIR = Path(__file__).absolute().parent.__str__() + "/"
 
 
-def Test_CreateZip_Deflated_Level0():
-  print("-- Test_CreateZip_Deflated_Level0")
-  zipfilemake = ZipfileMake("deflated", 0)
-  zipfilemake.add_file("hello.txt", "world")
-  zipfilemake.add_file("hoge.log", "hoge")
-  with open("deflated-0.zip", "wb") as f:
-    f.write(zipfilemake.export_zip())
-  print("--- CHECK - Can 'deflated-0.zip' open and containe 2 files")
+class Tests_ZipfileMake(unittest.TestCase):
+  def test_CreateZip_Default(self):
+    zipfilemake = ZipfileMake()
+    zipfilemake.add_file(SRC_DIR + "hello.txt", "world")
+    zipfilemake.add_file(SRC_DIR + "log/hoge.log", "hoge")
+    part_BinaryFileWrite(SRC_DIR + "default.zip", zipfilemake.export_zip())
+    print("[CHECK REQUIRE - Can 'default.zip' open and containe 2 files] ", end="")
 
 
-def Test_CreateZip_Deflated_Level9():
-  print("-- Test_CreateZip_Deflated_Level9")
-  zipfilemake = ZipfileMake("deflated", 9)
-  zipfilemake.add_file("hello.txt", "world")
-  zipfilemake.add_file("hoge.log", "hoge")
-  with open("deflated-9.zip", "wb") as f:
-    f.write(zipfilemake.export_zip())
-  print("--- CHECK - Can 'deflated-9.zip' open and containe 2 files")
+  def test_CreateZip_Stored(self):
+    zipfilemake = ZipfileMake("stored")
+    zipfilemake.add_file(SRC_DIR + "hello.txt", "world")
+    zipfilemake.add_file(SRC_DIR + "log/hoge.log", "hoge")
+    part_BinaryFileWrite(SRC_DIR + "stored.zip", zipfilemake.export_zip())
+    print("[CHECK REQUIRE - Can 'stored.zip' open and containe 2 files] ", end="")
 
 
-def Test_CreateZip_Bzip2_Level1():
-  print("-- Test_CreateZip_Bzip2_Level1")
-  zipfilemake = ZipfileMake("bzip2", 1)
-  zipfilemake.add_file("hello.txt", "world")
-  zipfilemake.add_file("hoge.log", "hoge")
-  with open("bzip2-0.zip", "wb") as f:
-    f.write(zipfilemake.export_zip())
-  print("--- CHECK - Can 'bzip2-0.zip' open and containe 2 files")
+  def test_CreateZip_Deflated_Level0(self):
+    zipfilemake = ZipfileMake("deflated", 0)
+    zipfilemake.add_file(SRC_DIR + "hello.txt", "world")
+    zipfilemake.add_file(SRC_DIR + "hoge.log", "hoge")
+    part_BinaryFileWrite(SRC_DIR + "deflated-0.zip", zipfilemake.export_zip())
+    print("[CHECK REQUIRE - Can 'deflated-0.zip' open and containe 2 files] ", end="")
 
 
-def Test_CreateZip_Bzip2_Level9():
-  print("-- Test_CreateZip_Bzip2_Level9")
-  zipfilemake = ZipfileMake("bzip2", 9)
-  zipfilemake.add_file("hello.txt", "world")
-  zipfilemake.add_file("hoge.log", "hoge")
-  with open("bzip2-9.zip", "wb") as f:
-    f.write(zipfilemake.export_zip())
-  print("--- CHECK - Can 'bzip2-9.zip' open and containe 2 files")
+  def test_CreateZip_Deflated_Level9(self):
+    zipfilemake = ZipfileMake("deflated", 9)
+    zipfilemake.add_file(SRC_DIR + "hello.txt", "world")
+    zipfilemake.add_file(SRC_DIR + "hoge.log", "hoge")
+    part_BinaryFileWrite(SRC_DIR + "deflated-9.zip", zipfilemake.export_zip())
+    print("[CHECK REQUIRE - Can 'deflated-9.zip' open and containe 2 files] ", end="")
 
 
-def Test_CreateZip_Lzma():
-  print("-- Test_CreateZip_Lzma")
-  zipfilemake = ZipfileMake("lzma")
-  zipfilemake.add_file("hello.txt", "world")
-  zipfilemake.add_file("hoge.log", "hoge")
-  with open("lzma.zip", "wb") as f:
-    f.write(zipfilemake.export_zip())
-  print("--- CHECK - Can 'lzma.zip' open and containe 2 files")
+  def test_CreateZip_Bzip2_Level1(self):
+    zipfilemake = ZipfileMake("bzip2", 1)
+    zipfilemake.add_file(SRC_DIR + "hello.txt", "world")
+    zipfilemake.add_file(SRC_DIR + "hoge.log", "hoge")
+    part_BinaryFileWrite(SRC_DIR + "bzip2-0.zip", zipfilemake.export_zip())
+    print("[CHECK REQUIRE - Can 'bzip2-0.zip' open and containe 2 files] ", end="")
 
 
-def ErrCheck_InvalidCompmode():
-  print("-- ErrCheck_InvalidCompmode")
-  try:
-    _ = ZipfileMake("hoge")
-    print("--- NG - Exception hasn't raised")
-  except ValueError as e:
-    print("--- OK")
-  except BaseException as e:
-    print(e)
-    print("--- NG - Un expected exception raised")
+  def test_CreateZip_Bzip2_Level9(self):
+    zipfilemake = ZipfileMake("bzip2", 9)
+    zipfilemake.add_file(SRC_DIR + "hello.txt", "world")
+    zipfilemake.add_file(SRC_DIR + "hoge.log", "hoge")
+    part_BinaryFileWrite(SRC_DIR + "bzip2-9.zip", zipfilemake.export_zip())
+    print("[CHECK REQUIRE - Can 'bzip2-9.zip' open and containe 2 files] ", end="")
 
 
-def ErrCheck_InvalidComplevelDeflated():
-  print("-- ErrCheck_InvalidComplevelDeflated")
-  try:
-    _ = ZipfileMake("deflated", 10)
-    print("--- NG - Exception hasn't raised")
-  except ValueError as e:
-    print("--- OK")
-  except BaseException as e:
-    print(e)
-    print("--- NG - Un expected exception raised")
+  def test_CreateZip_Lzma(self):
+    zipfilemake = ZipfileMake("lzma")
+    zipfilemake.add_file(SRC_DIR + "hello.txt", "world")
+    zipfilemake.add_file(SRC_DIR + "hoge.log", "hoge")
+    part_BinaryFileWrite(SRC_DIR + "lzma.zip", zipfilemake.export_zip())
+    print("[CHECK REQUIRE - Can 'lzma.zip' open and containe 2 files] ", end="")
 
 
-def ErrCheck_InvalidComplevelBzip2():
-  print("-- ErrCheck_InvalidComplevelBzip2")
-  try:
-    _ = ZipfileMake("bzip2", 10)
-    print("--- NG - Exception hasn't raised")
-  except ValueError as e:
-    print("--- OK")
-  except BaseException as e:
-    print(e)
-    print("--- NG - Un expected exception raised")
+  def test_err_InvalidCompmode(self):
+    self.assertRaises(ValueError, ZipfileMake, "hoge")
+
+
+  def test_err_InvalidComplevelDeflated(self):
+    self.assertRaises(ValueError, ZipfileMake, "deflated", 10)
+
+
+  def test_err_InvalidComplevelBzip2(self):
+    self.assertRaises(ValueError, ZipfileMake, "bzip2", 10)
+
+
+def part_BinaryFileWrite(file_name: str, file_body: bytes):
+  with open(file_name, "wb") as f:
+    f.write(file_body)
 
 
 if __name__ == "__main__":
-  Test_CreateZip_Default()
-  Test_CreateZip_Stored()
-  Test_CreateZip_Deflated_Level0()
-  Test_CreateZip_Deflated_Level9()
-  Test_CreateZip_Bzip2_Level1()
-  Test_CreateZip_Bzip2_Level9()
-  Test_CreateZip_Lzma()
-  ErrCheck_InvalidCompmode()
-  ErrCheck_InvalidComplevelDeflated()
-  ErrCheck_InvalidComplevelBzip2()
+  unittest.main(verbosity=2)
