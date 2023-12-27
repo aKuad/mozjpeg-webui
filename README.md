@@ -62,8 +62,7 @@ Any problems of build? Please see [official reference](https://github.com/mozill
 
 ### 2. Install required python packages
 
-> **Note**
->
+> ![NOTE]
 > If you need, work in virtual environment.
 
 ```sh
@@ -88,8 +87,7 @@ Please done [Build and install mozjpeg](#1-build-and-install-mozjpeg) before.
 
 ### 1. Run setup script
 
-> **Note**
->
+> ![NOTE]
 > Python virtual environment will be created automatically.
 
 ```sh
