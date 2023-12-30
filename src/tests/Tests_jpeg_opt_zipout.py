@@ -32,7 +32,7 @@ from util.jpeg_opt_zipout import jpeg_opt_zipout
 SRC_DIR = Path(__file__).absolute().parent.__str__() + "/"
 
 
-class Tests_jprg_opt_zipout(unittest.TestCase):
+class Tests_jpeg_opt_zipout(unittest.TestCase):
   def test_NoInvalid(self):
     files = [UploadFile(open(SRC_DIR + "img1.jpg", "rb"), filename="img1.jpg"),
              UploadFile(open(SRC_DIR + "img2.jpg", "rb"), filename="img2.jpg"),
