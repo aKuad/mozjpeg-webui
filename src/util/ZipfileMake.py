@@ -25,7 +25,7 @@ class ZipfileMake:
   '''dict: For convert specified compmode str to int'''
 
 
-  def __init__(self, zip_compmode: str = "stored", zip_complevel: int = None):
+  def __init__(self, zip_compmode: str = "stored", zip_complevel: int | None = None):
     """Constructor
 
     Args:
@@ -39,6 +39,7 @@ class ZipfileMake:
     # Check is compression mode valid
     if self.__ZIP_COMP_DICT.get(zip_compmode) == None:
       raise ValueError("Invalid compression mode specified")
+
     # Check is compression level valid
     if zip_complevel == None:
       pass
@@ -46,7 +47,7 @@ class ZipfileMake:
       raise ValueError("On deflated mode, complession level must be between 0 and 9")
     elif zip_compmode == "bzip2" and (zip_complevel < 1 or zip_complevel > 9):
       raise ValueError("On bzip2 mode, complession level must be between 1 and 9")
-    # Store or create class members
+
     self.__zip_compmode = self.__ZIP_COMP_DICT[zip_compmode]
     self.__zip_complevel = zip_complevel
     self.__fil_handle = TemporaryFile("wb+")
