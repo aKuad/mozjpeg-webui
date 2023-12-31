@@ -80,14 +80,11 @@ class ZipfileMake:
     return self.__fil_handle.read()
 
 
-  # Destructor disabled because of:
-  #   Tried TemporaryFile and ZipFile handles closing in manually.
-  #   But need considering when handles was not created.
-  #   So I trusted handle's auto destruction, to keep this code simple.
-  #
-  # def __del__(self):
-  #   '''Destructor'''
-  #   self.__zip_handle.close()
-  #   del self.__zip_handle
-  #   self.__fil_handle.close()
-  #   del self.__fil_handle
+  def __del__(self):
+    """Destructor
+
+    Release all handles
+
+    """
+    self.__zip_handle.close()
+    self.__fil_handle.close()
