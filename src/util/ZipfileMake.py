@@ -71,17 +71,13 @@ class ZipfileMake:
     Returns:
       bytes: Created zip archive binary
 
+    Note:
+      After call this, no files can add more.
+
     """
-    # Close ZipFile handle, for read binary
-    self.__zip_handle.close()
-    del self.__zip_handle
-    # Read binary
+    self.__zip_handle.close()   # confirm file binary
     self.__fil_handle.seek(0)
-    ret = self.__fil_handle.read()
-    # Re-open ZipFile handle
-    self.__zip_handle = ZipFile(self.__fil_handle, "a", self.__zip_compmode)
-    # Return
-    return ret
+    return self.__fil_handle.read()
 
 
   # Destructor disabled because of:
