@@ -54,7 +54,7 @@ class ZipfileMake:
     self.__zip_handle = ZipFile(self.__fil_handle, "w", self.__zip_compmode, compresslevel=self.__zip_complevel)
 
 
-  def add_file(self, name: str, data: bytes) -> None:
+  def add_file(self, name: str, data: str | bytes) -> None:
     """Add a file to archive from binary
 
     Args:
