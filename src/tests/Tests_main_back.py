@@ -24,6 +24,7 @@ Author:
 
 from json import loads as json_loads
 import requests
+from io import BufferedReader
 
 import unittest
 from pathlib import Path
@@ -38,6 +39,7 @@ class Tests_main_back(unittest.TestCase):
   def test_SingleProcess(self):
     files = [("files", ("img1.jpg", open(SRC_DIR + "img1.jpg", "rb"), "image/jpeg"))]
     res = requests.post(API_URL, files=files)
+    part_CloseFiles(files)
 
     self.assertEqual(res.status_code // 100, 2, res.content)
     part_BinaryFileWrite(SRC_DIR + "res.jpg", res.content)
@@ -49,6 +51,7 @@ class Tests_main_back(unittest.TestCase):
              ("files", ("img2.jpg", open(SRC_DIR + "img2.jpg", "rb"), "image/jpeg")),
              ("files", ("img3.jpg", open(SRC_DIR + "img3.jpg", "rb"), "image/jpeg"))]
     res = requests.post(API_URL, files=files)
+    part_CloseFiles(files)
 
     self.assertEqual(res.status_code // 100, 2, res.content)
     part_BinaryFileWrite(SRC_DIR + "res.zip", res.content)
@@ -60,6 +63,7 @@ class Tests_main_back(unittest.TestCase):
              ("files", ("img2.jpg", open(SRC_DIR + "img2.jpg", "rb"), "image/jpeg")),
              ("files", ("invalid.jpg", open(SRC_DIR + "invalid.jpg", "rb"), "image/jpeg"))]
     res = requests.post(API_URL, files=files)
+    part_CloseFiles(files)
 
     self.assertEqual(res.status_code // 100, 2, res.content)
 
@@ -72,6 +76,7 @@ class Tests_main_back(unittest.TestCase):
   def test_err_NonJpeg(self):
     files = [("files", ("invalid.txt", open(SRC_DIR + "invalid.txt", "rb"), "text/plain"))]
     res = requests.post(API_URL, files=files)
+    part_CloseFiles(files)
 
     self.assertEqual(res.status_code // 100, 4, "Client error wasn's occured")
 
@@ -82,6 +87,7 @@ class Tests_main_back(unittest.TestCase):
   def test_err_InvalidJpeg(self):
     files = [("files", ("invalid.jpg", open(SRC_DIR + "invalid.jpg", "rb"), "image/jpeg"))]
     res = requests.post(API_URL, files=files)
+    part_CloseFiles(files)
 
     self.assertEqual(res.status_code // 100, 4, "Client error wasn's occured")
 
@@ -93,6 +99,7 @@ class Tests_main_back(unittest.TestCase):
     files = [("files", ("invalid1.jpg", open(SRC_DIR + "invalid.jpg", "rb"), "image/jpeg")),
              ("files", ("invalid2.jpg", open(SRC_DIR + "invalid.jpg", "rb"), "image/jpeg"))]
     res = requests.post(API_URL, files=files)
+    part_CloseFiles(files)
 
     self.assertEqual(res.status_code // 100, 4, "Client error wasn's occured")
 
@@ -103,11 +110,17 @@ class Tests_main_back(unittest.TestCase):
   def test_err_NoNameFile(self):
     files = [("files", ("", open(SRC_DIR + "img1.jpg", "rb"), "image/jpeg"))]
     res = requests.post(API_URL, files=files)
+    part_CloseFiles(files)
 
     self.assertEqual(res.status_code // 100, 4, "Client error wasn's occured")
 
     res_dict = json_loads(res.content.decode("utf-8"))
     self.assertEqual(res_dict["detail"], "Empty filename detected", res.content)
+
+
+def part_CloseFiles(files: list[tuple[str, tuple[str, BufferedReader]]]):
+  for file in files:
+    file[1][1].close()
 
 
 def part_BinaryFileWrite(file_name: str, file_body: bytes):
