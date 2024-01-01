@@ -19,6 +19,7 @@ Author:
 """
 
 from fastapi import UploadFile
+from asyncio import run
 
 # For import top layer module
 import sys
@@ -38,6 +39,7 @@ class Tests_jpeg_opt_zipout(unittest.TestCase):
              UploadFile(open(SRC_DIR + "img2.jpg", "rb"), filename="img2.jpg"),
              UploadFile(open(SRC_DIR + "img3.jpg", "rb"), filename="dir/img3.jpg")]
     zipout, failed_names = jpeg_opt_zipout(files)
+    run(part_CloseFiles(files))
     part_BinaryFileWrite(SRC_DIR + "zipout-noinvalid.zip", zipout)
     self.assertEqual(len(failed_names), 0)
     print("[CHECK REQUIRE - Is 'zipout-noinvalid.zip' contains 3 jpeg files?] ", end="")
@@ -48,6 +50,7 @@ class Tests_jpeg_opt_zipout(unittest.TestCase):
              UploadFile(open(SRC_DIR + "img2.jpg", "rb"),    filename="img2.jpg"),
              UploadFile(open(SRC_DIR + "invalid.jpg", "rb"), filename="invalid.jpg")]
     zipout, failed_names = jpeg_opt_zipout(files)
+    run(part_CloseFiles(files))
     part_BinaryFileWrite(SRC_DIR + "zipout-partly.zip", zipout)
     self.assertEqual(len(failed_names), 1)
     self.assertEqual(failed_names[0], "invalid.jpg")
@@ -59,6 +62,7 @@ class Tests_jpeg_opt_zipout(unittest.TestCase):
     for i in range(40): # 40 as many (or heavy) files
       files.append(UploadFile(open(SRC_DIR + "img1.jpg", "rb"), filename=f"img{i}.jpg"))
     zipout, _ = jpeg_opt_zipout(files)
+    run(part_CloseFiles(files))
     part_BinaryFileWrite(SRC_DIR + "zipout-throughput.zip", zipout)
     print("[CHECK REQUIRE - Was test ended speedy?] ", end="")
 
@@ -67,11 +71,18 @@ class Tests_jpeg_opt_zipout(unittest.TestCase):
     files = [UploadFile(open(SRC_DIR + "invalid.jpg", "rb"), filename="invalid.jpg"),
              UploadFile(open(SRC_DIR + "invalid.txt", "rb"), filename="invalid.txt")]
     self.assertRaises(ValueError, jpeg_opt_zipout, files)
+    run(part_CloseFiles(files))
 
 
   def test_err_NonExistCommand(self):
     files = [UploadFile(open(SRC_DIR + "img1.jpg", "rb"), filename="img1.jpg")]
     self.assertRaises(OSError, jpeg_opt_zipout, files, "a") # "a" as non exist command
+    run(part_CloseFiles(files))
+
+
+async def part_CloseFiles(files: list[UploadFile]):
+  for file in files:
+    await file.close()
 
 
 def part_BinaryFileWrite(file_name: str, file_body: bytes):
