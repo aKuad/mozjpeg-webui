@@ -8,10 +8,9 @@ Test cases:
   * Raise exception when invalid executable specified
 
 Test steps:
-  1. Set current to this ``tests`` directory
-  2. Create any JPEG file as ``img1.jpg`` ``img2.jpg`` ``img3.jpg``
-  3. Execute this program
-  4. Check console output and follow checking instructions
+  1. Create any JPEG file as ``img1.jpg`` ``img2.jpg`` ``img3.jpg``
+  2. Execute this program
+  3. Check console output and follow checking instructions
 
 Author:
   aKuad

@@ -15,9 +15,8 @@ Test cases:
   * Raise exception when invalid compression level has specified
 
 Test steps:
-  1. Set current to this ``tests`` directory
-  2. Execute this program
-  3. Check console output and follow checking instructions
+  1. Execute this program
+  2. Check console output and follow checking instructions
 
 Author:
   aKuad

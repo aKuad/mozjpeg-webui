@@ -10,12 +10,11 @@ Test cases:
   * Return error when no name (empty string) file input
 
 Test steps:
-  1. Set current to this ``tests`` directory
-  2. Create jpeg files ``img1.jpg``, ``img2.jpg``, ``img3.jpg``
-  3. Create any files (non jpeg) ``invalid.txt`` ``invalid.jpg``
-  4. Execute ``main.py``
-  5. Execute this program in other console
-  6. Check console output and follow checking instructions
+  1. Create jpeg files ``img1.jpg``, ``img2.jpg``, ``img3.jpg``
+  2. Create any files (non jpeg) ``invalid.txt`` ``invalid.jpg``
+  3. Execute ``main.py``
+  4. Execute this program in other console
+  5. Check console output and follow checking instructions
 
 Author:
   aKuad
