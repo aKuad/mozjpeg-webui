@@ -1,12 +1,21 @@
 # How to run tests
 
-## JavaScript tests
+## JavaScript tests (on local file)
 
 1. Open test code HTML (e.g. `Tests_xxx.html`) with browser
 2. Open JavaScript console
    * Almost of all browsers can open with F12 key
 3. Operate UI on page
 4. Check console output
+
+## JavaScript tests (on server)
+
+1. Set current to `OnServerTests`
+2. Run `main.py`
+3. Access to `http://localhost:8000/<test name>`
+4. Open JavaScript console
+5. Operate UI on page
+6. Check console output
 
 ## Python tests
 
