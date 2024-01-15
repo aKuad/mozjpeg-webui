@@ -5,7 +5,7 @@
 1. Open test code HTML (e.g. `Tests_xxx.html`) with browser
 2. Open JavaScript console
    * Almost of all browsers can open with F12 key
-3. Click test buttons on page
+3. Operate UI on page
 4. Check console output
 
 ## Python tests
