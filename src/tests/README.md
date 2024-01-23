@@ -17,6 +17,12 @@
 5. Operate UI on page
 6. Check console output
 
+> [!IMPORTANT]
+>
+> Test HTML files in `OnServerTests` can't be run by opening as local file.
+>
+> Because them using APIs what can use on HTTP connection, not on local file.
+
 ## Python tests
 
 Run test source with python interpreter.
