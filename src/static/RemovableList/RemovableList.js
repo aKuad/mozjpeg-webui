@@ -269,7 +269,7 @@ class RemovableList {
     ele.innerText = index;
 
     // Create and append removing button
-    const ele_cross = document.createElement("div");
+    const ele_cross = document.createElement("button");
     ele_cross.classList.add("RemovableList-cross");
     ele_cross.addEventListener("click", e => {
       e.target.parentNode.remove();
