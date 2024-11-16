@@ -27,11 +27,24 @@ File saving dialog will open, and save processed file.
 
 ## Requirements
 
+> [!NOTE]
+>
+> For docker deployment, required only docker engine (cli).
+
 * Python3 (2 or lower is unsupported)
 * Python pip
 * mozjpeg
 * Python venv (for systemd)
 * systemd (for systemd)
+
+## Deployments (for Docker - most easy)
+
+Just only build, then run.
+
+```sh
+docker build -t mozjpeg-webui .
+docker run --rm -it -p 8000:8000 mozjpeg-webui
+```
 
 ## Deployments (for Debian/Ubuntu)
 
