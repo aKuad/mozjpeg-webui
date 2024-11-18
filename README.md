@@ -27,15 +27,30 @@ File saving dialog will open, and save processed file.
 
 ## Requirements
 
+> [!NOTE]
+>
+> For docker deployment, required only docker engine (cli).
+
 * Python3 (2 or lower is unsupported)
 * Python pip
 * mozjpeg
 * Python venv (for systemd)
 * systemd (for systemd)
 
-## Deployments (for Debian/Ubuntu)
+## Deployments
 
-### 1. Build and install mozjpeg
+### for Docker (most easy, recommended)
+
+Just only build, then run.
+
+```sh
+docker build -t mozjpeg-webui .
+docker run --rm -it -p 8000:8000 mozjpeg-webui
+```
+
+### for Debian/Ubuntu
+
+#### 1. Build and install mozjpeg
 
 ```sh
 # Install required packages for build
@@ -60,7 +75,7 @@ sudo make -j5 install
 
 Any problems of build? Please see [official reference](https://github.com/mozilla/mozjpeg/blob/master/BUILDING.md).
 
-### 2. Install required python packages
+#### 2. Install required python packages
 
 > [!NOTE]
 >
@@ -73,7 +88,7 @@ pip install fastapi uvicorn jinja2 python-multipart
 pip install -r assets/requirements.txt
 ```
 
-### 3. Run main
+#### 3. Run main
 
 ```sh
 cd src
@@ -82,11 +97,11 @@ python3 main.py
 
 Now app will be available on: `http://localhost:8000`
 
-## Deployments (for systemd)
+### for systemd
 
 Please done [Build and install mozjpeg](#1-build-and-install-mozjpeg) before.
 
-### 1. Run setup script
+#### 1. Run setup script
 
 > [!NOTE]
 >
@@ -97,7 +112,7 @@ Please done [Build and install mozjpeg](#1-build-and-install-mozjpeg) before.
 sudo ./systemd-setup.sh
 ```
 
-### 2. Switch by systemctl
+#### 2. Switch by systemctl
 
 `mozjpeg-webui` service will be available on systemd.
 
