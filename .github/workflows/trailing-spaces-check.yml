@@ -1,6 +1,6 @@
 name: Trailing whitespaces check
 
-on: [push]
+on: push
 
 jobs:
   trailing-spaces-check:
