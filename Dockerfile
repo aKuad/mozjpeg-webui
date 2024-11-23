@@ -1,5 +1,5 @@
 # mozjpeg building stage
-FROM python:3.13-slim AS build
+FROM buildpack-deps AS build
 
 WORKDIR /home/build
 RUN apt update
