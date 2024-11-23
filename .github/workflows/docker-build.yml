@@ -12,4 +12,9 @@ jobs:
     - name: Set up docker buildx
       uses: docker/setup-buildx-action@v3
     - name: Build docker image
-      run: docker build -t mozjpeg-webui .
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: false
+        cache-from: type=gha
+        cache-to: type=gha
