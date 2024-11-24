@@ -1,4 +1,5 @@
-FROM python:3.13-slim AS build
+# mozjpeg building stage
+FROM buildpack-deps AS build
 
 WORKDIR /home/build
 RUN apt update
@@ -11,6 +12,7 @@ RUN make -j5 jpegtran-static
 # Only jpegtran is necessary, then static linked executable is easy to setup
 
 
+# Production deployment stage
 FROM python:3.13-slim
 
 WORKDIR /home/mozjpeg-webui
