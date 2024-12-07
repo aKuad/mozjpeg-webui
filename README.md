@@ -30,6 +30,8 @@ File saving dialog will open, and save processed file.
 > [!NOTE]
 >
 > For docker deployment, required only docker engine (cli).
+>
+> For docker-compose, `docker compose` required additionally.
 
 * Python3 (2 or lower is unsupported)
 * Python pip
@@ -39,7 +41,15 @@ File saving dialog will open, and save processed file.
 
 ## Deployments
 
-### for Docker (most easy, recommended)
+### for Docker-compose (most easy, recommended)
+
+Just only type this.
+
+```sh
+docker compose up
+```
+
+### for Docker without compose
 
 Just only build, then run.
 
