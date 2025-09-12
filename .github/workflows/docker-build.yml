@@ -6,15 +6,37 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     steps:
     - name: Source checkout
       uses: actions/checkout@v4
     - name: Set up docker buildx
       uses: docker/setup-buildx-action@v3
+    - name: Login to ghcr.io
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Docker push metadata collect
+      id: docker-metadata
+      run: |
+        push_ref="${{ github.ref }}"
+        if [ "$push_ref" != "${push_ref#refs/tags/}" ]; then
+          echo "is_tag_push=true" >> "$GITHUB_OUTPUT"
+          echo "tag_version=${push_ref#refs/tags/v}" >> "$GITHUB_OUTPUT"
+        else
+          echo "is_tag_push=false" >> "$GITHUB_OUTPUT"
+          echo "tag_version=dummy" >> "$GITHUB_OUTPUT"
+        fi
     - name: Build docker image
       uses: docker/build-push-action@v6
       with:
         context: .
-        push: false
+        push: ${{ steps.docker-metadata.outputs.is_tag_push }}
+        tags: ghcr.io/akuad/mozjpeg-webui:latest,ghcr.io/akuad/mozjpeg-webui:${{ steps.docker-metadata.outputs.tag_version }}
         cache-from: type=gha
         cache-to: type=gha
